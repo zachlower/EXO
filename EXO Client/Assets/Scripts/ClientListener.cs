@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class ClientListener : MonoBehaviour
 {
     bool messSent = false;
-    Socket listener = null;
+    static Socket listener = null;
     // Use this for initialization
     void Start()
     {
@@ -50,11 +50,16 @@ public class ClientListener : MonoBehaviour
             if (!data.Equals("")) die = true;
             print("Received callback: " + data);
 
-            if (die)
+         /*   if (die)
             {
                 listener.Shutdown(SocketShutdown.Both);
                 listener.Close();
-            }
+            }*/
         }
+    }
+
+    static public void sendUpdateToServer(string mes) {
+        byte[] clMes = Encoding.ASCII.GetBytes(mes);
+        listener.Send(clMes);
     }
 }

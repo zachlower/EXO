@@ -50,13 +50,13 @@ public class ServerListener : MonoBehaviour
                 avail -= receivedBytes;
             }
 
-            print("Received: " + data);
-            if (!messSent)
+            if (!data.Equals("")) print("Received: " + data);
+          /*  if (!messSent)
             {
                 byte[] msg = Encoding.ASCII.GetBytes("Here's YOUR message, asshole");
                 sock.Send(msg);
                 messSent = true;
-            }
+            }*/
 
         }
     }
