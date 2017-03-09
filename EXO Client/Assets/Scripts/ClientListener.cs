@@ -55,7 +55,7 @@ public class ClientListener : MonoBehaviour
                 avail -= receivedBytes;
             }
             if (!data.Equals("")) die = true;
-            print("Received callback: " + data);
+            //print("Received callback: " + data);
 
          /*   if (die)
             {
