@@ -10,6 +10,13 @@ public class ClientListener : MonoBehaviour
 {
     bool messSent = false;
     static Socket listener = null;
+
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -58,7 +65,7 @@ public class ClientListener : MonoBehaviour
         }
     }
 
-    static public void sendUpdateToServer(string mes) {
+    public void sendUpdateToServer(string mes) {
         byte[] clMes = Encoding.ASCII.GetBytes(mes);
         listener.Send(clMes);
     }
