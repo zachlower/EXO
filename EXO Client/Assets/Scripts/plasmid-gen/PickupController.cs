@@ -30,13 +30,13 @@ public class PickupController : MonoBehaviour {
         }
 
         //set random rotation
-        float rotation = 15;
-        transform.rotation.Set(0, 0, 1, rotation);
+        float rotation = Random.Range(0, 360);
+        transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (gc.gameState == GameController.GameState.Collecting && collision.gameObject.CompareTag("Player"))
         {
             //item has been collected
             gc.Collect(gameObject);
