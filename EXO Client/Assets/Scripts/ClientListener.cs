@@ -10,7 +10,7 @@ public class ClientListener : MonoBehaviour
 {
     bool messSent = false;
     static Socket listener = null;
-
+    String[] eof = { "$$EOF$$" };
 
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class ClientListener : MonoBehaviour
             bool die = false;
 
             byte[] bytes = new Byte[1024];
-            string data = "";
+            string[] data;
 
             if (!messSent)
             {
@@ -45,27 +45,36 @@ public class ClientListener : MonoBehaviour
                 listener.Send(clMes);
                 messSent = true;
             }
-            
-            int avail = listener.Available;
-            while (avail != 0)
-            {
-                bytes = new Byte[1024];
-                int receivedBytes = listener.Receive(bytes);
-                data += Encoding.ASCII.GetString(bytes, 0, receivedBytes);
-                avail -= receivedBytes;
-            }
-            if (!data.Equals("")) die = true;
-            //print("Received callback: " + data);
 
-         /*   if (die)
+            int avail = listener.Available;
+            if (avail != 0)
             {
-                listener.Shutdown(SocketShutdown.Both);
-                listener.Close();
-            }*/
+                string tempData = "";
+                while (avail != 0)
+                {
+                    bytes = new Byte[1024];
+                    int receivedBytes = listener.Receive(bytes);
+                    tempData += Encoding.ASCII.GetString(bytes, 0, receivedBytes);
+                    avail -= receivedBytes;
+                }
+                data = tempData.Split(eof,StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < data.Length; i++) {
+                    print(data[i]+"\n");
+                }
+            }
+            //if (!data.Equals("")) die = true;
+
         }
+        /*   if (die)
+           {
+               listener.Shutdown(SocketShutdown.Both);
+               listener.Close();
+           }*/
     }
 
-    public void sendUpdateToServer(string mes) {
+
+    public void sendUpdateToServer(string mes)
+    {
         byte[] clMes = Encoding.ASCII.GetBytes(mes);
         listener.Send(clMes);
     }
