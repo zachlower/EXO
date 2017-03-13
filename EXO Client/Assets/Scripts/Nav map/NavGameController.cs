@@ -83,7 +83,7 @@ public class NavGameController : MonoBehaviour {
                 prevArrow = ArrowUp;
                 SwitchRoom(rooms[currentRoom].forward);
                 currentRoom = rooms[currentRoom].forward;
-                icon.GetComponent<Transform>().position = pos + new Vector3(0, 0.95f, 0);
+                icon.GetComponent<Transform>().position = pos + new Vector3(0, 0.8f, 0);
                 break;
             case Direction.Down:
                 ArrowDown.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
@@ -92,7 +92,7 @@ public class NavGameController : MonoBehaviour {
                 prevArrow = ArrowDown;
                 SwitchRoom(rooms[currentRoom].backward);
                 currentRoom = rooms[currentRoom].backward;
-                icon.GetComponent<Transform>().position = pos + new Vector3(0, -0.95f, 0);
+                icon.GetComponent<Transform>().position = pos + new Vector3(0, -0.8f, 0);
                 break;
             case Direction.Left:
                 ArrowLeft.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
@@ -101,7 +101,7 @@ public class NavGameController : MonoBehaviour {
                 prevArrow = ArrowLeft;
                 SwitchRoom(rooms[currentRoom].left);
                 currentRoom = rooms[currentRoom].left;
-                icon.GetComponent<Transform>().position = pos + new Vector3(-0.95f, 0, 0);
+                icon.GetComponent<Transform>().position = pos + new Vector3(-0.8f, 0, 0);
                 break;
             case Direction.Right:
                 ArrowRight.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
@@ -110,7 +110,7 @@ public class NavGameController : MonoBehaviour {
                 prevArrow = ArrowRight;
                 SwitchRoom(rooms[currentRoom].right);
                 currentRoom = rooms[currentRoom].right;
-                icon.GetComponent<Transform>().position = pos + new Vector3(0.95f, 0, 0);
+                icon.GetComponent<Transform>().position = pos + new Vector3(0.8f, 0, 0);
                 break;
         }
     }

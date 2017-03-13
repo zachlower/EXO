@@ -20,7 +20,7 @@ public class ClientListener : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        IPAddress ipAddress = IPAddress.Loopback;
+        IPAddress ipAddress = IPAddress.Parse("192.168.0.6");
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 25565);
 
         listener = new Socket(AddressFamily.InterNetwork,
