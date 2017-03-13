@@ -70,7 +70,7 @@ public class NavGameController : MonoBehaviour {
 		
 	}
 
-    public void GoToDirection(Direction dir)
+    public void VoteForDirection(Direction dir)
     {
         //change arrow color and icon's position
         Vector3 pos = icon.GetComponent<Transform>().position;
