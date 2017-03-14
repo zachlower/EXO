@@ -11,7 +11,7 @@ public class ClientListener : MonoBehaviour
     bool messSent = false;
     static Socket listener = null;
     String[] eof = { "$$EOF$$" };
-
+    public MessageParser parser;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -35,17 +35,9 @@ public class ClientListener : MonoBehaviour
     {
         if (listener != null)
         {
-            bool die = false;
-
             byte[] bytes = new Byte[1024];
             string[] data;
 
-            if (!messSent)
-            {
-                byte[] clMes = Encoding.ASCII.GetBytes("Here's your message dingus");
-                listener.Send(clMes);
-                messSent = true;
-            }
 
             int avail = listener.Available;
             if (avail != 0)
@@ -61,16 +53,12 @@ public class ClientListener : MonoBehaviour
                 data = tempData.Split(eof,StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < data.Length; i++) {
                     print(data[i]+"\n");
+                    parser.parseUpdate(data[i]);
                 }
             }
-            //if (!data.Equals("")) die = true;
 
         }
-        /*   if (die)
-           {
-               listener.Shutdown(SocketShutdown.Both);
-               listener.Close();
-           }*/
+
     }
 
 
