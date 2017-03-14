@@ -23,13 +23,13 @@ public class ArrowClicked : MonoBehaviour {
         {
             string str = gameObject.name.Substring(6);
             if (str.Equals("Up"))
-                nav.VoteForDirection(GameController.Direction.Up);
+                nav.MoveToDirection(GameController.Direction.Up);
             else if (str.Equals("Down"))
-                nav.VoteForDirection(GameController.Direction.Down);
+                nav.MoveToDirection(GameController.Direction.Down);
             else if (str.Equals("Left"))
-                nav.VoteForDirection(GameController.Direction.Left);
+                nav.MoveToDirection(GameController.Direction.Left);
             else if (str.Equals("Right"))
-                nav.VoteForDirection(GameController.Direction.Right);
+                nav.MoveToDirection(GameController.Direction.Right);
         }
     }
 }
