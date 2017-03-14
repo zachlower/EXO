@@ -12,13 +12,20 @@ public class BallController : MonoBehaviour {
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Screen.orientation = ScreenOrientation.Landscape;
     }
 
     private void FixedUpdate()
     {
         Vector2 input = new Vector2();
-        input.x = Input.GetAxis("Horizontal");
-        input.y = Input.GetAxis("Vertical");
+
+        //keyboard movement
+        //input.x = Input.GetAxis("Horizontal");
+        //input.y = Input.GetAxis("Vertical");
+
+        //phone accelerometer movement
+        input.x = Input.acceleration.x; 
+        input.y = Input.acceleration.y;
 
         rb.AddForce(input * topSpeed);
 
