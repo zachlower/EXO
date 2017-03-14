@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ArrowClicked : MonoBehaviour {
     public bool isEnabled;
-    private NavGameController nav;
+    private GameController nav;
 
 	// Use this for initialization
 	void Start () {
-        nav = GameObject.Find("Nav Controller").GetComponent<NavGameController>();
+        nav = GameObject.Find("Nav Controller").GetComponent<GameController>();
     }
 	
 	// Update is called once per frame
@@ -23,13 +23,13 @@ public class ArrowClicked : MonoBehaviour {
         {
             string str = gameObject.name.Substring(6);
             if (str.Equals("Up"))
-                nav.VoteForDirection(NavGameController.Direction.Up);
+                nav.VoteForDirection(GameController.Direction.Up);
             else if (str.Equals("Down"))
-                nav.VoteForDirection(NavGameController.Direction.Down);
+                nav.VoteForDirection(GameController.Direction.Down);
             else if (str.Equals("Left"))
-                nav.VoteForDirection(NavGameController.Direction.Left);
+                nav.VoteForDirection(GameController.Direction.Left);
             else if (str.Equals("Right"))
-                nav.VoteForDirection(NavGameController.Direction.Right);
+                nav.VoteForDirection(GameController.Direction.Right);
         }
     }
 }

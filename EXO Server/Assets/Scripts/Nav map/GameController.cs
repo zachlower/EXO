@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NavGameController : MonoBehaviour {
+public class GameController : MonoBehaviour {
     public GameObject ArrowUp;
     public GameObject ArrowDown;
     public GameObject ArrowLeft;
@@ -19,6 +19,10 @@ public class NavGameController : MonoBehaviour {
     string visibleLayer = "Obstacle";
     string invisibleLayer = "Default";
 
+    public Point[] navPlayerSlots;
+    public Point[] combatPlayerSlots;
+    public Point[] combatEnemySlots;
+
     public enum Direction
     {
         Up,
@@ -26,6 +30,16 @@ public class NavGameController : MonoBehaviour {
         Left,
         Right
     };
+
+    public struct Point
+    {
+        int x, y;
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
     private class Room
     {
@@ -36,8 +50,12 @@ public class NavGameController : MonoBehaviour {
     void Start () {
         prevArrow = null;
         icon = GameObject.Find("YouIcon");
+        // initialize character slots
+        navPlayerSlots = new Point[6];
+        combatPlayerSlots = new Point[6];
+        combatEnemySlots = new Point[MapInfo.MAX_MONSTER];
 
-        // load background
+        // load backgrounds
         bg = new Sprite[4];
         background = GameObject.Find("Background");
         bg[0] = Resources.Load<Sprite>("Sprites/Nav map/Interior1");
