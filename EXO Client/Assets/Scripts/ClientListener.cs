@@ -18,9 +18,10 @@ public class ClientListener : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    public void connectToServer(string ip)
     {
-        IPAddress ipAddress = IPAddress.Parse("192.168.0.6");
+        IPAddress ipAddress = IPAddress.Parse(ip);
+        print(ipAddress.ToString());
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 25565);
 
         listener = new Socket(AddressFamily.InterNetwork,
@@ -32,7 +33,7 @@ public class ClientListener : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (listener.Connected)
+        if (listener != null)
         {
             bool die = false;
 

@@ -23,7 +23,15 @@ public class ServerListener : MonoBehaviour
 
     void Start()
     {
-        IPAddress ipAddress = IPAddress.Loopback;
+        IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress ipAddress = null;
+        foreach (IPAddress add in ipHost.AddressList) {
+            if (add.AddressFamily == AddressFamily.InterNetwork) {
+                ipAddress = add;
+                break;
+            }
+        }
+        print(ipAddress.ToString());
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 25565);
 
         listener = new Socket(AddressFamily.InterNetwork,
@@ -37,28 +45,7 @@ public class ServerListener : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (sock.Connected)
-         {
-             byte[] bytes = new Byte[1024];
-             string data = "";
-             int avail = sock.Available;
-             while (avail != 0)
-             {
-                 bytes = new Byte[1024];
-                 int receivedBytes = sock.Receive(bytes);
-                 data += Encoding.ASCII.GetString(bytes, 0, receivedBytes);
-                 avail -= receivedBytes;
-             }
-
-             if (!data.Equals("")) print("Received: " + data);
-           /*  if (!messSent)
-             {
-                 byte[] msg = Encoding.ASCII.GetBytes("Here's YOUR message, asshole");
-                 sock.Send(msg);
-                 messSent = true;
-             }//
-
-         }*/
+        
     }
 
     public void acceptConnections() {
