@@ -104,4 +104,10 @@ public class ServerListener : MonoBehaviour
         print("EVERYONE'S HERE!!");
     }
 
+    public void sendMessageToAllClients(string mes) {
+        foreach (var c in clientList) {
+            c.Value.socket.Send(Encoding.ASCII.GetBytes(mes+eof[0]));
+        }
+    }
+
 }

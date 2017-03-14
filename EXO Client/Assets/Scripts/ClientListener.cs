@@ -64,7 +64,7 @@ public class ClientListener : MonoBehaviour
 
     public void sendUpdateToServer(string mes)
     {
-        byte[] clMes = Encoding.ASCII.GetBytes(mes);
+        byte[] clMes = Encoding.ASCII.GetBytes(mes+eof[0]);
         listener.Send(clMes);
     }
 }
