@@ -20,12 +20,12 @@ public class BallController : MonoBehaviour {
         Vector2 input = new Vector2();
 
         //keyboard movement
-        //input.x = Input.GetAxis("Horizontal");
-        //input.y = Input.GetAxis("Vertical");
+        input.x = Input.GetAxis("Horizontal");
+        input.y = Input.GetAxis("Vertical");
 
         //phone accelerometer movement
-        input.x = Input.acceleration.x; 
-        input.y = Input.acceleration.y;
+        //input.x = Input.acceleration.x; 
+        //input.y = Input.acceleration.y;
 
         rb.AddForce(input * topSpeed);
 
