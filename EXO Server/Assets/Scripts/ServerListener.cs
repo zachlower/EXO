@@ -9,16 +9,16 @@ using System.Threading;
 using UnityEngine.Networking;
 public class ServerListener : MonoBehaviour
 {
-    bool messSent = false;
     Socket listener = null;
     int con = 0;
     public int maxConnections;
-    bool didthething = false;
-    public static String eof = "$$EOF$$";
-
+    String[] eof = { "$$EOF$$" };
+    public ServerBroadcast sb;
+    public ConnectionManager conManager;
     struct client {
         public Socket socket;
     }
+    public MessageParser parser;
     Dictionary<int, client> clientList = new Dictionary<int,client>();
 
     void Start()
@@ -40,12 +40,40 @@ public class ServerListener : MonoBehaviour
         listener.Listen(100);
         Thread connectionManager = new Thread(new ThreadStart(acceptConnections));
         connectionManager.Start();
-        print("Coroutine executed");
     }
     // Update is called once per frame
     void Update()
     {
-        
+        foreach (var c in clientList)
+        {
+            Socket s = c.Value.socket;
+            if (s != null)
+            {
+                byte[] bytes = new Byte[1024];
+                string[] data;
+
+
+                int avail = s.Available;
+                if (avail != 0)
+                {
+                    string tempData = "";
+                    while (avail != 0)
+                    {
+                        bytes = new Byte[1024];
+                        int receivedBytes = s.Receive(bytes);
+                        tempData += Encoding.ASCII.GetString(bytes, 0, receivedBytes);
+                        avail -= receivedBytes;
+                    }
+                    data = tempData.Split(eof, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        print(data[i] + "\n");
+                        parser.parseUpdate(data[i]);
+                    }
+                }
+
+            }
+        }
     }
 
     public void acceptConnections() {
@@ -59,10 +87,12 @@ public class ServerListener : MonoBehaviour
                     c.socket = sock;
                     print("HEY "+con);
                     clientList.Add(con, c);
-                    byte[] joinedMes = Encoding.ASCII.GetBytes("Congratulations! You are client " + con+eof);
+                    byte[] joinedMes = Encoding.ASCII.GetBytes("Congratulations! You are client " + con+eof[0]);
                     c.socket.Send(joinedMes);
-                    c.socket.Send(Encoding.ASCII.GetBytes("Tstin"+eof));
+                    c.socket.Send(Encoding.ASCII.GetBytes("Tstin"+eof[0]));
                     con++;
+
+                    conManager.playernames.Add("Player " + con);
                 }
             }
             catch (Exception e)
