@@ -9,23 +9,28 @@ public class MapInfo : MonoBehaviour {
     public class Room
     {
         public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
-        public Monster[] monsters;
+        public List<Monster> monsters;
         public struct Monster
         {
-            int hp;
-            string name;
-            string sprite;
+            public int hp;
+            public string name;
+            public string sprite;
+            public Monster(int hp, string name, string sprite)
+            {
+                this.hp = hp;
+                this.name = name;
+                this.sprite = sprite;
+            }
         }
     }
 
-
-    // Use this for initialization
-    void Start () {
+    public MapInfo()
+    {
         rooms = new Room[5];
         for (int i = 0; i < 5; ++i)
         {
             rooms[i] = new Room();
-            rooms[i].monsters = new Room.Monster[MAX_MONSTER];
+            rooms[i].monsters = new List<Room.Monster>(MAX_MONSTER);
         }
         // directions
         rooms[0].forward = 1;
@@ -44,6 +49,16 @@ public class MapInfo : MonoBehaviour {
         rooms[4].bgIndex = 2;
         // TODO
         // put in the monsters
+        rooms[2].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
+        rooms[2].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
+        rooms[4].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
+        rooms[4].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
+        rooms[4].monsters.Add(new Room.Monster(0, "Chtlig", "Sprites/Nav Combat/Chtlig"));
+    }
+
+    // Use this for initialization
+    void Start () {
+        
     }
 	
 	// Update is called once per frame
