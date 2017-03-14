@@ -67,6 +67,7 @@ public class GameController : MonoBehaviour {
 	void Update () {
         if (inCombat) return;
 
+        // for test purpose, use arrow to move around
 		if(Input.GetKeyDown(KeyCode.UpArrow) && map.rooms[currentRoom].forward != -1)
         {
             MoveToDirection(Direction.Up);
@@ -154,33 +155,56 @@ public class GameController : MonoBehaviour {
         }
 
         // display monsters, if there are any
-        if (map.rooms[index].monsters.Count != 0)
+        if (map.rooms[index].hasMonsters)
         {
             inCombat = true;
-            for(int i = 1; i <= map.rooms[index].monsters.Count; i++)
+            for(int i = 0; i < map.rooms[index].monsters.Length; i++)
             {
-                GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(map.rooms[index].monsters[i-1].sprite);
-                GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
+                if (map.rooms[index].monsters[i].hp > 0)
+                {
+                    GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(map.rooms[index].monsters[i].sprite);
+                    GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
+                }
             }
         }
         // else, hide the monster objects
         else
         {
             inCombat = false;
-            for(int i = 1; i <= MapInfo.MAX_MONSTER; i++)
+            for(int i = 0; i < MapInfo.MAX_MONSTER; i++)
             {
                 GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
             }
         }
     }
 
+    // called when room is cleared
     void EnemyCleared()
     {
         inCombat = false;
+        map.rooms[currentRoom].hasMonsters = false;
         // hide the cleared monsters
-        for (int i = 1; i <= MapInfo.MAX_MONSTER; i++)
+        for (int i = 0; i < MapInfo.MAX_MONSTER; i++)
         {
             GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
         }
+    }
+
+    // called when enemy takes damage (potentially for healing as well)
+    void EnemyTakeDamage(int index, int dmg)
+    {
+        map.rooms[currentRoom].monsters[index].hp -= dmg;
+        if(map.rooms[currentRoom].monsters[index].hp <= 0)
+        {
+            GameObject.Find("Monster" + map.rooms[currentRoom].monsters[index].hp).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
+            // TODO
+            // tell the client this is dead
+        }
+    }
+
+    void PlayerTakeDamage(int index, int dmg)
+    {
+        // TODO
+        // update the player status on client
     }
 }

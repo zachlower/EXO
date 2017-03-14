@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 50054402}
   - component: {fileID: 50054401}
   m_Layer: 0
-  m_Name: Player4
+  m_Name: Player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 366173330}
   - component: {fileID: 366173329}
   m_Layer: 0
-  m_Name: Player2
+  m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 736798557}
   - component: {fileID: 736798556}
   m_Layer: 0
-  m_Name: Monster1
+  m_Name: Monster0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 1228717167}
   - component: {fileID: 1228717166}
   m_Layer: 0
-  m_Name: Player3
+  m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 1259947972}
   - component: {fileID: 1259947971}
   m_Layer: 0
-  m_Name: Monster3
+  m_Name: Monster2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: 1852047989}
   - component: {fileID: 1852047988}
   m_Layer: 0
-  m_Name: Monster2
+  m_Name: Monster1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -764,7 +764,7 @@ GameObject:
   - component: {fileID: 2098200011}
   - component: {fileID: 2098200010}
   m_Layer: 0
-  m_Name: Nav Controller
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 2146503774}
   - component: {fileID: 2146503773}
   m_Layer: 0
-  m_Name: Player1
+  m_Name: Player0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

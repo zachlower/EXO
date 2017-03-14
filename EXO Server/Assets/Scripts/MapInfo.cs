@@ -9,7 +9,8 @@ public class MapInfo : MonoBehaviour {
     public class Room
     {
         public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
-        public List<Monster> monsters;
+        public Monster[] monsters;
+        public bool hasMonsters = false;
         public struct Monster
         {
             public int hp;
@@ -30,7 +31,7 @@ public class MapInfo : MonoBehaviour {
         for (int i = 0; i < 5; ++i)
         {
             rooms[i] = new Room();
-            rooms[i].monsters = new List<Room.Monster>(MAX_MONSTER);
+            rooms[i].monsters = new Room.Monster[MAX_MONSTER];
         }
         // directions
         rooms[0].forward = 1;
@@ -49,11 +50,13 @@ public class MapInfo : MonoBehaviour {
         rooms[4].bgIndex = 2;
         // TODO
         // put in the monsters
-        rooms[2].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
-        rooms[2].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
-        rooms[4].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
-        rooms[4].monsters.Add(new Room.Monster(0, "Shell Shock", "Sprites/Nav Combat/Shell_Shock"));
-        rooms[4].monsters.Add(new Room.Monster(0, "Chtlig", "Sprites/Nav Combat/Chtlig"));
+        rooms[2].hasMonsters = true;
+        rooms[4].hasMonsters = true;
+        rooms[2].monsters[0] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
+        rooms[2].monsters[1] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
+        rooms[4].monsters[2] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
+        rooms[4].monsters[0] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
+        rooms[4].monsters[1] = new Room.Monster(20, "Chtlig", "Sprites/Nav Combat/Chtlig");
     }
 
     // Use this for initialization
