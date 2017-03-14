@@ -31,8 +31,8 @@ public class GameController : MonoBehaviour {
     // used to put the characters into their pos
     public struct Point
     {
-        int x, y;
-        public Point(int x, int y)
+        public float x, y;
+        public Point(float x, float y)
         {
             this.x = x;
             this.y = y;
@@ -47,6 +47,24 @@ public class GameController : MonoBehaviour {
         navPlayerSlots = new Point[6];
         combatPlayerSlots = new Point[6];
         combatEnemySlots = new Point[MapInfo.MAX_MONSTER];
+        
+        navPlayerSlots[0] = new Point(-7.5f, -2.0f);
+        navPlayerSlots[1] = new Point(-5.0f, -2.0f);
+        navPlayerSlots[2] = new Point(-1.5f, -1.0f);
+        navPlayerSlots[3] = new Point(1.5f, -2.5f);
+        navPlayerSlots[4] = new Point(4.5f, -1.5f);
+        navPlayerSlots[5] = new Point(8.0f, -1.5f);
+
+        combatPlayerSlots[0] = new Point(-13.5f, -1.5f);
+        combatPlayerSlots[1] = new Point(-11.0f, -2.5f);
+        combatPlayerSlots[2] = new Point(-8.5f, -1.0f);
+        combatPlayerSlots[3] = new Point(-6.0f, -2.0f);
+        combatPlayerSlots[4] = new Point(-3.5f, -2.5f);
+        combatPlayerSlots[5] = new Point(-1.0f, -1.5f);
+
+        /*combatEnemySlots[0] = new Point(6.0f, -1.0f);
+        combatEnemySlots[1] = new Point(7.0f, -2.5f);
+        combatEnemySlots[2] = new Point(10.0f, -1.5f);*/
 
         // load backgrounds
         bg = new Sprite[4];
@@ -131,33 +149,34 @@ public class GameController : MonoBehaviour {
             if (current == 1)
             {
                 background.GetComponent<Transform>().position.Set(0, 0, 0);
-                Vector3 scale = new Vector3(2.29f, 1.73f, 1);
+                Vector3 scale = new Vector3(2.35f, 1.73f, 1);
                 background.GetComponent<Transform>().localScale = scale;
             }
             else if(current == 2)
             {
                 background.GetComponent<Transform>().position.Set(0, 1.5f, 0);
-                Vector3 scale = new Vector3(2.29f, 1.73f, 1);
+                Vector3 scale = new Vector3(2.35f, 1.73f, 1);
                 background.GetComponent<Transform>().localScale = scale;
             }
             else if(current == 3)
             {
                 background.GetComponent<Transform>().position.Set(0, 1.5f, 0);
-                Vector3 scale = new Vector3(4.58f, 3.46f, 1);
+                Vector3 scale = new Vector3(4.65f, 3.46f, 1);
                 background.GetComponent<Transform>().localScale = scale;
             }
             else
             {
-                background.GetComponent<Transform>().position.Set(0, 0, 0);
-                Vector3 scale = new Vector3(1.53f, 1.43f, 1);
+                background.GetComponent<Transform>().position.Set(0, 1.5f, 0);
+                Vector3 scale = new Vector3(1.56f, 1.5f, 1);
                 background.GetComponent<Transform>().localScale = scale;
             }
         }
 
         // display monsters, if there are any
-        if (map.rooms[index].hasMonsters)
+        if (map.rooms[index].enemyCount > 0)
         {
             inCombat = true;
+            // display monsters
             for(int i = 0; i < map.rooms[index].monsters.Length; i++)
             {
                 if (map.rooms[index].monsters[i].hp > 0)
@@ -166,15 +185,28 @@ public class GameController : MonoBehaviour {
                     GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
                 }
             }
+            // move players to combat formation
+            for(int i = 0; i < 6; i++)
+            {
+                GameObject.Find("Player" + i).GetComponent<Transform>().position = new Vector3(combatPlayerSlots[i].x, combatPlayerSlots[i].y, 0.0f);
+            }
         }
         // else, hide the monster objects
         else
         {
             inCombat = false;
+            // hide monsters
             for(int i = 0; i < MapInfo.MAX_MONSTER; i++)
             {
                 GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
             }
+
+            // move players to combat formation
+            for (int i = 0; i < 6; i++)
+            {
+                GameObject.Find("Player" + i).GetComponent<Transform>().position = new Vector3(navPlayerSlots[i].x, navPlayerSlots[i].y, 0.0f);
+            }
+
         }
     }
 
@@ -182,7 +214,6 @@ public class GameController : MonoBehaviour {
     void EnemyCleared()
     {
         inCombat = false;
-        map.rooms[currentRoom].hasMonsters = false;
         // hide the cleared monsters
         for (int i = 0; i < MapInfo.MAX_MONSTER; i++)
         {
@@ -199,6 +230,16 @@ public class GameController : MonoBehaviour {
             GameObject.Find("Monster" + map.rooms[currentRoom].monsters[index].hp).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
             // TODO
             // tell the client this is dead
+
+            // see how many left
+            map.rooms[currentRoom].enemyCount -= 1;
+            if(map.rooms[currentRoom].enemyCount <= 0)
+            {
+                EnemyCleared();
+                // TODO 
+                // update clients?
+
+            }
         }
     }
 

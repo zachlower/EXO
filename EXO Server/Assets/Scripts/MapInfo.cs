@@ -10,7 +10,7 @@ public class MapInfo : MonoBehaviour {
     {
         public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
         public Monster[] monsters;
-        public bool hasMonsters = false;
+        public int enemyCount = 0;
         public struct Monster
         {
             public int hp;
@@ -50,8 +50,8 @@ public class MapInfo : MonoBehaviour {
         rooms[4].bgIndex = 2;
         // TODO
         // put in the monsters
-        rooms[2].hasMonsters = true;
-        rooms[4].hasMonsters = true;
+        rooms[2].enemyCount = 2;
+        rooms[4].enemyCount = 3;
         rooms[2].monsters[0] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
         rooms[2].monsters[1] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
         rooms[4].monsters[2] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
