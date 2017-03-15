@@ -5,6 +5,7 @@ using UnityEngine;
 public class ColorPixel : MonoBehaviour {
 
     public Texture2D reference;
+    public int radius = 15;
 
     private Texture2D copy;
     private Rect rect;
@@ -16,6 +17,14 @@ public class ColorPixel : MonoBehaviour {
 
     private void Start()
     {
+        
+    }
+
+    public void InitAbility(Texture2D r)
+    {
+        //create new stuff
+        reference = r;
+
         oldX = oldY = 0;
         copy = Instantiate(reference);
         size = new Vector2(reference.width, reference.height);
@@ -33,8 +42,15 @@ public class ColorPixel : MonoBehaviour {
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             || Input.GetMouseButtonDown(0))
         {
-            oldX = (int)((Input.mousePosition.x - pixelPos.x) / Screen.width * size.x * 2.2 + size.x / 2);
-            oldY = (int)((Input.mousePosition.y - pixelPos.y) / Screen.height * size.y * 1.6 + size.y / 2);
+            Ray mRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(mRay)) //writing on the texture
+            {
+                oldX = (int)((Input.mousePosition.x - pixelPos.x) / Screen.width * size.x * 2.2 + size.x / 2);
+                oldY = (int)((Input.mousePosition.y - pixelPos.y) / Screen.height * size.y * 1.6 + size.y / 2);
+
+                Paint(oldX, oldY, radius);
+            }
         }
         // continuing line, paint between old coordinates and new coordinates
         else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -56,15 +72,26 @@ public class ColorPixel : MonoBehaviour {
         }
     }
 
-    // paint a patch around (x, y) based on brush size
-    private void Paint(int x, int y, int brushSize)
+    // paint a patch around (cx, cy) based on brush size
+    private void Paint(int cx, int cy, int radius)
     {
-        for(int i=0; i<brushSize; i++)
+        int x = 0;
+        int y = 0;
+        while (x <= radius)
         {
-            for(int j=0; j<brushSize; j++)
-            {
-                copy.SetPixel(x + i, y + j, Color.red);
-            }
+            y = (int)Mathf.Sqrt(radius * radius - x * x);
+            Points(cx, cy, x, y);
+            x++;
+        }
+    }
+    private void Points(int cx, int cy, int x, int y)
+    {
+        for (int fy = y; fy >= 0; fy--)
+        {
+            copy.SetPixel(cx + x, cy + fy, Color.red);
+            copy.SetPixel(cx - x, cy + fy, Color.red);
+            copy.SetPixel(cx - x, cy - fy, Color.red);
+            copy.SetPixel(cx + x, cy - fy, Color.red);
         }
     }
 
@@ -81,7 +108,7 @@ public class ColorPixel : MonoBehaviour {
         {
             int x = oldX + (int)(xUnit * i);
             int y = oldY + (int)(yUnit * i);
-            Paint(x, y, 30);
+            Paint(x, y, radius);
         }
     }
 
