@@ -15,7 +15,7 @@ public class Zachomorph : Character {
         currentEffects = new List<Effect>();
 
         abilities = new List<Ability>();
-            // TODO: add abilities to list
+        abilities.Add(new ZachAttack());
 
 
     }

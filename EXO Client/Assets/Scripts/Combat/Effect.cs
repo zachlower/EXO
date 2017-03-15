@@ -12,5 +12,5 @@ public abstract class Effect {
     public CombatGlobals.EffectType effectType;
     public CombatGlobals.AttackType attackType;
     public float basePower; //applies in different ways to different effect types
-    public int duration;
+    public int duration = 0;
 }
