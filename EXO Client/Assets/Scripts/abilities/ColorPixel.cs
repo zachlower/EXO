@@ -25,8 +25,6 @@ public class ColorPixel : MonoBehaviour {
         GetComponent<SpriteRenderer>().sprite = Sprite.Create(copy, rect, new Vector2(0.5f, 0.5f));
 
         GetComponent<BoxCollider>().size = (Vector3)size / 100;
-
-        StartCoroutine(TimedDiff(10));
     }
 
     private void Update()
@@ -88,29 +86,26 @@ public class ColorPixel : MonoBehaviour {
     }
 
     // evaluate the percentage of pixels that are the same between ref and copy
-    private float Difference()
+    public float Difference()
     {
         Color[] refPix = reference.GetPixels();
         Color[] cpyPix = copy.GetPixels();
 
-        int same = 0;
-        int total = refPix.Length;
-        for(int i=0; i<total; i++)
+        float same = 0;
+        int total = 0;
+        for(int i=0; i<refPix.Length; i++)
         {
-            if ((refPix[i] == Color.black && cpyPix[i] == Color.red)
-                || refPix[i] == Color.white && cpyPix[i] == Color.white)
-                same++;
+            if(refPix[i] == Color.black)
+            {
+                if (cpyPix[i] == Color.red) //correctly drawn pixel
+                    same++;
+                total++;
+            }else if(cpyPix[i] == Color.red) //penalty for drawing over line
+            {
+                same -= 0.2f;
+            }
         }
 
         return (float)same / total;
-    }
-
-    IEnumerator TimedDiff(float interval)
-    {
-        while (true)
-        {
-            Debug.Log("percentage: " + Difference());
-            yield return new WaitForSeconds(interval);
-        }
     }
 }
