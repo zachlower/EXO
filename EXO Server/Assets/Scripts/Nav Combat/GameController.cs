@@ -1,11 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
     private MapInfo map;
     private int currentRoom;
+    // votes index 0->3: up down left right
+    private int [] directionVotes;
+    private int directionVotesCount;
+    private Direction direction;
+
+    private GameObject text;
+    private float reminderTime = 3.0f;
+
+    
     private GameObject icon;
 
     private Sprite[] bg;
@@ -20,13 +30,17 @@ public class GameController : MonoBehaviour {
     public Point[] combatPlayerSlots;
     public Point[] combatEnemySlots;
 
+    public List<ServerListener.player> players;
+
     public enum Direction
     {
         Up,
         Down,
         Left,
-        Right
+        Right,
+        None
     };
+
 
     // used to put the characters into their pos
     public struct Point
@@ -39,9 +53,13 @@ public class GameController : MonoBehaviour {
         }
     }
 
+
     // Use this for initialization
     void Start () {
+        directionVotes = new int[4];
+        directionVotesCount = 0;
         icon = GameObject.Find("YouIcon");
+        text = GameObject.Find("Text");
         inCombat = false;
         // initialize character slots
         navPlayerSlots = new Point[6];
@@ -83,6 +101,11 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        reminderTime -= Time.deltaTime;
+        if(reminderTime <= 0.0f)
+        {
+            text.GetComponent<Text>().text = "";
+        }
         if (inCombat) return;
 
         // for test purpose, use arrow to move around
@@ -110,26 +133,42 @@ public class GameController : MonoBehaviour {
 
     public void MoveToDirection(Direction dir)
     {
+        // clear the votes
+        directionVotesCount = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            directionVotes[i] = 0;
+        }
         // switch rooms accordingly
+        reminderTime = 3.0f;
         Vector3 pos = icon.GetComponent<Transform>().position;
         switch (dir)
         {
+            case Direction.None:
+                // TODO
+                // update the client (copy this to below)
+                text.GetComponent<Text>().text = "You stayed in this room";
+                break;
             case Direction.Up:
+                text.GetComponent<Text>().text = "You moved forward";
                 SwitchRoom(map.rooms[currentRoom].forward);
                 currentRoom = map.rooms[currentRoom].forward;
                 icon.GetComponent<Transform>().position = pos + new Vector3(0, 0.8f, 0);
                 break;
             case Direction.Down:
+                text.GetComponent<Text>().text = "You moved backward";
                 SwitchRoom(map.rooms[currentRoom].backward);
                 currentRoom = map.rooms[currentRoom].backward;
                 icon.GetComponent<Transform>().position = pos + new Vector3(0, -0.8f, 0);
                 break;
             case Direction.Left:
+                text.GetComponent<Text>().text = "You moved left";
                 SwitchRoom(map.rooms[currentRoom].left);
                 currentRoom = map.rooms[currentRoom].left;
                 icon.GetComponent<Transform>().position = pos + new Vector3(-0.8f, 0, 0);
                 break;
             case Direction.Right:
+                text.GetComponent<Text>().text = "You moved right";
                 SwitchRoom(map.rooms[currentRoom].right);
                 currentRoom = map.rooms[currentRoom].right;
                 icon.GetComponent<Transform>().position = pos + new Vector3(0.8f, 0, 0);
@@ -190,6 +229,11 @@ public class GameController : MonoBehaviour {
             {
                 GameObject.Find("Player" + i).GetComponent<Transform>().position = new Vector3(combatPlayerSlots[i].x, combatPlayerSlots[i].y, 0.0f);
             }
+            // update the reminder
+            //text.GetComponent<Text>().text += "\r\n";
+            text.GetComponent<Text>().text += "\r\n"+"MONSTER!";
+
+            // update the clients
         }
         // else, hide the monster objects
         else
@@ -247,5 +291,82 @@ public class GameController : MonoBehaviour {
     {
         // TODO
         // update the player status on client
+    }
+
+    public void sendPlasmid(int playerIndex, string plasmids)
+    {
+        string str = "Plasmid:" + plasmids;
+        // get the corresponding socket and send the plasmids
+    }
+
+    public void activateAbility(string ability, string target, List<int> indices)
+    {
+
+    }
+
+    public void voteDirection(Direction dir)
+    {
+        switch (dir)
+        {
+            case Direction.None:
+                break;
+            case Direction.Up:
+                directionVotes[0] += 1;
+                break;
+            case Direction.Down:
+                directionVotes[1] += 1;
+                break;
+            case Direction.Left:
+                directionVotes[2] += 1;
+                break;
+            case Direction.Right:
+                directionVotes[3] += 1;
+                break;
+        }
+        // if everybody voted
+        directionVotesCount += 1;
+        if(directionVotesCount == players.Count)
+        {
+            // find the voted direction
+            int max = 0;
+            for(int i = 0; i < 4; i++)
+            {
+                if (max < directionVotes[i])
+                    max = directionVotes[i];
+            }
+            // stay here
+            if (max == 0)
+                direction = Direction.None;
+            else
+            {
+                direction = Direction.None;
+                if (max == directionVotes[0])
+                {
+                    direction = Direction.Up;
+                }
+                if (max == directionVotes[1])
+                {
+                    if (direction == Direction.None)
+                        direction = Direction.Down;
+                    else
+                        direction = Direction.None;
+                }
+                if (max == directionVotes[2])
+                {
+                    if (direction == Direction.None)
+                        direction = Direction.Left;
+                    else
+                        direction = Direction.None;
+                }
+                if (max == directionVotes[3])
+                {
+                    if (direction == Direction.None)
+                        direction = Direction.Right;
+                    else
+                        direction = Direction.None;
+                }
+            }
+            MoveToDirection(direction);
+        }
     }
 }

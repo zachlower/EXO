@@ -7,6 +7,8 @@ using System;
 using System.Text;
 using System.Threading;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+
 public class ServerListener : MonoBehaviour
 {
     Socket listener = null;
@@ -21,8 +23,21 @@ public class ServerListener : MonoBehaviour
     public MessageParser parser;
     Dictionary<int, client> clientList = new Dictionary<int,client>();
 
+    public struct player
+    {
+        string name;
+        string image;
+        public player(string name, string image)
+        {
+            this.name = name;
+            this.image = image;
+        }
+    }
+    List<player> players;
+
     void Start()
     {
+        players = new List<player>();
         IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress ipAddress = null;
         foreach (IPAddress add in ipHost.AddressList) {
@@ -102,6 +117,12 @@ public class ServerListener : MonoBehaviour
         }
        
         print("EVERYONE'S HERE!!");
+
+        // load game scene
+        SceneManager.LoadScene("nav combat", LoadSceneMode.Single);
+        parser.game = GameObject.Find("GameController").GetComponent<GameController>();
+        // pass in the player info
+        parser.game.players = players;
     }
 
     public void sendMessageToAllClients(string mes) {
@@ -110,4 +131,8 @@ public class ServerListener : MonoBehaviour
         }
     }
 
+    public void addPlayer(player player)
+    {
+        players.Add(player);
+    }
 }
