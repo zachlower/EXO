@@ -12,12 +12,19 @@ public abstract class Character : MonoBehaviour {
     // character health
     public int currentHealth { get; protected set; }
     public int maxHealth { get; protected set; }
+    public bool alive { get; protected set; }
 
     // durational effects (have impact each turn until they expire)
     public List<Effect> currentEffects;
     // abilities that a character has
     public List<Ability> abilities;
 
+
+
+    public void Start()
+    {
+        Debug.Log("Character start");
+    }
 
     // TODO: when applying effects, take into account defenses against various attack types and effect types
     // apply effect when character gets targeted by an ability
@@ -84,7 +91,7 @@ public abstract class Character : MonoBehaviour {
     // when health drops below 0, character dies :(
     private void Kill() 
     {
-
+        //TODO: i dunno
     }
     
 }
