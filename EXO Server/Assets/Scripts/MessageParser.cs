@@ -19,7 +19,7 @@ public class MessageParser : MonoBehaviour {
         {
             res = res.Substring(8);
             int playerIndex = int.Parse(Next(res));
-            game.sendPlasmid(playerIndex, res);
+            game.SendPlasmid(playerIndex, res);
         }
         else if (res.StartsWith("ability:"))
         {
@@ -31,30 +31,30 @@ public class MessageParser : MonoBehaviour {
             {
                 indices.Add(int.Parse(Next(res)));
             }
-            game.activateAbility(ability, target, indices);
+            game.ActivateAbility(ability, target, indices);
         }
         else if (res.StartsWith("direction:"))
         {
             // add one vote to the direction
             if (res.EndsWith("right"))
             {
-                game.voteDirection(GameController.Direction.Right);
+                game.VoteDirection(GameController.Direction.Right);
             }
             else if (res.EndsWith("left"))
             {
-                game.voteDirection(GameController.Direction.Left);
+                game.VoteDirection(GameController.Direction.Left);
             }
             else if (res.EndsWith("up"))
             {
-                game.voteDirection(GameController.Direction.Up);
+                game.VoteDirection(GameController.Direction.Up);
             }
             else if (res.EndsWith("down"))
             {
-                game.voteDirection(GameController.Direction.Down);
+                game.VoteDirection(GameController.Direction.Down);
             }
             else if (res.EndsWith("none"))
             {
-                game.voteDirection(GameController.Direction.None);
+                game.VoteDirection(GameController.Direction.None);
             }
         }
     }

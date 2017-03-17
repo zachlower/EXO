@@ -5,22 +5,29 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+    // Map, rooms etc
     private MapInfo map;
     private int currentRoom;
-    // votes index 0->3: up down left right
+        // votes index 0->3: up down left right
     private int [] directionVotes;
     private int directionVotesCount;
     private Direction direction;
 
     private GameObject text;
-    private float reminderTime = 3.0f;
+    private float textTimer = 3.0f;
+
+    // communication shit
+    public ServerListener serverListener;
+    public Dictionary<int, Character> characters;
+    private int nextCharacterID;
+    public List<int> playerIDs;
 
     
-    private GameObject icon;
+    public CombatManager combatManager;
 
     private Sprite[] bg;
     private GameObject background;
-
+    private GameObject icon;
     string visibleLayer = "Obstacle";
     string invisibleLayer = "Default";
 
@@ -30,7 +37,7 @@ public class GameController : MonoBehaviour {
     public Point[] combatPlayerSlots;
     public Point[] combatEnemySlots;
 
-    public List<ServerListener.player> players;
+    
 
     public enum Direction
     {
@@ -41,6 +48,13 @@ public class GameController : MonoBehaviour {
         None
     };
 
+    // State Machine
+    public enum State
+    {
+        WaitingConnection,
+        Navigation,
+        Combat,
+    };
 
     // used to put the characters into their pos
     public struct Point
@@ -56,6 +70,12 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        nextCharacterID = 0;
+        serverListener = GameObject.Find("ServerManager").GetComponent<ServerListener>();
+        characters = new Dictionary<int, Character>();
+        playerIDs = new List<int>();
+        combatManager = GameObject.Find("CombatManager").GetComponent<CombatManager>();
+
         directionVotes = new int[4];
         directionVotesCount = 0;
         icon = GameObject.Find("YouIcon");
@@ -101,8 +121,8 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        reminderTime -= Time.deltaTime;
-        if(reminderTime <= 0.0f)
+        textTimer -= Time.deltaTime;
+        if(textTimer <= 0.0f)
         {
             text.GetComponent<Text>().text = "";
         }
@@ -140,7 +160,7 @@ public class GameController : MonoBehaviour {
             directionVotes[i] = 0;
         }
         // switch rooms accordingly
-        reminderTime = 3.0f;
+        textTimer = 3.0f;
         Vector3 pos = icon.GetComponent<Transform>().position;
         switch (dir)
         {
@@ -176,6 +196,8 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    // TODO
+    // need to be updated based on the latest design 
     void SwitchRoom(int index)
     {
         //change background
@@ -211,7 +233,7 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        // display monsters, if there are any
+        /*// display monsters, if there are any
         if (map.rooms[index].enemyCount > 0)
         {
             inCombat = true;
@@ -251,27 +273,16 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("Player" + i).GetComponent<Transform>().position = new Vector3(navPlayerSlots[i].x, navPlayerSlots[i].y, 0.0f);
             }
 
-        }
-    }
-
-    // called when room is cleared
-    void EnemyCleared()
-    {
-        inCombat = false;
-        // hide the cleared monsters
-        for (int i = 0; i < MapInfo.MAX_MONSTER; i++)
-        {
-            GameObject.Find("Monster" + i).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-        }
+        }*/
     }
 
     // called when enemy takes damage (potentially for healing as well)
-    void EnemyTakeDamage(int index, int dmg)
+    void EnemyTakeDamage(int characterIndex, int dmg)
     {
-        map.rooms[currentRoom].monsters[index].hp -= dmg;
-        if(map.rooms[currentRoom].monsters[index].hp <= 0)
+        map.rooms[currentRoom].monsters[characterIndex].hp -= dmg;
+        if(map.rooms[currentRoom].monsters[characterIndex].hp <= 0)
         {
-            GameObject.Find("Monster" + map.rooms[currentRoom].monsters[index].hp).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
+            GameObject.Find("Monster" + map.rooms[currentRoom].monsters[characterIndex].hp).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
             // TODO
             // tell the client this is dead
 
@@ -279,7 +290,8 @@ public class GameController : MonoBehaviour {
             map.rooms[currentRoom].enemyCount -= 1;
             if(map.rooms[currentRoom].enemyCount <= 0)
             {
-                EnemyCleared();
+                // EnemyCleared(); obsolete
+                CombatEnded();
                 // TODO 
                 // update clients?
 
@@ -287,24 +299,25 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void PlayerTakeDamage(int index, int dmg)
+    // called by combat manager for healing and damage dealt to player
+    void PlayerTakeDamage(int playerIndex, int dmg)
     {
         // TODO
         // update the player status on client
     }
 
-    public void sendPlasmid(int playerIndex, string plasmids)
+    public void SendPlasmid(int playerIndex, string plasmids)
     {
         string str = "Plasmid:" + plasmids;
         // get the corresponding socket and send the plasmids
     }
 
-    public void activateAbility(string ability, string target, List<int> indices)
+    public void ActivateAbility(string ability, string target, List<int> indices)
     {
-
+        // Probably of the wrong parameters
     }
 
-    public void voteDirection(Direction dir)
+    public void VoteDirection(Direction dir)
     {
         switch (dir)
         {
@@ -325,7 +338,7 @@ public class GameController : MonoBehaviour {
         }
         // if everybody voted
         directionVotesCount += 1;
-        if(directionVotesCount == players.Count)
+        if(directionVotesCount == playerIDs.Count)
         {
             // find the voted direction
             int max = 0;
@@ -368,5 +381,21 @@ public class GameController : MonoBehaviour {
             }
             MoveToDirection(direction);
         }
+    }
+
+    public void CombatStarted()
+    {
+        // TODO
+        // create the enemy characters and add into the chracter map
+    }
+
+    public void CombatEnded()
+    {
+        // TODO
+        // Show the loot etc
+
+        // tell the clients
+
+        // switch back to navigation formation
     }
 }
