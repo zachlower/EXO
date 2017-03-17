@@ -34,10 +34,7 @@ public class GameController : MonoBehaviour {
     private bool inCombat;
 
     public Point[] navPlayerSlots;
-    public Point[] combatPlayerSlots;
-    public Point[] combatEnemySlots;
-
-    
+    public Point[] combatPlayerSlots;    
 
     public enum Direction
     {
@@ -84,7 +81,6 @@ public class GameController : MonoBehaviour {
         // initialize character slots
         navPlayerSlots = new Point[6];
         combatPlayerSlots = new Point[6];
-        combatEnemySlots = new Point[MapInfo.MAX_MONSTER];
         
         navPlayerSlots[0] = new Point(-7.5f, -2.0f);
         navPlayerSlots[1] = new Point(-5.0f, -2.0f);

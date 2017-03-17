@@ -22,8 +22,7 @@ public class ArrowClicked : MonoBehaviour {
         if (isEnabled)
         {
             string str = gameObject.name.Substring(6);
-            // TODO 
-            // call client listener func instead
+            
             if (str.Equals("Up"))
                 nav.VoteForDirection(NavGameController.Direction.Up);
             else if (str.Equals("Down"))
