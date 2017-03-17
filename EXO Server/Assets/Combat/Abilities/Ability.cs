@@ -13,14 +13,5 @@ public abstract class Ability {
 
 
 
-    public void Cast(GameObject target, float powerModifier)
-    {
-        //power modifier based on score when drawing ability
-        Character targetCharacter = target.GetComponent<Character>();
-        foreach(Effect e in effects) //apply each effect to target
-        {
-            //TODO: adjust powerModifier of effect? 
-            targetCharacter.ApplyEffect(e, powerModifier); 
-        }
-    }
+    
 }

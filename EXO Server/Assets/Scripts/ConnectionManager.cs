@@ -10,7 +10,7 @@ public class ConnectionManager : MonoBehaviour {
     int pCounter = 0;
     int conTextCounter = 0;
     public List<string> playernames;
-    public Dictionary<int,/*character class*/>;
+    //public Dictionary<int,/*character class*/>;
     bool textCounting = false;
     void Start() {
         foreach (GameObject i in playerIcons) { i.SetActive(false); }

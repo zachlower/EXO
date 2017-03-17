@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zachomorph : Enemy {
+public class Boggle : Player {
 
-    /* example of a enemy 
+	/* example of a player
      */
-
 
     private void Awake()
     {
@@ -16,9 +15,7 @@ public class Zachomorph : Enemy {
         currentEffects = new List<Effect>();
 
         abilities = new List<Ability>();
-        abilities.Add(new ZachAttack());
-
+        abilities.Add(new BogSlog());
 
     }
-
 }

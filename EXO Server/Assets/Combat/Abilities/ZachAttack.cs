@@ -8,7 +8,7 @@ public class ZachAttack : Ability {
     {
         effects = new List<Effect>();
         effects.Add(new Slice(20));
-        effects.Add(new Bleed(5, 5));
+        effects.Add(new Bleed(5, 2));
 
         prepTime = 5.0f;
     }
