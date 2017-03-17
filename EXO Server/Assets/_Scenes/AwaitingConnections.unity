@@ -467,9 +467,9 @@ MonoBehaviour:
   m_BroadcastVersion: 1
   m_BroadcastSubVersion: 1
   m_BroadcastInterval: 1000
-  m_UseNetworkManager: 1
+  m_UseNetworkManager: 0
   m_BroadcastData: HELLO
-  m_ShowGUI: 1
+  m_ShowGUI: 0
   m_OffsetX: 0
   m_OffsetY: 0
 --- !u!114 &539751731
@@ -486,6 +486,7 @@ MonoBehaviour:
   maxConnections: 3
   sb: {fileID: 539751730}
   conManager: {fileID: 1970321045}
+  parser: {fileID: 0}
 --- !u!4 &539751732
 Transform:
   m_ObjectHideFlags: 0
@@ -1824,7 +1825,6 @@ GameObject:
   - component: {fileID: 1970321043}
   - component: {fileID: 1970321042}
   - component: {fileID: 1970321041}
-  - component: {fileID: 1970321040}
   - component: {fileID: 1970321045}
   m_Layer: 5
   m_Name: ConnectionCanvas
@@ -1833,17 +1833,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1970321040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1970321039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f92f6d8bdc85e254da035ed1d03204da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1970321041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1943,6 +1932,7 @@ MonoBehaviour:
   - {fileID: 941750638}
   sb: {fileID: 539751730}
   butText: {fileID: 834533037}
+  playernames: []
 --- !u!1 &2104573855
 GameObject:
   m_ObjectHideFlags: 0
