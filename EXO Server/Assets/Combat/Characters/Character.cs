@@ -57,10 +57,12 @@ public abstract class Character : MonoBehaviour {
                 Damage(-e.basePower * powerModifier);
                 break;
             case CombatGlobals.EffectType.Bleed:
-                currentEffects.Add(e); //durational effect, add to list
+                Effect bleed = new Effect(e); //durational effect, add to list
+                currentEffects.Add(bleed);
                 break;
             case CombatGlobals.EffectType.Poison:
-                currentEffects.Add(e); //durational effect, add to list
+                Effect poison = new Effect(e); //durational effect, add to list
+                currentEffects.Add(poison);
                 break;
         }
     }
@@ -85,7 +87,6 @@ public abstract class Character : MonoBehaviour {
     {
         foreach(Effect e in effects)
         {
-            Debug.Log("Durational: " + e.GetType());
             switch (e.effectType) // determine what kind of durational effect
             {
                 case CombatGlobals.EffectType.Bleed:
@@ -97,8 +98,6 @@ public abstract class Character : MonoBehaviour {
             }
 
             e.duration--;
-            //if (e.duration <= 0) // effect duration has run out
-                //currentEffects.Remove(e);
         }
         currentEffects.RemoveAll(x => x.duration <= 0);
     }
