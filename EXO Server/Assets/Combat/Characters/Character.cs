@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Character : MonoBehaviour {
 
@@ -12,6 +13,10 @@ public abstract class Character : MonoBehaviour {
     // character health
     public float currentHealth { get; protected set; }
     public float maxHealth { get; protected set; }
+    private Slider healthSlider;
+
+    private EffectText effectText;
+
     public bool Alive = true; //default value
     public bool alive {
         get
@@ -30,7 +35,15 @@ public abstract class Character : MonoBehaviour {
     public List<Ability> abilities;
 
 
-
+    private void Start()
+    {
+        healthSlider = GetComponentInChildren<Slider>();
+        effectText = GetComponentInChildren<EffectText>();
+    }
+    private void Update()
+    {
+        healthSlider.value = currentHealth / maxHealth;
+    }
 
     public void Cast(Ability a, GameObject target, float powerModifier)
     {
@@ -48,6 +61,7 @@ public abstract class Character : MonoBehaviour {
     public void ApplyEffect(Effect e, float powerModifier)
     {
         Debug.Log("effects are being applied: " + e.GetType());
+        //effectText.ShowEffect(e.GetType().ToString());
         switch (e.effectType)
         {
             case CombatGlobals.EffectType.Damage:
@@ -57,10 +71,12 @@ public abstract class Character : MonoBehaviour {
                 Damage(-e.basePower * powerModifier);
                 break;
             case CombatGlobals.EffectType.Bleed:
-                currentEffects.Add(e); //durational effect, add to list
+                Effect bleed = new Effect(e); //durational effect, add to list
+                currentEffects.Add(bleed);
                 break;
             case CombatGlobals.EffectType.Poison:
-                currentEffects.Add(e); //durational effect, add to list
+                Effect poison = new Effect(e); //durational effect, add to list
+                currentEffects.Add(poison);
                 break;
         }
     }
@@ -85,7 +101,6 @@ public abstract class Character : MonoBehaviour {
     {
         foreach(Effect e in effects)
         {
-            Debug.Log("Durational: " + e.GetType());
             switch (e.effectType) // determine what kind of durational effect
             {
                 case CombatGlobals.EffectType.Bleed:
@@ -97,8 +112,6 @@ public abstract class Character : MonoBehaviour {
             }
 
             e.duration--;
-            //if (e.duration <= 0) // effect duration has run out
-                //currentEffects.Remove(e);
         }
         currentEffects.RemoveAll(x => x.duration <= 0);
     }
