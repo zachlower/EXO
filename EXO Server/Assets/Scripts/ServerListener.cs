@@ -122,7 +122,7 @@ public class ServerListener : MonoBehaviour
         SceneManager.LoadScene("nav combat", LoadSceneMode.Single);
         parser.game = GameObject.Find("GameController").GetComponent<GameController>();
         // pass in the player info
-        parser.game.players = players;
+        //parser.game.players = players;
     }
 
     public void sendMessageToAllClients(string mes) {

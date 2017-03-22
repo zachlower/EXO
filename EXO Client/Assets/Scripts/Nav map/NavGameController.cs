@@ -22,6 +22,7 @@ public class NavGameController : MonoBehaviour {
     string invisibleLayer = "Default";
 
     public Text timer;
+    public Text reminder;
     private float time;
     private static float VoteTime = 15.99f;
     private bool voted;
@@ -44,6 +45,7 @@ public class NavGameController : MonoBehaviour {
     void Start () {
         //clientListener = GameObject.Find("ClientListener").GetComponent<ClientListener>();
         timer = GameObject.Find("Timer").GetComponent<Text>();
+        reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
         voted = false;
         // load background
@@ -77,28 +79,38 @@ public class NavGameController : MonoBehaviour {
     {
         DisableArrows();
         string str = "direction: ";
+        string s = "You voted ";
+        voted = true;
+        time = 0.0f;
         switch (dir)
         {
             case Direction.None:
                 str += "none";
+                s += "to stay";
                 break;
             case Direction.Up:
                 str += "up";
+                s += "forward";
                 ArrowUp.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Down:
                 str += "down";
+                s += "backward";
                 ArrowDown.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Left:
                 str += "left";
+                s += "left";
                 ArrowLeft.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Right:
                 str += "right";
+                s += "right";
                 ArrowRight.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
         }
+        reminder.text = s;
+        timer.text = "";
         //clientListener.SendMessage(str);
     }
 
@@ -129,6 +141,8 @@ public class NavGameController : MonoBehaviour {
 
     public void EnableArrows()
     {
+        reminder.text = "Vote for direction!";
+        time = 15.0f;
         ArrowUp.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowDown.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowLeft.GetComponent<ArrowClicked>().isEnabled = true;

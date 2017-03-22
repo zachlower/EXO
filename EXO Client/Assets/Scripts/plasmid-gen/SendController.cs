@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SendController : MonoBehaviour {
 
-    private GameController gc;
+    private PlasmidController gc;
     private float rotateSpeed = 60.0f;
 
     private void Start()
     {
-        gc = GameObject.Find("GameController").GetComponent<GameController>();
+        gc = GameObject.Find("GameController").GetComponent<PlasmidController>();
     }
 
     private void Update()
@@ -19,7 +19,7 @@ public class SendController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gc.gameState == GameController.GameState.Collecting && collision.gameObject.CompareTag("Player"))
+        if (gc.gameState == PlasmidController.GameState.Collecting && collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Send triggered");
             gc.TriggerSend();
