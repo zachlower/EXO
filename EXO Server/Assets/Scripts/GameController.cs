@@ -13,6 +13,13 @@ public class GameController : MonoBehaviour {
     private int directionVotesCount;
     private Direction direction;
 
+    /******DUNGEON GENERATION STUFF**********/
+    public enum mapSize {
+        MAP_SMALL,
+        MAP_MEDIUM,
+        MAP_LARGE
+    };
+
     private GameObject text;
     private float textTimer = 3.0f;
 
@@ -20,7 +27,6 @@ public class GameController : MonoBehaviour {
     public ServerListener serverListener;
     public Dictionary<int, Character> characters;
     private int nextCharacterID;
-    public List<int> playerIDs;
 
     
     public CombatManager combatManager;
@@ -70,7 +76,6 @@ public class GameController : MonoBehaviour {
         nextCharacterID = 0;
         serverListener = GameObject.Find("ServerManager").GetComponent<ServerListener>();
         characters = new Dictionary<int, Character>();
-        playerIDs = new List<int>();
         combatManager = GameObject.Find("CombatManager").GetComponent<CombatManager>();
 
         directionVotes = new int[4];
@@ -334,7 +339,7 @@ public class GameController : MonoBehaviour {
         }
         // if everybody voted
         directionVotesCount += 1;
-        if(directionVotesCount == playerIDs.Count)
+        if(directionVotesCount == characters.Count)
         {
             // find the voted direction
             int max = 0;

@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 539751732}
   - component: {fileID: 539751731}
   - component: {fileID: 539751730}
+  - component: {fileID: 539751733}
   m_Layer: 0
   m_Name: ServerManager
   m_TagString: Untagged
@@ -500,6 +501,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &539751733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 539751729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5e2c20c19fd2740b711ab500a0f5b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverListener: {fileID: 539751731}
+  combatManager: {fileID: 0}
 --- !u!1 &552966421
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,7 +1936,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211df92fead881643aadb48c5c3f818d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  game: {fileID: 539751733}
+  sb: {fileID: 539751730}
+  butText: {fileID: 834533037}
   lengthSlider: {fileID: 1261552773}
+  startButton: {fileID: 1659883235}
   playerIcons:
   - {fileID: 916374970}
   - {fileID: 497338150}
@@ -1930,9 +1948,6 @@ MonoBehaviour:
   - {fileID: 1146088612}
   - {fileID: 132897684}
   - {fileID: 941750638}
-  sb: {fileID: 539751730}
-  butText: {fileID: 834533037}
-  playernames: []
 --- !u!1 &2104573855
 GameObject:
   m_ObjectHideFlags: 0

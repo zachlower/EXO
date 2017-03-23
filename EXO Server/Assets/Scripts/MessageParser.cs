@@ -2,60 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using System;
 
 public class MessageParser : MonoBehaviour {
     // need to be set when nav combat scene is loaded for the first time
     public GameController game;
+    public ConnectionManager con;
+    string[] parseStr = { ":" };
 
-    public void parseUpdate(string res) {
-        if (res.StartsWith("player:"))
-        {
-            res = res.Substring(7);
-            string name = Next(res);
-            string image = Next(res);
-            GameObject.Find("Server Manager").GetComponent<ServerListener>().addPlayer(new ServerListener.player(name, image));
-        }
-        else if (res.StartsWith("plasmid:"))
-        {
-            res = res.Substring(8);
-            int playerIndex = int.Parse(Next(res));
-            game.SendPlasmid(playerIndex, res);
-        }
-        else if (res.StartsWith("ability:"))
-        {
-            res = res.Substring(8);
-            string ability = Next(res);
-            string target = Next(res);
-            List<int> indices = new List<int>();
-            while(res.Length != 0)
-            {
-                indices.Add(int.Parse(Next(res)));
-            }
-            game.ActivateAbility(ability, target, indices);
-        }
-        else if (res.StartsWith("direction:"))
-        {
-            // add one vote to the direction
-            if (res.EndsWith("right"))
-            {
-                game.VoteDirection(GameController.Direction.Right);
-            }
-            else if (res.EndsWith("left"))
-            {
-                game.VoteDirection(GameController.Direction.Left);
-            }
-            else if (res.EndsWith("up"))
-            {
-                game.VoteDirection(GameController.Direction.Up);
-            }
-            else if (res.EndsWith("down"))
-            {
-                game.VoteDirection(GameController.Direction.Down);
-            }
-            else if (res.EndsWith("none"))
-            {
-                game.VoteDirection(GameController.Direction.None);
-            }
+    //pass in the string message to be parsed and the client ID of the sender!
+    public void parseUpdate(string res, int cID) {
+        string[] messageBits = res.Split(parseStr, StringSplitOptions.RemoveEmptyEntries);
+
+        switch (messageBits[0]){
+            case "character":
+                con.updateCharacter(cID, new Character(/*however zach implements using the parsed string*/));
+                break;
         }
     }
 

@@ -17,11 +17,9 @@ public class ServerListener : MonoBehaviour
     String[] eof = { "$$EOF$$" };
     public ServerBroadcast sb;
     public ConnectionManager conManager;
-    struct client {
-        public Socket socket;
-    }
+
     public MessageParser parser;
-    Dictionary<int, client> clientList = new Dictionary<int,client>();
+    Dictionary<int, Socket> clientList = new Dictionary<int,Socket>();
 
     public struct player
     {
@@ -61,7 +59,7 @@ public class ServerListener : MonoBehaviour
     {
         foreach (var c in clientList)
         {
-            Socket s = c.Value.socket;
+            Socket s = c.Value;
             if (s != null)
             {
                 byte[] bytes = new Byte[1024];
@@ -83,7 +81,8 @@ public class ServerListener : MonoBehaviour
                     for (int i = 0; i < data.Length; i++)
                     {
                         print(data[i] + "\n");
-                        parser.parseUpdate(data[i]);
+                        //parse the received messages from the server, one at a time! :) :^) :v) :*) :-)
+                        parser.parseUpdate(data[i],c.Key);
                     }
                 }
 
@@ -98,16 +97,15 @@ public class ServerListener : MonoBehaviour
             {
                 Socket sock = listener.Accept();
                 if (sock != null) {
-                    client c = new client();
-                    c.socket = sock;
                     print("HEY "+con);
-                    clientList.Add(con, c);
+                    clientList.Add(con, sock);
                     byte[] joinedMes = Encoding.ASCII.GetBytes("Congratulations! You are client " + con+eof[0]);
-                    c.socket.Send(joinedMes);
-                    c.socket.Send(Encoding.ASCII.GetBytes("Tstin"+eof[0]));
+                    sock.Send(joinedMes);
+                    sock.Send(Encoding.ASCII.GetBytes("Tstin"+eof[0]));
+                    conManager.addPlayer(con);
+
                     con++;
 
-                    conManager.playernames.Add("Player " + con);
                 }
             }
             catch (Exception e)
@@ -121,13 +119,17 @@ public class ServerListener : MonoBehaviour
         // load game scene
         SceneManager.LoadScene("nav combat", LoadSceneMode.Single);
         parser.game = GameObject.Find("GameController").GetComponent<GameController>();
-        // pass in the player info
-        parser.game.players = players;
     }
 
     public void sendMessageToAllClients(string mes) {
         foreach (var c in clientList) {
-            c.Value.socket.Send(Encoding.ASCII.GetBytes(mes+eof[0]));
+            c.Value.Send(Encoding.ASCII.GetBytes(mes+eof[0]));
+        }
+    }
+
+    public void sendMessageToClient(string mes, int cID) {
+        if (clientList.ContainsKey(cID)) {
+            clientList[cID].Send(Encoding.ASCII.GetBytes(mes + eof[0]));
         }
     }
 
