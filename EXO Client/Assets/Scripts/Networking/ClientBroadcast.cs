@@ -9,13 +9,18 @@ public class ClientBroadcast : NetworkDiscovery {
     public ClientListener cl;
 	// Use this for initialization
 	void Start () {
+        
+    }
+
+    // Called when Button is clicked
+    public void Broadcast()
+    {
         broadcastPort = 25565;
         broadcastData = "exo";
         broadcastInterval = 200;
         Initialize();
         if (!running) print(StartAsClient());
     }
-
 
     public override void OnReceivedBroadcast(string fromAddress, string data)
     {

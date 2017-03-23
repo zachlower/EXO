@@ -117,8 +117,9 @@ public class ServerListener : MonoBehaviour
         print("EVERYONE'S HERE!!");
 
         // load game scene
-        SceneManager.LoadScene("nav combat", LoadSceneMode.Single);
+       // SceneManager.LoadScene("nav combat", LoadSceneMode.Single);
         parser.game = GameObject.Find("GameController").GetComponent<GameController>();
+
     }
 
     public void sendMessageToAllClients(string mes) {

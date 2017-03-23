@@ -6,17 +6,17 @@ public class IconController : MonoBehaviour {
 
     public int ID = 0;
 
-    private GameController gc;
+    private PlasmidController gc;
 
 
     private void Start()
     {
-        gc = GameObject.Find("GameController").GetComponent<GameController>();
+        gc = GameObject.Find("GameController").GetComponent<PlasmidController>();
     }
 
     private void OnMouseDown()
     {
-        if (gc.gameState == GameController.GameState.Sending)
+        if (gc.gameState == PlasmidController.GameState.Sending)
         {
             gc.SendPlasmids(ID);
         }
