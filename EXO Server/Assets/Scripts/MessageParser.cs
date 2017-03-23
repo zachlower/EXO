@@ -16,7 +16,8 @@ public class MessageParser : MonoBehaviour {
 
         switch (messageBits[0]){
             case "character":
-                con.updateCharacter(cID, new Character(/*however zach implements using the parsed string*/));
+                print("Giving player " + cID + " Alein #" + messageBits[1]);
+                con.updateCharacter(cID, Player.CreatePlayerClass(Player.PlayerClass.Boggle));
                 break;
         }
     }
