@@ -13,7 +13,7 @@ public class NavGameController : MonoBehaviour {
     private Sprite[] bg;
     private GameObject background;
 
-    public ClientListener clientListener;
+    public GameController game;
 
     // maybe the general controller should hold the map
     public MapInfo map;
@@ -36,14 +36,28 @@ public class NavGameController : MonoBehaviour {
         None
     };
 
-    private class Room
+    public class Room
     {
         public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
+        public Monster[] monsters;
+        public int enemyCount = 0;
+        public struct Monster
+        {
+            public int hp;
+            public string name;
+            public string sprite;
+            public Monster(int hp, string name, string sprite)
+            {
+                this.hp = hp;
+                this.name = name;
+                this.sprite = sprite;
+            }
+        }
     }
 
     // Use this for initialization
     void Start () {
-        //clientListener = GameObject.Find("ClientListener").GetComponent<ClientListener>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
         timer = GameObject.Find("Timer").GetComponent<Text>();
         reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
@@ -111,38 +125,22 @@ public class NavGameController : MonoBehaviour {
         }
         reminder.text = s;
         timer.text = "";
-        //clientListener.SendMessage(str);
+        game.broadcast.cl.SendMessage(str);
     }
 
-    // called when room is switched
-    public void SwitchRoom(int roomIndex)
+    // called when room is switched, room info should be received prior to this call
+    public void SwitchRoom()
     {
         EnableArrows();
         time = VoteTime;
         voted = false;
-        background.GetComponent<SpriteRenderer>().sprite = bg[map.rooms[roomIndex].bgIndex];
-        if (map.rooms[roomIndex].forward == -1)
-            ArrowUp.GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-        else
-            ArrowUp.GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
-        if (map.rooms[roomIndex].backward == -1)
-            ArrowDown.GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-        else
-            ArrowDown.GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
-        if (map.rooms[roomIndex].left == -1)
-            ArrowLeft.GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-        else
-            ArrowLeft.GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
-        if (map.rooms[roomIndex].right == -1)
-            ArrowRight.GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-        else
-            ArrowRight.GetComponent<SpriteRenderer>().sortingLayerName = visibleLayer;
+        // set the room according to the room Info sent from the server
     }
 
     public void EnableArrows()
     {
         reminder.text = "Vote for direction!";
-        time = 15.0f;
+        time = 15.99f;
         ArrowUp.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowDown.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowLeft.GetComponent<ArrowClicked>().isEnabled = true;
