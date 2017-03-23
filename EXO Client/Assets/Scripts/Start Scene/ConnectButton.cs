@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class ConnectButton : Button {
     ClientBroadcast broadcaster;
+    GameController game;
     // Use this for initialization
     new void Start  () {
+        game = GameObject.Find("GameController").GetComponent<GameController>();
         gameObject.GetComponentInChildren<Text>().text = "Connect to Server";
         gameObject.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
         broadcaster = GameObject.Find("ClientListener").GetComponent<ClientBroadcast>();
@@ -21,6 +23,6 @@ public class ConnectButton : Button {
     void TaskOnClick()
     {
         Debug.Log("button clicked");
-        broadcaster.Broadcast();
+        game.Broadcast();
     }
 }
