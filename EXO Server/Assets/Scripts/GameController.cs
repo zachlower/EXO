@@ -5,9 +5,27 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+    // State Machine
+    public enum GameState
+    {
+        WaitingConnection,
+        Navigation,
+        Combat,
+    };
+    public GameState state;
+    // good  shit
+    public ServerListener serverListener;
+    public Dictionary<int, Player> playerChars;
+    private int nextCharacterID;
+
+    public GameObject[] enemyTransforms;
+    public GameObject[] playerCombatTransforms;
+
+    public CombatManager combatManager;
+
     // Map, rooms etc
     private MapInfo map;
-    private int currentRoom;
+    private Room currentRoom;
         // votes index 0->3: up down left right
     private int [] directionVotes;
     private int directionVotesCount;
@@ -23,24 +41,13 @@ public class GameController : MonoBehaviour {
     private GameObject text;
     private float textTimer = 3.0f;
 
-    // communication shit
-    public ServerListener serverListener;
-    public Dictionary<int, Player> playerChars;
-    private int nextCharacterID;
-
-    
-    public CombatManager combatManager;
-
     private Sprite[] bg;
     private GameObject background;
     private GameObject icon;
     string visibleLayer = "Obstacle";
     string invisibleLayer = "Default";
 
-    private bool inCombat;
-
-    public Point[] navPlayerSlots;
-    public Point[] combatPlayerSlots;    
+    public Point[] navPlayerSlots;   
 
     public enum Direction
     {
@@ -51,13 +58,7 @@ public class GameController : MonoBehaviour {
         None
     };
 
-    // State Machine
-    public enum State
-    {
-        WaitingConnection,
-        Navigation,
-        Combat,
-    };
+
 
     // used to put the characters into their pos
     public struct Point
@@ -82,10 +83,9 @@ public class GameController : MonoBehaviour {
         directionVotesCount = 0;
         icon = GameObject.Find("YouIcon");
         text = GameObject.Find("Text");
-        inCombat = false;
         // initialize character slots
         navPlayerSlots = new Point[6];
-        combatPlayerSlots = new Point[6];
+       // combatPlayerSlots = new Point[6];
         
         navPlayerSlots[0] = new Point(-7.5f, -2.0f);
         navPlayerSlots[1] = new Point(-5.0f, -2.0f);
@@ -93,13 +93,6 @@ public class GameController : MonoBehaviour {
         navPlayerSlots[3] = new Point(1.5f, -2.5f);
         navPlayerSlots[4] = new Point(4.5f, -1.5f);
         navPlayerSlots[5] = new Point(8.0f, -1.5f);
-
-        combatPlayerSlots[0] = new Point(-13.5f, -1.5f);
-        combatPlayerSlots[1] = new Point(-11.0f, -2.5f);
-        combatPlayerSlots[2] = new Point(-8.5f, -1.0f);
-        combatPlayerSlots[3] = new Point(-6.0f, -2.0f);
-        combatPlayerSlots[4] = new Point(-3.5f, -2.5f);
-        combatPlayerSlots[5] = new Point(-1.0f, -1.5f);
 
         /*combatEnemySlots[0] = new Point(6.0f, -1.0f);
         combatEnemySlots[1] = new Point(7.0f, -2.5f);
@@ -114,10 +107,10 @@ public class GameController : MonoBehaviour {
         bg[3] = Resources.Load<Sprite>("Sprites/Nav Combat/Interior4");
 
         // load room information
-        currentRoom = 0;
+      //  currentRoom = 0;
         //map = GameObject.Find("GameController").GetComponent<MapInfo>();
         map = new MapInfo();
-        SwitchRoom(currentRoom);
+       // SwitchRoom(currentRoom);
     }
 	
 	// Update is called once per frame
@@ -154,7 +147,7 @@ public class GameController : MonoBehaviour {
 
     public void MoveToDirection(Direction dir)
     {
-        // clear the votes
+       /* // clear the votes
         directionVotesCount = 0;
         for(int i = 0; i < 4; i++)
         {
@@ -171,7 +164,7 @@ public class GameController : MonoBehaviour {
                 text.GetComponent<Text>().text = "You stayed in this room";
                 break;
             case Direction.Up:
-                text.GetComponent<Text>().text = "You moved forward";
+             /*   text.GetComponent<Text>().text = "You moved forward";
                 SwitchRoom(map.rooms[currentRoom].forward);
                 currentRoom = map.rooms[currentRoom].forward;
                 icon.GetComponent<Transform>().position = pos + new Vector3(0, 0.8f, 0);
@@ -194,13 +187,13 @@ public class GameController : MonoBehaviour {
                 currentRoom = map.rooms[currentRoom].right;
                 icon.GetComponent<Transform>().position = pos + new Vector3(0.8f, 0, 0);
                 break;
-        }
+        }*/
     }
 
     // TODO
     // need to be updated based on the latest design 
     void SwitchRoom(int index)
-    {
+    {/*
         //change background
         int current = map.rooms[index].bgIndex;
         int prev = map.rooms[currentRoom].bgIndex;
@@ -234,7 +227,7 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        /*// display monsters, if there are any
+        // display monsters, if there are any
         if (map.rooms[index].enemyCount > 0)
         {
             inCombat = true;
@@ -277,46 +270,7 @@ public class GameController : MonoBehaviour {
         }*/
     }
 
-    // called when enemy takes damage (potentially for healing as well)
-    void EnemyTakeDamage(int characterIndex, int dmg)
-    {
-        map.rooms[currentRoom].monsters[characterIndex].hp -= dmg;
-        if(map.rooms[currentRoom].monsters[characterIndex].hp <= 0)
-        {
-            GameObject.Find("Monster" + map.rooms[currentRoom].monsters[characterIndex].hp).GetComponent<SpriteRenderer>().sortingLayerName = invisibleLayer;
-            // TODO
-            // tell the client this is dead
 
-            // see how many left
-            map.rooms[currentRoom].enemyCount -= 1;
-            if(map.rooms[currentRoom].enemyCount <= 0)
-            {
-                // EnemyCleared(); obsolete
-                CombatEnded();
-                // TODO 
-                // update clients?
-
-            }
-        }
-    }
-
-    // called by combat manager for healing and damage dealt to player
-    void PlayerTakeDamage(int playerIndex, int dmg)
-    {
-        // TODO
-        // update the player status on client
-    }
-
-    public void SendPlasmid(int playerIndex, string plasmids)
-    {
-        string str = "Plasmid:" + plasmids;
-        // get the corresponding socket and send the plasmids
-    }
-
-    public void ActivateAbility(string ability, string target, List<int> indices)
-    {
-        // Probably of the wrong parameters
-    }
 
     public void VoteDirection(Direction dir)
     {
@@ -386,8 +340,9 @@ public class GameController : MonoBehaviour {
 
     public void CombatStarted()
     {
-        // TODO
-        // create the enemy characters and add into the chracter map
+        state = GameState.Combat;
+        combatManager = gameObject.AddComponent<CombatManager>();
+        combatManager.initCombat(playerChars,((CombatRoom)currentRoom).enemies,this);
     }
 
     public void CombatEnded()

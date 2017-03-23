@@ -14,7 +14,7 @@ public abstract class Character {
     public float currentHealth { get; protected set; }
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
-
+    public GameObject sceneObj;
 
     public bool Alive = true; //default value
     public bool alive {

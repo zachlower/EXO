@@ -22,19 +22,4 @@ public class MessageParser : MonoBehaviour {
         }
     }
 
-    // helper func for parsing string
-    private string Next(string str)
-    {
-        int index = str.IndexOf(",");
-        string re;
-        if (index == -1)
-        {
-            re = str;
-            str = "";
-            return re;
-        }
-        re = str.Substring(0, index - 1);
-        str = str.Substring(index + 1);
-        return re;
-    }
 }
