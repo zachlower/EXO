@@ -6,6 +6,8 @@ using System.Net;
 using System;
 using System.Text;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+
 public class ClientListener : MonoBehaviour
 {
     bool messSent = false;
@@ -28,6 +30,10 @@ public class ClientListener : MonoBehaviour
                 SocketType.Stream, ProtocolType.Tcp);
 
         listener.Connect(endPoint);
+        if (listener.Connected)
+        {
+            SceneManager.LoadScene("character choosing", LoadSceneMode.Single);
+        }
     }
 
     // Update is called once per frame

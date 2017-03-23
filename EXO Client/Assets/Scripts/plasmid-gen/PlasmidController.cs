@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
+public class PlasmidController : MonoBehaviour {
 
     public int collectLimit = 5;
     public Text redText;
