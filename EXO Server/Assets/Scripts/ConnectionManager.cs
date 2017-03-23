@@ -8,7 +8,7 @@ public class ConnectionManager : MonoBehaviour {
     public ServerBroadcast sb;
     int playersJoined = 0;
     int playersSelectedChars = 0;
-    public Dictionary<int,Character> characters;
+    public Dictionary<int,Player> playerChars = new Dictionary<int, Player>();
     bool listDirty = true;
 
     public Text butText;
@@ -40,9 +40,9 @@ public class ConnectionManager : MonoBehaviour {
 
             //update the visual bit
             int charSlot = 0;
-            foreach (var c in characters) {
+            foreach (var c in playerChars) {
                 string charText = "Player " + c.Key + ": ";
-                if (c.Value != null) charText += "Some Zany Alien";
+                if (c.Value != null) charText += "Some Zany Alien Named Boggle";
                 else charText += "No Wacky Aliens";
                 playerIcons[charSlot].SetActive(true);
                 playerIcons[charSlot].GetComponentInChildren<Text>().text = charText;
@@ -68,24 +68,24 @@ public class ConnectionManager : MonoBehaviour {
     }
 
     public void addPlayer(int cID) {
-        if (!characters.ContainsKey(cID))
+        if (!playerChars.ContainsKey(cID))
         {
-            characters.Add(cID, null);
-            playersJoined = characters.Count;
+            playerChars.Add(cID, null);
+            playersJoined = playerChars.Count;
         }
         else Debug.Log("Error adding player ID: Already in Dictionary");
     }
 
-    public void updateCharacter(int cID, Character ch) {
-        if (characters.ContainsKey(cID))
+    public void updateCharacter(int cID, Player ch) {
+        if (playerChars.ContainsKey(cID))
         {
-            if (characters[cID] == null) playersSelectedChars++;
-            characters[cID] = ch;
+            if (playerChars[cID] == null) playersSelectedChars++;
+            playerChars[cID] = ch;
         }
         else Debug.Log("Error assigning Character: No such player");
     }
 
     public void startGame() {
-        game.characters = characters;
+        game.playerChars = playerChars;
     }
 }

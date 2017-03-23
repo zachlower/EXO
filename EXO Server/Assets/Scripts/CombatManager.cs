@@ -26,8 +26,6 @@ public class CombatManager : MonoBehaviour {
         enemies = new Dictionary<int, Enemy>();
         enemies.Add(0, tempEnemy.GetComponent<Enemy>());
 
-        enemies[0].BeginAttackLoop();
-        players[0].BeginDurationalEffectTrigger(1.0f);
     }
 
     

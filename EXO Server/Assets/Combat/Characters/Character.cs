@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Character : MonoBehaviour {
+public abstract class Character {
 
     /* base class for characters 
     * 
@@ -15,7 +15,6 @@ public abstract class Character : MonoBehaviour {
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
 
-    private EffectText effectText;
 
     public bool Alive = true; //default value
     public bool alive {
@@ -35,24 +34,13 @@ public abstract class Character : MonoBehaviour {
     public List<Ability> abilities;
 
 
-    private void Start()
-    {
-        healthSlider = GetComponentInChildren<Slider>();
-        effectText = GetComponentInChildren<EffectText>();
-    }
-    private void Update()
-    {
-        healthSlider.value = currentHealth / maxHealth;
-    }
 
-    public void Cast(Ability a, GameObject target, float powerModifier)
+    public void Cast(Ability a, Character target, float powerModifier)
     {
-        //power modifier based on score when drawing ability
-        Character targetCharacter = target.GetComponent<Character>();
         foreach (Effect e in a.effects) //apply each effect to target
         {
             //TODO: adjust powerModifier of effect? 
-            targetCharacter.ApplyEffect(e, powerModifier);
+            target.ApplyEffect(e, powerModifier);
         }
     }
 
@@ -82,20 +70,6 @@ public abstract class Character : MonoBehaviour {
     }
 
 
-    // trigger durational effects every interval (TODO: interval?)
-    public void BeginDurationalEffectTrigger(float interval)
-    {
-        StartCoroutine(DurationalEffectTrigger(interval));
-    }
-    private IEnumerator DurationalEffectTrigger(float interval)
-    {
-        while (alive)
-        {
-            yield return new WaitForSeconds(interval);
-            if (currentEffects != null && currentEffects.Count != 0)
-                DurationalEffects(currentEffects);
-        }
-    }
     // apply durational effects
     private void DurationalEffects(List<Effect> effects)
     {

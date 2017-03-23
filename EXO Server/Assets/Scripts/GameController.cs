@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour {
 
     // communication shit
     public ServerListener serverListener;
-    public Dictionary<int, Character> characters;
+    public Dictionary<int, Player> playerChars;
     private int nextCharacterID;
 
     
@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour {
     void Start () {
         nextCharacterID = 0;
         serverListener = GameObject.Find("ServerManager").GetComponent<ServerListener>();
-        characters = new Dictionary<int, Character>();
+        playerChars = new Dictionary<int, Player>();
         combatManager = GameObject.Find("CombatManager").GetComponent<CombatManager>();
 
         directionVotes = new int[4];
@@ -122,7 +122,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        textTimer -= Time.deltaTime;
+       /* textTimer -= Time.deltaTime;
         if(textTimer <= 0.0f)
         {
             text.GetComponent<Text>().text = "";
@@ -149,7 +149,7 @@ public class GameController : MonoBehaviour {
         {
             MoveToDirection(Direction.Right);
             return;
-        }
+        }*/
 	}
 
     public void MoveToDirection(Direction dir)
@@ -339,7 +339,7 @@ public class GameController : MonoBehaviour {
         }
         // if everybody voted
         directionVotesCount += 1;
-        if(directionVotesCount == characters.Count)
+        if(directionVotesCount == playerChars.Count)
         {
             // find the voted direction
             int max = 0;
