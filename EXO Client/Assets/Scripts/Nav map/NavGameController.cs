@@ -125,7 +125,7 @@ public class NavGameController : MonoBehaviour {
         }
         reminder.text = s;
         timer.text = "";
-        game.broadcast.cl.SendMessage(str);
+        game.broadcast.cl.sendUpdateToServer(str);
     }
 
     // called when room is switched, room info should be received prior to this call
