@@ -27,6 +27,5 @@ public class ClientBroadcast : NetworkDiscovery {
         string[] temp = fromAddress.Split(":".ToCharArray());
         cl.connectToServer(temp[temp.Length - 1]);
         StopBroadcast();
-       // StopBroadcast();
     }
 }

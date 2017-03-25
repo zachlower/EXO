@@ -24,9 +24,24 @@ public class GameController : MonoBehaviour {
     public void SelectCharacter(int index)
     {
         broadcast.cl.sendUpdateToServer("character:" + index);
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Select Button"))
+        /*foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Select Button"))
         {
             obj.GetComponent<SelectButton>().Disable();
-        }
+        }*/
+    }
+
+    public void SwitchToAbilityScreen()
+    {
+        SceneManager.LoadScene("abilities", LoadSceneMode.Single);
+    }
+
+    public void SwitchToPlasmidScreen()
+    {
+        SceneManager.LoadScene("plasmid-gen", LoadSceneMode.Single);
+    }
+
+    public void SwitchToNav()
+    {
+        SceneManager.LoadScene("nav-map", LoadSceneMode.Single);
     }
 }
