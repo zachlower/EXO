@@ -99,7 +99,7 @@ public class ServerListener : MonoBehaviour
                 if (sock != null) {
                     print("HEY "+con);
                     clientList.Add(con, sock);
-                    byte[] joinedMes = Encoding.ASCII.GetBytes("Congratulations! You are client " + con+eof[0]);
+                    byte[] joinedMes = Encoding.ASCII.GetBytes("clientID:" + con+eof[0]);
                     sock.Send(joinedMes);
                     sock.Send(Encoding.ASCII.GetBytes("Tstin"+eof[0]));
                     conManager.addPlayer(con);

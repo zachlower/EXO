@@ -83,6 +83,8 @@ public class ConnectionManager : MonoBehaviour {
             playerChars[cID] = ch;
         }
         else Debug.Log("Error assigning Character: No such player");
+
+        game.serverListener.sendMessageToAllClients("room");
     }
 
     public void startGame() {
