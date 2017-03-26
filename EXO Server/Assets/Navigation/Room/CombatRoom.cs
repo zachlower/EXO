@@ -15,7 +15,6 @@ public class CombatRoom : Room {
 
 	public CombatRoom() : base()
     {
-        roomType = NavigationGlobals.RoomType.Combat;
         enemies = GenerateEnemies();
     }
 
@@ -27,5 +26,11 @@ public class CombatRoom : Room {
         list.Add(new Zachomorph());
 
         return list;
+    }
+
+    protected override void GenerateBackground()
+    {
+        int bg = Random.Range(0, ImageStatics.combatRoomBG.Count);
+        background = ImageStatics.combatRoomBG[bg];
     }
 }

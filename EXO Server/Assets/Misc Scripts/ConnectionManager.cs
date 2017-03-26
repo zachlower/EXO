@@ -29,12 +29,10 @@ public class ConnectionManager : MonoBehaviour {
             Invoke("updateConText", .5f);
         }
         if (listDirty) {
-            if (playersJoined >= 3)
+            if (playersJoined >= 1 && playersSelectedChars == playersJoined)
             {
-                if (playersSelectedChars == playersJoined)
-                {
-                    startButton.enabled = true;
-                }
+                startButton.enabled = true;
+                startButton.GetComponentInChildren<Text>().text = "Start Game!";
             }
             else startButton.enabled = false;
 
@@ -83,11 +81,11 @@ public class ConnectionManager : MonoBehaviour {
             playerChars[cID] = ch;
         }
         else Debug.Log("Error assigning Character: No such player");
-
-        game.serverListener.sendMessageToAllClients("room");
     }
 
     public void startGame() {
         game.playerChars = playerChars;
+        game.startGame();
+        gameObject.SetActive(false);
     }
 }

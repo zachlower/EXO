@@ -18,6 +18,6 @@ public class ServerBroadcast : NetworkDiscovery {
     public override void OnReceivedBroadcast(string fromAddress, string data)
     {
         print(fromAddress);
-        StopBroadcast();
+       // StopBroadcast();
     }
 }

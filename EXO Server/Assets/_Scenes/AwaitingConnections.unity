@@ -672,6 +672,8 @@ MonoBehaviour:
   - {fileID: 1710851720}
   - {fileID: 94020027}
   combatManager: {fileID: 0}
+  background: {fileID: 0}
+  directionVotes: 
 --- !u!114 &539751734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,7 +745,7 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
@@ -752,7 +754,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Can't Start Until All Players Are Ready
 --- !u!222 &552966424
 CanvasRenderer:
   m_ObjectHideFlags: 0

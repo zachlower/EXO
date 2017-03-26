@@ -4,19 +4,17 @@ using UnityEngine;
 
 public abstract class Room {
 
-    public NavigationGlobals.RoomType roomType;
-    public Texture2D background;
+    public Sprite background;
 
 
     public Room()
     {
-        background = GenerateBackground();
+      //  GenerateBackground();
     }
 
 
-    private Texture2D GenerateBackground()
+    protected virtual void GenerateBackground()
     {
         //TODO: create a function that selects a background
-        return null;
     }
 }

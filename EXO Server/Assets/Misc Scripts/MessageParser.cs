@@ -19,6 +19,22 @@ public class MessageParser : MonoBehaviour {
                 print("Giving player " + cID + " Alein #" + messageBits[1]);
                 con.updateCharacter(cID, Player.CreatePlayerClass(Player.PlayerClass.Boggle));
                 break;
+            case "direction":
+                switch (messageBits[1]) {
+                    case "up":
+                        game.VoteDirection(GameController.Direction.Up);
+                        break;
+                    case "down":
+                        game.VoteDirection(GameController.Direction.Down);
+                        break;
+                    case "left":
+                        game.VoteDirection(GameController.Direction.Left);
+                        break;
+                    case "right":
+                        game.VoteDirection(GameController.Direction.Right);
+                        break;
+                }
+                break;
         }
     }
 

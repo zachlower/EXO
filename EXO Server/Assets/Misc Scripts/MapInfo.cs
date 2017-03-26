@@ -2,70 +2,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapInfo : MonoBehaviour {
+public class MapInfo {
     // Room Info
     public static int MAX_MONSTER = 3;
-    public Room[] rooms;
-    public class Room
+    public Room[,] rooms;
+    public Room startRoom;
+    public Room endRoom;
+    public enum MapSize
     {
-        public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
-        public Monster[] monsters;
-        public int enemyCount = 0;
-        public struct Monster
-        {
-            public int hp;
-            public string name;
-            public string sprite;
-            public Monster(int hp, string name, string sprite)
-            {
-                this.hp = hp;
-                this.name = name;
-                this.sprite = sprite;
-            }
-        }
+        MAP_SMALL,
+        MAP_MEDIUM,
+        MAP_LARGE
+    };
+    int currRow, currCol;
+    int rows, cols;
+    public MapInfo(MapSize size)
+    {
+        rooms = new Room[2,2];
+        rows = 2; cols = 2;
+        rooms[0, 0] = new NavRoom();
+        rooms[0, 1] = new CombatRoom();
+        rooms[1, 1] = new NavRoom();
+
+        startRoom = rooms[0, 0];
+        currRow = 0; currCol = 0;
+        endRoom = rooms[1, 1];
     }
 
-    public MapInfo()
-    {
-        rooms = new Room[5];
-        for (int i = 0; i < 5; ++i)
+    public byte getAdjacentRooms() {
+        byte b = 0;
+        //bits 1,2,4,8 encode l,r,u,d
+        if (currCol - 1 >= 0)
         {
-            rooms[i] = new Room();
-            rooms[i].monsters = new Room.Monster[MAX_MONSTER];
+            if (rooms[currRow,currCol-1] != null) b = (byte)(b | 1);
         }
-        // directions
-        rooms[0].forward = 1;
-        rooms[1].forward = 3;
-        rooms[1].backward = 0;
-        rooms[1].right = 2;
-        rooms[2].left = 1;
-        rooms[3].forward = 4;
-        rooms[3].backward = 1;
-        rooms[4].backward = 3;
-        // background
-        rooms[0].bgIndex = 0;
-        rooms[1].bgIndex = 1;
-        rooms[2].bgIndex = 2;
-        rooms[3].bgIndex = 3;
-        rooms[4].bgIndex = 2;
-        // TODO
-        // put in the monsters
-        rooms[2].enemyCount = 2;
-        rooms[4].enemyCount = 3;
-        rooms[2].monsters[0] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
-        rooms[2].monsters[1] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
-        rooms[4].monsters[2] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
-        rooms[4].monsters[0] = new Room.Monster(10, "Shell Shock", "Sprites/Nav Combat/Shell_Shock");
-        rooms[4].monsters[1] = new Room.Monster(20, "Chtlig", "Sprites/Nav Combat/Chtlig");
+        if (currCol + 1 < cols)
+        {
+            if (rooms[currRow, currCol+1] != null) b = (byte)(b | 2);
+        }
+        if (currRow - 1 >= 0)
+        {
+            if (rooms[currRow-1, currCol] != null) b = (byte)(b | 4);
+        }
+        if (currRow + 1 < rows)
+        {
+            if (rooms[currRow+1, currCol] != null) b = (byte)(b | 8);
+        }
+        return b;
     }
-
-    // Use this for initialization
-    void Start () {
-        
+    public Room moveInDir(GameController.Direction dir) {
+        switch (dir) {
+            case GameController.Direction.Left:
+                currCol--;
+                break;
+            case GameController.Direction.Right:
+                currCol++;
+                break;
+            case GameController.Direction.Up:
+                currRow--;
+                break;
+            case GameController.Direction.Down:
+                currRow++;
+                break;
+        }
+        return rooms[currRow, currCol];
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
