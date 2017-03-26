@@ -10,22 +10,18 @@ public class NavGameController : MonoBehaviour {
     public GameObject ArrowLeft;
     public GameObject ArrowRight;
 
-    private Sprite[] bg;
     private GameObject background;
 
     public GameController game;
 
-    // maybe the general controller should hold the map
-    public MapInfo map;
-
-    string visibleLayer = "Obstacle";
-    string invisibleLayer = "Default";
-
     public Text timer;
     public Text reminder;
+
+
     private float time;
     private static float VoteTime = 15.99f;
     private bool voted;
+    private bool currentlyVoting = false;
 
     public enum Direction
     {
@@ -36,56 +32,26 @@ public class NavGameController : MonoBehaviour {
         None
     };
 
-    public class Room
-    {
-        public int forward = -1, backward = -1, left = -1, right = -1, bgIndex = 0;
-        public Monster[] monsters;
-        public int enemyCount = 0;
-        public struct Monster
-        {
-            public int hp;
-            public string name;
-            public string sprite;
-            public Monster(int hp, string name, string sprite)
-            {
-                this.hp = hp;
-                this.name = name;
-                this.sprite = sprite;
-            }
-        }
-    }
-
-    // Use this for initialization
     void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
         timer = GameObject.Find("Timer").GetComponent<Text>();
         reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
         voted = false;
-        // load background
-        bg = new Sprite[4];
-        background = GameObject.Find("Background");
-        bg[0] = Resources.Load<Sprite>("Sprites/Nav map/Interior1");
-        bg[1] = Resources.Load<Sprite>("Sprites/Nav map/Interior2");
-        bg[2] = Resources.Load<Sprite>("Sprites/Nav map/Interior3");
-        bg[3] = Resources.Load<Sprite>("Sprites/Nav map/Interior4");
     }
 	
-	// Update is called once per frame
 	void Update () {
-        if (time >= 1.0f)
+        if (currentlyVoting)
         {
             time -= Time.deltaTime;
-            int t = (int)time;
+            int t = (int)time + 1;
             timer.text = "" + t;
+            if (time <= 0)
+                currentlyVoting = false;
         }
         else
         {
-            if (!voted)
-            {
-                VoteForDirection(Direction.None);
-                voted = true;
-            }
+            
         }
 	}
 
@@ -131,20 +97,23 @@ public class NavGameController : MonoBehaviour {
     // called when room is switched, room info should be received prior to this call
     public void SwitchRoom()
     {
+        currentlyVoting = true;
+
+        //TODO: only enable arrows which lead to rooms
         EnableArrows();
         time = VoteTime;
         voted = false;
-        // set the room according to the room Info sent from the server
     }
 
     public void EnableArrows()
     {
         reminder.text = "Vote for direction!";
-        time = 15.99f;
+        time = 15.0f;
         ArrowUp.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowDown.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowLeft.GetComponent<ArrowClicked>().isEnabled = true;
         ArrowRight.GetComponent<ArrowClicked>().isEnabled = true;
+
         ArrowUp.GetComponent<SpriteRenderer>().color = Color.white;
         ArrowDown.GetComponent<SpriteRenderer>().color = Color.white;
         ArrowLeft.GetComponent<SpriteRenderer>().color = Color.white;

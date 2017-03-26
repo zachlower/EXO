@@ -12,14 +12,13 @@ public class ClientListener : MonoBehaviour
 {
     bool messSent = false;
     static Socket listener = null;
-    String[] eof = { "$$EOF$$" };
+    string[] eof = { "$$EOF$$" };
     public MessageParser parser;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
 
-    // Use this for initialization
     public void connectToServer(string ip)
     {
         IPAddress ipAddress = IPAddress.Parse(ip);
@@ -36,7 +35,6 @@ public class ClientListener : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (listener != null)
