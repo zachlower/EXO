@@ -18,7 +18,7 @@ public class Zachomorph : Enemy {
         abilities = new List<Ability>();
         abilities.Add(new ZachAttack());
 
-
+        ID = 1;
     }
 
 }

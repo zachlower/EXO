@@ -35,6 +35,13 @@ public class MessageParser : MonoBehaviour {
                         break;
                 }
                 break;
+            case "plasmid":
+                int allyID = int.Parse(messageBits[1]);
+                int red = int.Parse(messageBits[2]);
+                int green = int.Parse(messageBits[3]);
+                int blue = int.Parse(messageBits[4]);
+                
+                break;
         }
     }
 

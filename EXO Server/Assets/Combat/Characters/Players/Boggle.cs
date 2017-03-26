@@ -17,5 +17,6 @@ public class Boggle : Player {
         abilities = new List<Ability>();
         abilities.Add(new BogSlog());
 
+        ID = 2;
     }
 }

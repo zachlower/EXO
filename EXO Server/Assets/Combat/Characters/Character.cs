@@ -33,6 +33,8 @@ public abstract class Character {
     // abilities that a character has
     public List<Ability> abilities;
 
+    public int ID { get; protected set; } //library ID of character for clients
+
 
 
     public void Cast(Ability a, Character target, float powerModifier)

@@ -15,7 +15,7 @@ public class PlasmidController : MonoBehaviour {
     private int greenCollect = 0;
     private int blueCollect = 0;
     List<GameObject> players = new List<GameObject>();
-    private ClientListener clientListener;
+    private GameController game;
     public enum GameState
     {
         Collecting,
@@ -34,13 +34,15 @@ public class PlasmidController : MonoBehaviour {
 
     private void Start()
     {
-        clientListener = GameObject.Find("Client Listener").GetComponent<ClientListener>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
 
         //spawn player icons
         int playerCount = 3;
 
         float topY = 2;
         float bottomY = -4;
+
+        //TODO: acquire actual player IDs from server
         for(int i=0; i<playerCount; i++)
         {
             GameObject icon = Instantiate(playerIcon);
@@ -82,8 +84,7 @@ public class PlasmidController : MonoBehaviour {
     }
     public void SendPlasmids(int playerID)
     {
-        // TODO: send plasmids over network to player
-        clientListener.sendUpdateToServer("sending " + redCollect + ", " + greenCollect + ", " + blueCollect + " to " + playerID);
+        game.SendPlasmid(playerID, redCollect, greenCollect, blueCollect); //send plasmids through game controller
 
         redCollect = greenCollect = blueCollect = 0;
         redText.text = greenText.text = blueText.text = 0.ToString();

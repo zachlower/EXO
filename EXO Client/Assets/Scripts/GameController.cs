@@ -10,7 +10,8 @@ public class GameController : MonoBehaviour {
     public Libraries libraries;
     public int clientID = 0;
 
-
+    public Dictionary<int, int> players;
+    public Dictionary<int, int> enemies;
 
 
     void Start () {
@@ -69,9 +70,20 @@ public class GameController : MonoBehaviour {
         DisableFolders();
     }
 
+    public void SetPlayers(Dictionary<int, int> playerCharacters)
+    {
+        //receive mapping of player IDs to character IDs
+        players = playerCharacters;
+    }
+    public void SetEnemies(Dictionary<int, int> enemyCharacters)
+    {
+        //receive mapping of enemy IDs to character IDs
+        enemies = enemyCharacters;
+    }
     public void SendPlasmid(int allyID, int red, int green, int blue)
     {
         //TODO: plasmids to ally of proper ID
+        broadcast.cl.sendUpdateToServer("plasmid:" + allyID + ":" + red + ":" + green + ":" + blue);
     }
     public void ReceivePlasmid(int allyID, int red, int green, int blue)
     {

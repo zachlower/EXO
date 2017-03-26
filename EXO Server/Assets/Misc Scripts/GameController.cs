@@ -113,8 +113,25 @@ public class GameController : MonoBehaviour {
 
     public void CombatStarted() {
         state = GameState.Combat;
+
         combatManager = gameObject.AddComponent<CombatManager>();
         combatManager.initCombat(playerChars,((CombatRoom)currentRoom).enemies,this);
+
+        /* send lists of players and enemies to clients 
+         * "players:clientID:characterID:..."
+         */
+        string playerString = "players:";
+        foreach (int key in playerChars.Keys)
+        {
+            playerString = playerString + key + ":" + playerChars[key].ID + ":";
+        }
+        serverListener.sendMessageToAllClients(playerString);
+        string enemiesString = "enemies:";
+        foreach(int key in combatManager.enemies.Keys)
+        {
+            enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID;
+        }
+        serverListener.sendMessageToAllClients(enemiesString);
     }
 
     public void CombatEnded()
@@ -123,5 +140,20 @@ public class GameController : MonoBehaviour {
         ((CombatRoom)currentRoom).hasFought = true;
         serverListener.sendMessageToAllClients("no more combat");
         enterRoom();
+    }
+
+    public void SendPlasmids(int allyID, int red, int green, int blue)
+    {
+        //instigated by client message, send plasmids to ally
+    }
+    public void PlayerAbility(int targetID, int abilityID)
+    {
+        //instigated by player, cast ability (can target either player or enemy)
+        //TODO
+    }
+    public void EnemyAbility(int targetID, int abilityID)
+    {
+        //instigated by enemy, cast ability
+        //TODO
     }
 }

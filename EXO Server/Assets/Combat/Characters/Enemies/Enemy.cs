@@ -27,6 +27,7 @@ public abstract class Enemy : Character {
             playerTarget = pIDs[playerTarget];
             float powerModifier = Random.Range(0, 1.0f);
             Cast(abilityToUse, players[playerTarget], powerModifier);
+            //TODO: use combat manager / game controller to target appropriate player
 
             selectAttack();
         }
