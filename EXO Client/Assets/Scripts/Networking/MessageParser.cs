@@ -21,11 +21,18 @@ public class MessageParser : MonoBehaviour
                 game.clientID = int.Parse(messageBits[1]); //inform GameController of our ID
                 break;
             case "startgame":
-                game.SwitchToNav();
+                game.StartGame();
                 break;
             case "nav":
                 char b = messageBits[1][0];
                 game.EnterRoom(b);
+                break;
+            case "plasmid":
+                int allyID = int.Parse(messageBits[1]);
+                int red = int.Parse(messageBits[2]);
+                int green = int.Parse(messageBits[3]);
+                int blue = int.Parse(messageBits[4]);
+                game.ReceivePlasmid(allyID, red, green, blue);
                 break;
         }
     }

@@ -37,7 +37,8 @@ public class NavGameController : MonoBehaviour {
 
     void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
-        game.navController = this;
+        game.SwitchToNav();
+
         timer = GameObject.Find("Timer").GetComponent<Text>();
         reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
@@ -116,16 +117,15 @@ public class NavGameController : MonoBehaviour {
         reminder.text = "Vote for direction!";
         time = 15.0f;
 
-        int b = 1;
         for(int i = 0; i<arrows.Length; i++)
         {
+            //enable the proper arrows, according to adjacency byte
+            int b = (int)Mathf.Pow(2, i);
             if ((adjacent & b) == b)
             {
-                Debug.Log("enabling " + i);
                 arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
                 arrows[i].GetComponent<SpriteRenderer>().color = Color.white;
             }
-            b *= 2;
         }
     }
 
