@@ -13,7 +13,6 @@ public class SelectButton : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         isEnabled = true;
-        print(gameObject.name);
         gameObject.GetComponentInChildren<Text>().text = "Select";
         gameObject.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
         you = GameObject.Find("You");

@@ -37,6 +37,7 @@ public class NavGameController : MonoBehaviour {
 
     void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
+        game.navController = this;
         timer = GameObject.Find("Timer").GetComponent<Text>();
         reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
@@ -47,7 +48,7 @@ public class NavGameController : MonoBehaviour {
         if (currentlyVoting)
         {
             time -= Time.deltaTime;
-            int t = (int)time + 1;
+            int t = (int)time;
             timer.text = "" + t;
             if (time <= 0)
             {
@@ -58,19 +59,14 @@ public class NavGameController : MonoBehaviour {
                 }
             }
         }
-        else
-        {
-            
-        }
 	}
 
     public void VoteForDirection(Direction dir)
     {
         DisableArrows();
-        string str = "direction: ";
+        string str = "direction:";
         string s = "You voted ";
         voted = true;
-        time = 0.0f;
 
         switch (dir)
         {
@@ -105,25 +101,31 @@ public class NavGameController : MonoBehaviour {
     }
 
     // called when room is switched, room info should be received prior to this call
-    public void SwitchRoom()
+    public void SwitchRoom(char adjacent)
     {
         currentlyVoting = true;
 
-        //TODO: only enable arrows which lead to rooms
-        EnableArrows();
+        DisableArrows();
+        EnableArrows(adjacent);
         time = VoteTime;
         voted = false;
     }
 
-    public void EnableArrows()
+    public void EnableArrows(char adjacent)
     {
         reminder.text = "Vote for direction!";
         time = 15.0f;
 
+        int b = 1;
         for(int i = 0; i<arrows.Length; i++)
         {
-            arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
-            arrows[i].GetComponent<SpriteRenderer>().color = Color.white;
+            if ((adjacent & b) == b)
+            {
+                Debug.Log("enabling " + i);
+                arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
+                arrows[i].GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            b *= 2;
         }
     }
 
@@ -132,6 +134,7 @@ public class NavGameController : MonoBehaviour {
         for (int i = 0; i < arrows.Length; i++)
         {
             arrows[i].GetComponent<ArrowClicked>().isEnabled = false;
+            arrows[i].GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
 }

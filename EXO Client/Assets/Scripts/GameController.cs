@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
     public ClientBroadcast broadcast;
+    public NavGameController navController;
     public int clientID = 0;
 
 
@@ -27,18 +28,12 @@ public class GameController : MonoBehaviour {
         broadcast.cl.sendUpdateToServer("character:" + index);
     }
 
-    public void SwitchToAbilityScreen()
-    {
-        SceneManager.LoadScene("abilities", LoadSceneMode.Single);
-    }
-
-    public void SwitchToPlasmidScreen()
-    {
-        SceneManager.LoadScene("plasmid-gen", LoadSceneMode.Single);
-    }
-
     public void SwitchToNav()
     {
         SceneManager.LoadScene("nav-map", LoadSceneMode.Single);
+    }
+    public void EnterRoom(char adjacent)
+    {
+        navController.SwitchRoom(adjacent);
     }
 }
