@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class NavGameController : MonoBehaviour {
     // direction arrows
-    public GameObject ArrowUp;
-    public GameObject ArrowDown;
-    public GameObject ArrowLeft;
-    public GameObject ArrowRight;
+    public GameObject[] arrows;
+    /* Left
+     * Right
+     * Up
+     * Down
+     * None
+     */
 
     private GameObject background;
 
@@ -25,10 +28,10 @@ public class NavGameController : MonoBehaviour {
 
     public enum Direction
     {
-        Up,
-        Down,
         Left,
         Right,
+        Up,
+        Down,
         None
     };
 
@@ -47,7 +50,13 @@ public class NavGameController : MonoBehaviour {
             int t = (int)time + 1;
             timer.text = "" + t;
             if (time <= 0)
+            {
                 currentlyVoting = false;
+                if (!voted)
+                {
+                    VoteForDirection(Direction.None);
+                }
+            }
         }
         else
         {
@@ -62,6 +71,7 @@ public class NavGameController : MonoBehaviour {
         string s = "You voted ";
         voted = true;
         time = 0.0f;
+
         switch (dir)
         {
             case Direction.None:
@@ -71,22 +81,22 @@ public class NavGameController : MonoBehaviour {
             case Direction.Up:
                 str += "up";
                 s += "forward";
-                ArrowUp.GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[2].GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Down:
                 str += "down";
                 s += "backward";
-                ArrowDown.GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[3].GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Left:
                 str += "left";
                 s += "left";
-                ArrowLeft.GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[0].GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case Direction.Right:
                 str += "right";
                 s += "right";
-                ArrowRight.GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[1].GetComponent<SpriteRenderer>().color = Color.red;
                 break;
         }
         reminder.text = s;
@@ -109,22 +119,19 @@ public class NavGameController : MonoBehaviour {
     {
         reminder.text = "Vote for direction!";
         time = 15.0f;
-        ArrowUp.GetComponent<ArrowClicked>().isEnabled = true;
-        ArrowDown.GetComponent<ArrowClicked>().isEnabled = true;
-        ArrowLeft.GetComponent<ArrowClicked>().isEnabled = true;
-        ArrowRight.GetComponent<ArrowClicked>().isEnabled = true;
 
-        ArrowUp.GetComponent<SpriteRenderer>().color = Color.white;
-        ArrowDown.GetComponent<SpriteRenderer>().color = Color.white;
-        ArrowLeft.GetComponent<SpriteRenderer>().color = Color.white;
-        ArrowRight.GetComponent<SpriteRenderer>().color = Color.white;
+        for(int i = 0; i<arrows.Length; i++)
+        {
+            arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
+            arrows[i].GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 
     public void DisableArrows()
     {
-        ArrowUp.GetComponent<ArrowClicked>().isEnabled = false;
-        ArrowDown.GetComponent<ArrowClicked>().isEnabled = false;
-        ArrowLeft.GetComponent<ArrowClicked>().isEnabled = false;
-        ArrowRight.GetComponent<ArrowClicked>().isEnabled = false;
+        for (int i = 0; i < arrows.Length; i++)
+        {
+            arrows[i].GetComponent<ArrowClicked>().isEnabled = false;
+        }
     }
 }

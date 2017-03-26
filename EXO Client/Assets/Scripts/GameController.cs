@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
     public ClientBroadcast broadcast;
-
+    public int clientID = 0;
 
 
 

@@ -18,6 +18,7 @@ public class MessageParser : MonoBehaviour
         {
             case "clientID" :
                 print("Connected! You're client " + messageBits[1]);
+                game.clientID = int.Parse(messageBits[1]); //inform GameController of our ID
                 break;
             case "room":
                 game.SwitchToNav();
