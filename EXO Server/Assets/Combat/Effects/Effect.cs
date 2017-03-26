@@ -12,8 +12,11 @@ public class Effect {
     public CombatGlobals.EffectType effectType;
     public CombatGlobals.AttackType attackType;
     public float basePower; //applies in different ways to different effect types
-    public int duration;
-
+    public int ticks;
+    public float duration;
+    //const duration for each tick
+    //total effect time = ticks*tickduration
+    public float tickDuration;
 
     public Effect() { }
     public Effect(Effect orig)

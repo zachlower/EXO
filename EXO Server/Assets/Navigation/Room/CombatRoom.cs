@@ -11,7 +11,7 @@ public class CombatRoom : Room {
 
 
     public List<Enemy> enemies;
-
+    public bool hasFought = false;
 
 	public CombatRoom() : base()
     {

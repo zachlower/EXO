@@ -71,23 +71,29 @@ public abstract class Character {
 
 
     // apply durational effects
-    private void DurationalEffects(List<Effect> effects)
+    public void TickDurationalEffects()
     {
-        foreach(Effect e in effects)
+        foreach(Effect e in currentEffects)
         {
-            switch (e.effectType) // determine what kind of durational effect
+            e.duration -= Time.deltaTime;
+            if (e.duration <= 0.0f)
             {
-                case CombatGlobals.EffectType.Bleed:
-                    Damage((int)e.basePower);
-                    break;
-                case CombatGlobals.EffectType.Poison:
-                    Damage((int)e.basePower);
-                    break;
+                switch (e.effectType) // determine what kind of durational effect
+                {
+                    case CombatGlobals.EffectType.Bleed:
+                        Damage((int)e.basePower);
+                        break;
+                    case CombatGlobals.EffectType.Poison:
+                        Damage((int)e.basePower);
+                        break;
+                }
+                e.ticks--;
+                e.duration = e.tickDuration;
+                if (e.ticks <= 0) {
+                    currentEffects.Remove(e);
+                }
             }
-
-            e.duration--;
         }
-        currentEffects.RemoveAll(x => x.duration <= 0);
     }
 
 
@@ -106,7 +112,7 @@ public abstract class Character {
     // when health drops below 0, character dies :(
     private void Kill() 
     {
-        //TODO: i dunno
+        if (sceneObj != null) Object.Destroy(sceneObj);
         alive = false;
         Debug.Log(this.GetType() + " has perished.");
     }

@@ -65,10 +65,9 @@ public class GameController : MonoBehaviour {
         }
         else if (currentRoom is CombatRoom)
         {
-            // CombatStarted();
-            startNav();
+            if (!((CombatRoom)currentRoom).hasFought) CombatStarted();
+            else startNav();
         }
-        else print("cancerdicks");
     }
 
     public void startNav() {
@@ -121,6 +120,8 @@ public class GameController : MonoBehaviour {
     public void CombatEnded()
     {
         Destroy(combatManager);
+        ((CombatRoom)currentRoom).hasFought = true;
         serverListener.sendMessageToAllClients("no more combat");
+        enterRoom();
     }
 }
