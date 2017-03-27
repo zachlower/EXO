@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -145,15 +146,12 @@ public class GameController : MonoBehaviour {
     public void SendPlasmids(int allyID, int red, int green, int blue)
     {
         //instigated by client message, send plasmids to ally
+        string mes = "plasmid:" + red + ":" + green + ":" + blue;
+        serverListener.sendMessageToClient(mes, allyID);
     }
-    public void PlayerAbility(int targetID, int abilityID)
+    public void CastAbility(int casterID, int targetID, int abilityID, float powerModifier) //receive call from client to cast an ability
     {
         //instigated by player, cast ability (can target either player or enemy)
-        //TODO
-    }
-    public void EnemyAbility(int targetID, int abilityID)
-    {
-        //instigated by enemy, cast ability
-        //TODO
+        combatManager.PlayerCast(casterID, targetID, abilityID, powerModifier);
     }
 }

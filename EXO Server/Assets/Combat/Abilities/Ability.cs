@@ -8,6 +8,7 @@ public abstract class Ability {
      * 
      */
 
+    public int ID;
     public List<Effect> effects;
     public float prepTime = 10.0f;
 

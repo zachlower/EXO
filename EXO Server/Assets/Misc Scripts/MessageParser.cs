@@ -35,12 +35,19 @@ public class MessageParser : MonoBehaviour {
                         break;
                 }
                 break;
-            case "plasmid":
+            case "plasmid": //plasmids are being sent from one player to another
                 int allyID = int.Parse(messageBits[1]);
                 int red = int.Parse(messageBits[2]);
                 int green = int.Parse(messageBits[3]);
                 int blue = int.Parse(messageBits[4]);
-                
+                game.SendPlasmids(allyID, red, green, blue);
+                break;
+            case "ability":
+                int casterID = int.Parse(messageBits[1]);
+                int targetID = int.Parse(messageBits[2]);
+                int abilityID = int.Parse(messageBits[3]);
+                float powerModifier = float.Parse(messageBits[4]);
+                game.CastAbility(casterID, targetID, abilityID, powerModifier);
                 break;
         }
     }

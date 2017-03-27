@@ -6,6 +6,8 @@ public class BogSlog : Ability {
 
 	public BogSlog()
     {
+        ID = 2;
+
         effects = new List<Effect>();
         effects.Add(new Slice(30));
 

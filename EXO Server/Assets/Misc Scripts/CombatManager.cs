@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour {
@@ -15,22 +16,17 @@ public class CombatManager : MonoBehaviour {
         tickEnemies();
         //check for eoc (end of combat) ;)
         bool allDead = true;
-        foreach (var e in enemies) {
-            if (e.Value.alive) allDead = false;
+
+        foreach (var p in players) {
+            if (p.Value.alive)
+            {
+                allDead = false;
+                break;
+            }
         }
         if (allDead) {
-            combatResult = true;
+            combatResult = false;
             endCombat();
-        }
-        else {
-            allDead = true;
-            foreach (var p in players) {
-                if (p.Value.alive) allDead = false;
-            }
-            if (allDead) {
-                combatResult = false;
-                endCombat();
-            }
         }
         //nice work! We have now checked for end of combat :-)
     }
@@ -84,6 +80,29 @@ public class CombatManager : MonoBehaviour {
         foreach (var p in players) {
             p.Value.TickDurationalEffects();
         }
+    }
+
+    public void PlayerCast(int casterID, int targetID, int abilityID, float powerModifier)
+    {
+        //instigated by client
+
+        Player caster = players[casterID];
+        //use abilityID to determine which ability has been selected from player's list of abilities
+        Ability ability = caster.abilities.Where(x => x.ID == abilityID).FirstOrDefault();
+
+        //figure out target
+        Character target;
+        if (players.ContainsKey(targetID)) //target is player
+        {
+            target = players[targetID];
+        }
+        else //target is enemy
+        {
+            target = enemies[targetID];
+        }
+
+        caster.Cast(ability, target, powerModifier); //cast is sent through caster Character?
+
     }
 
 }

@@ -48,11 +48,10 @@ public class MessageParser : MonoBehaviour
                 game.SetEnemies(enemyCharacters);
                 break;
             case "plasmid": //receive plasmids
-                int allyID = int.Parse(messageBits[1]);
                 int red = int.Parse(messageBits[2]);
                 int green = int.Parse(messageBits[3]);
                 int blue = int.Parse(messageBits[4]);
-                game.ReceivePlasmid(allyID, red, green, blue);
+                game.ReceivePlasmid(red, green, blue);
                 break;
         }
     }
