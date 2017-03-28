@@ -56,6 +56,7 @@ public class PlasmidController : MonoBehaviour {
             GameObject icon = Instantiate(playerIcon, iconParent.transform);
             icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
             icon.GetComponent<IconController>().ID = id;
+            icon.GetComponent<Text>().text = players[id].name;
             float yCoord = bottomY + placementIndex * (topY - bottomY) / (playerCount + 1);
             icon.transform.position = new Vector3(6.5f, yCoord, -5);
             placementIndex++;
