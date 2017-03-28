@@ -12,12 +12,13 @@ public class GameController : MonoBehaviour {
 
     public Dictionary<int, Libraries.Character> players;
     public Dictionary<int, Libraries.Character> enemies;
+    public Libraries.Character myCharacter;
 
 
     void Start () {
         libraries = new Libraries();
         DontDestroyOnLoad(gameObject);
-	}
+    }
 	
 
     public void Broadcast()
@@ -37,6 +38,7 @@ public class GameController : MonoBehaviour {
     /* startup */
     public void SelectCharacter(int index)
     {
+        myCharacter = libraries.characters[index];
         broadcast.cl.sendUpdateToServer("character:" + index);
     }
     public void StartGame()
@@ -64,7 +66,10 @@ public class GameController : MonoBehaviour {
     public void BeginCombat()
     {
         SwitchToPlasmid();
-        controllerMap.plasmidController.BeginCombat(players); //TODO: send players and enemies here
+        //SwitchToAbility();
+        controllerMap.plasmidController.BeginCombat(players);
+        controllerMap.abilityController.BeginCombat(enemies);
+
     }
     public void SwitchToPlasmid()
     {
@@ -73,8 +78,8 @@ public class GameController : MonoBehaviour {
     }
     public void SwitchToAbility()
     {
-        controllerMap.abilityFolder.SetActive(true);
         DisableFolders();
+        controllerMap.abilityFolder.SetActive(true);
     }
 
     public void SetPlayers(Dictionary<int, int> playerCharacters)

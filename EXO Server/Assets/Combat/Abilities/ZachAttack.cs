@@ -13,5 +13,10 @@ public class ZachAttack : Ability {
         effects.Add(new Bleed(5, 2));
 
         prepTime = 5.0f;
+
+
+        redCost = 4;
+        greenCost = 1;
+        blueCost = 2;
     }
 }

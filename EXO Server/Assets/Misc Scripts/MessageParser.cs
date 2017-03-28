@@ -16,7 +16,8 @@ public class MessageParser : MonoBehaviour {
 
         switch (messageBits[0]){
             case "character":
-                print("Giving player " + cID + " Alein #" + messageBits[1]);
+                print("Giving player " + cID + " Alein #" + int.Parse(messageBits[1]));
+                //TODO: use library of characters to choose one with correct ID
                 con.updateCharacter(cID, Player.CreatePlayerClass(Player.PlayerClass.Boggle));
                 break;
             case "direction":
@@ -43,11 +44,10 @@ public class MessageParser : MonoBehaviour {
                 game.SendPlasmids(allyID, red, green, blue);
                 break;
             case "ability":
-                int casterID = int.Parse(messageBits[1]);
-                int targetID = int.Parse(messageBits[2]);
-                int abilityID = int.Parse(messageBits[3]);
-                float powerModifier = float.Parse(messageBits[4]);
-                game.CastAbility(casterID, targetID, abilityID, powerModifier);
+                int targetID = int.Parse(messageBits[1]);
+                int abilityID = int.Parse(messageBits[2]);
+                float powerModifier = float.Parse(messageBits[3]);
+                game.CastAbility(cID, targetID, abilityID, powerModifier);
                 break;
         }
     }

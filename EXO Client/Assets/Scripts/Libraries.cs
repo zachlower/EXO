@@ -27,15 +27,23 @@ public class Libraries {
 
     public struct Ability
     {
-        public Ability(string n, string d, string s)
+        public Ability(string n, string d, string s, int r, int g, int b)
         {
             name = n;
             description = d;
             symbol = Resources.Load<Sprite>("AbilitySprites/" + s);
+
+            redCost = r;
+            greenCost = g;
+            blueCost = b;
         }
         public string name;
         public string description;
         public Sprite symbol;
+
+        public int redCost;
+        public int greenCost;
+        public int blueCost;
     }
 
 
@@ -69,10 +77,12 @@ public class Libraries {
         //TODO: add all abilities to ability dictionary with appropriate IDs
         abilities.Add(1, new Ability("Zach Attack",
             "Delivers a powerful slash to opponents, causing them to bleed for several turns.",
-            "test"));
+            "test",
+            4,1,2));
 
         abilities.Add(2, new Ability("bog Slog",
             "A powerful penetrative jab.",
-            "test2"));
+            "test2",
+            0,3,3));
     }
 }

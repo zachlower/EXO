@@ -4,25 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectButton : MonoBehaviour {
-    GameController game;
+    SelectController sc;
     bool isEnabled;
-    GameObject you;
     string invisible = "Default";
     string visible = "Obstacle";
     public Vector3 youPos;
+    public int ID;
+
 	// Use this for initialization
 	void Start () {
         isEnabled = true;
         gameObject.GetComponentInChildren<Text>().text = "Select";
         gameObject.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
-        you = GameObject.Find("You");
-        game = GameObject.Find("GameController").GetComponent<GameController>();
+        sc = GameObject.Find("SelectController").GetComponent<SelectController>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Disable()
     {
@@ -31,12 +26,10 @@ public class SelectButton : MonoBehaviour {
 
     public void TaskOnClick()
     {
+        Debug.Log("selected alien " + ID);
         if (isEnabled)
         {
-            int index = int.Parse(gameObject.name.Substring(6));
-            you.GetComponent<SpriteRenderer>().sortingLayerName = visible;
-            you.GetComponent<Transform>().position = youPos; 
-            game.SelectCharacter(index);
+            sc.Select(ID);
         }
     }
 }

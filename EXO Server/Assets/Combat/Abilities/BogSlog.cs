@@ -12,5 +12,10 @@ public class BogSlog : Ability {
         effects.Add(new Slice(30));
 
         prepTime = 10.0f;
+
+
+        redCost = 0;
+        greenCost = 3;
+        blueCost = 3;
     }
 }

@@ -15,15 +15,12 @@ public class ColorPixel : MonoBehaviour {
 
 
 
-    private void Start()
-    {
-        
-    }
 
     public void InitAbility(Texture2D r)
     {
         //create new stuff
-        reference = r;
+        if(r != null)
+            reference = r;
 
         oldX = oldY = 0;
         copy = Instantiate(reference);

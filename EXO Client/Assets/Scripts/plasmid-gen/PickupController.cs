@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class PickupController : MonoBehaviour {
 
-    private PlasmidController gc;
+    private PlasmidController pc;
     public PlasmidController.PlasmidType type { get; private set; }
     private SpriteRenderer sprite;
 
 
     private void Start()
     {
-        gc = GameObject.Find("PlasmidController").GetComponent<PlasmidController>();
+        pc = GameObject.Find("PlasmidController").GetComponent<PlasmidController>();
         sprite = GetComponent<SpriteRenderer>();
 
+        Regenerate();
+    }
+
+    public void Regenerate()
+    {
         //choose type and set sprite color accordingly
         type = (PlasmidController.PlasmidType)Random.Range(0, 3);
         switch (type)
@@ -36,10 +41,10 @@ public class PickupController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gc.gameState == PlasmidController.GameState.Collecting && collision.gameObject.CompareTag("Player"))
+        if (pc.gameState == PlasmidController.GameState.Collecting && collision.gameObject.CompareTag("Player"))
         {
             //item has been collected
-            gc.Collect(gameObject);
+            pc.Collect(gameObject);
         }
     }
 }

@@ -15,6 +15,7 @@ public class PlasmidController : MonoBehaviour {
     private int redCollect = 0;
     private int greenCollect = 0;
     private int blueCollect = 0;
+    PickupController[] pickups;
     Dictionary<int, Libraries.Character> players = new Dictionary<int, Libraries.Character>();
     private GameController game;
     public enum GameState
@@ -33,14 +34,14 @@ public class PlasmidController : MonoBehaviour {
     };
 
 
-    private void Start()
+    private void Awake()
     {
         game = GameObject.Find("GameController").GetComponent<GameController>();
+        pickups = FindObjectsOfType<PickupController>();
     }
 
     public void BeginCombat(Dictionary<int, Libraries.Character> p)
     {
-        Debug.Log("PLASMID CONTROLLER: received " + p.Count + " players");
         players = p;
 
         //create an icon for each player on the side bar
@@ -51,7 +52,7 @@ public class PlasmidController : MonoBehaviour {
         int placementIndex = 1;
         foreach(int id in players.Keys)
         {
-            //TODO: do not spawn your own icon
+            //TODO: do not spawn your own icon (keep this way to debug)
             GameObject icon = Instantiate(playerIcon, iconParent.transform);
             icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
             icon.GetComponent<IconController>().ID = id;
@@ -61,12 +62,17 @@ public class PlasmidController : MonoBehaviour {
         }
     }
 
+
+    public void SwitchToAbility()
+    {
+        game.SwitchToAbility();
+    }
+
     public void Collect(GameObject plasmid)
     {
         if(redCollect + greenCollect + blueCollect < collectLimit) //limit not yet reached
         {
             PlasmidType type = plasmid.GetComponent<PickupController>().type;
-            Debug.Log("COLLECTED " + type.ToString());
             switch (type)
             {
                 case PlasmidType.Red:
@@ -83,7 +89,7 @@ public class PlasmidController : MonoBehaviour {
                     break;
             }
 
-            Destroy(plasmid);
+            plasmid.SetActive(false);
         }
     }
     
@@ -97,6 +103,13 @@ public class PlasmidController : MonoBehaviour {
 
         redCollect = greenCollect = blueCollect = 0;
         redText.text = greenText.text = blueText.text = 0.ToString();
+
         gameState = GameState.Collecting;
+        //regenerate all plasmid pickups
+        foreach(PickupController pickup in pickups)
+        {
+            pickup.gameObject.SetActive(true);
+            pickup.Regenerate();
+        }
     }
 }

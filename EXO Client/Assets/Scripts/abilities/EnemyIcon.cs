@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityIcon : MonoBehaviour {
+public class EnemyIcon : MonoBehaviour {
 
     public int ID;
-    public Sprite sprite;
 
 
     private AbilityController ac;
@@ -20,8 +19,14 @@ public class AbilityIcon : MonoBehaviour {
 
     private void OnMouseDown() //icon is clicked
     {
-        Debug.Log("clicked ability " + ID);
-        ac.SelectAbility(ID);
-        cp.InitAbility(sprite.texture);
+        if (ac.currentAbility != 0)
+        {
+            Debug.Log("clicked enemy " + ID);
+
+            float powerModifier = cp.Difference(); //get power modifier from color pixel
+            ac.CastAbility(ID, powerModifier); //cast
+
+            cp.InitAbility(null);
+        }
     }
 }
