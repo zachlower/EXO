@@ -9,7 +9,7 @@ public class Player : Character {
     {
         switch (charID)
         {
-            case 1:
+            case 2:
                 return new Boggle();
             default:
                 return null;
