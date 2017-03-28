@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class Player : Character {
 
-    public enum PlayerClass
-    {
-        Boggle
-    };
 
-
-	public static Player CreatePlayerClass(PlayerClass pc)
+	public static Player CreatePlayerClass(int charID)
     {
-        switch (pc)
+        switch (charID)
         {
-            case PlayerClass.Boggle:
+            case 1:
                 return new Boggle();
             default:
                 return null;

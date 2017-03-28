@@ -6,10 +6,11 @@ public class Libraries {
 
 	public struct Character
     {
-        public Character(string n, string d, string s, int a1, int a2, int a3)
+        public Character(string n, string d, bool p, string s, int a1, int a2, int a3)
         {
             name = n;
             description = d;
+            isPlayer = p;
             sprite = Resources.Load<Sprite>("CharacterSprites/" + s);
             ability1ID = a1;
             ability2ID = a2;
@@ -18,6 +19,7 @@ public class Libraries {
 
         public string name;
         public string description;
+        public bool isPlayer;
         public Sprite sprite;
 
         public int ability1ID;
@@ -64,11 +66,13 @@ public class Libraries {
         //TODO: add all characters to character dictionary with appropriate IDs
         characters.Add(1, new Character("Zachomorph",
             "He shoots fire his eyes and death from his fingertips. Wise men fear him.",
+            false,
             "Shell_Shock",
             1, 0, 0));
 
         characters.Add(2, new Character("Boggle",
             "Truly the golden boy of EXO, Boggle was birthed of the sun and fears no mortal.",
+            true,
             "Turtle1",
             2, 0, 0));
     }
