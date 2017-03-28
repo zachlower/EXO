@@ -18,7 +18,7 @@ public class ControllerMap : MonoBehaviour {
 
     private void Start()
     {
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        gameController = FindObjectOfType<GameController>();
         gameController.controllerMap = this;
     }
 }

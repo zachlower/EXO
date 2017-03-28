@@ -55,6 +55,14 @@ public class GameController : MonoBehaviour {
         serverListener.sendMessageToAllClients("startgame");
         map = new MapInfo(MapInfo.MapSize.MAP_SMALL);
         currentRoom = map.startRoom;
+        StartCoroutine(startGameCoroutine());
+    }
+
+    private IEnumerator startGameCoroutine()
+    {
+        Debug.Log("About to start game");
+        yield return new WaitForSeconds(4.0f);
+        Debug.Log("starting game");
         enterRoom();
     }
 
@@ -85,6 +93,7 @@ public class GameController : MonoBehaviour {
     public void VoteDirection(Direction dir) {
         directionVotes[(int)dir]++;
         votesCast++;
+        Debug.Log(votesCast + " / " + playerChars.Count + " players have voted.");
         //if all votes are in..
         if (votesCast == playerChars.Count) {
             print("all votes are in");

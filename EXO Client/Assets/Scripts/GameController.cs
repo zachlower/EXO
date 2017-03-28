@@ -54,6 +54,8 @@ public class GameController : MonoBehaviour {
     public void EnterRoom(char adjacent)
     {
         //pass down byte containing adjacent room information
+        if (controllerMap == null)
+            Debug.Log("controller map is still null");
         controllerMap.navController.SwitchRoom(adjacent); 
     }
 

@@ -8,7 +8,7 @@ public class Zachomorph : Enemy {
      */
 
 
-    private void Awake()
+    public Zachomorph()
     {
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -18,6 +18,7 @@ public class Zachomorph : Enemy {
         abilities = new List<Ability>();
         abilities.Add(new ZachAttack());
 
+        spriteName = "Shell_Shock";
         ID = 1;
     }
 

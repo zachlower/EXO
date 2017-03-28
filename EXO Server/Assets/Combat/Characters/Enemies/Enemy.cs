@@ -9,8 +9,8 @@ public abstract class Enemy : Character {
      */
     public float warmUp;
     public Ability abilityToUse;
-    public Dictionary<int, Player> players;
-    public List<int> pIDs;
+    public Dictionary<int, Player> players = new Dictionary<int, Player>();
+    public List<int> pIDs = new List<int>();
     public void constructpIDs(Dictionary<int, Player> p) {
         players = p;
         foreach (var pl in players) {
@@ -20,11 +20,17 @@ public abstract class Enemy : Character {
 
     public void TickAttack()
     {
+        if(abilityToUse == null) //first attack, select something to start with
+        {
+            selectAttack();
+        }
+
         warmUp -= Time.deltaTime;
         if (warmUp <= 0.0f)
         {
             int playerTarget = Random.Range(0, pIDs.Count);
             playerTarget = pIDs[playerTarget];
+
             float powerModifier = Random.Range(0, 1.0f);
             Cast(abilityToUse, players[playerTarget], powerModifier);
             //TODO: use combat manager / game controller to target appropriate player

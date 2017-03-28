@@ -7,7 +7,7 @@ public class Boggle : Player {
 	/* example of a player
      */
 
-    private void Awake()
+    public Boggle()
     {
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -16,6 +16,8 @@ public class Boggle : Player {
 
         abilities = new List<Ability>();
         abilities.Add(new BogSlog());
+
+        spriteName = "Turtle1";
 
         ID = 2;
     }

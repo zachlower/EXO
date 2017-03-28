@@ -15,6 +15,7 @@ public abstract class Character {
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
     public GameObject sceneObj;
+    public string spriteName;
 
     public bool Alive = true; //default value
     public bool alive {
@@ -29,9 +30,9 @@ public abstract class Character {
     } 
 
     // durational effects (have impact each turn until they expire)
-    public List<Effect> currentEffects;
+    public List<Effect> currentEffects = new List<Effect>();
     // abilities that a character has
-    public List<Ability> abilities;
+    public List<Ability> abilities = new List<Ability>();
 
     public int ID { get; protected set; } //library ID of character for clients
 

@@ -47,14 +47,18 @@ public class CombatManager : MonoBehaviour {
         }
 
         int positionIndex = 0;
-        foreach (var e in enemies) {    
-            Instantiate(e.Value.sceneObj, game.enemyTransforms[positionIndex].transform);
+        foreach (var e in enemies) {
+            e.Value.sceneObj = Instantiate(Resources.Load<GameObject>("Prefabs/Monster"), game.enemyTransforms[positionIndex].transform, false);
+            e.Value.sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + e.Value.spriteName);
             positionIndex++;
         }
         positionIndex = 0;
+        Debug.Log("COMBATMANAGER: there are " + players.Count + " players.");
         foreach (var p in players)
         {
-            Instantiate(p.Value.sceneObj, game.playerCombatTransforms[positionIndex].transform);
+            //Instantiate(p.Value.sceneObj, game.playerCombatTransforms[positionIndex].transform);
+            p.Value.sceneObj = Instantiate(Resources.Load<GameObject>("Prefabs/Player"), game.playerCombatTransforms[positionIndex].transform, false);
+            p.Value.sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + p.Value.spriteName);
             positionIndex++;
         }
     }

@@ -37,10 +37,7 @@ public class NavGameController : MonoBehaviour {
 
     void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
-        game.SwitchToNav();
 
-        timer = GameObject.Find("Timer").GetComponent<Text>();
-        reminder = GameObject.Find("Reminder").GetComponent<Text>();
         time = VoteTime;
         voted = false;
     }
