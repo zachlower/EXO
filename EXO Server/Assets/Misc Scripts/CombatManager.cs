@@ -15,11 +15,14 @@ public class CombatManager : MonoBehaviour {
     public void Update() {
         tickPlayers();
         tickEnemies();
+
+        //TODO: get a better way to check for end of combat
+        //TODO: different routines for loss vs. victory
         //check for eoc (end of combat) ;)
         bool allDead = true;
 
-        foreach (var p in players) {
-            if (p.Value.alive)
+        foreach (var e in enemies) {
+            if (e.Value.alive)
             {
                 allDead = false;
                 break;

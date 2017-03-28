@@ -124,6 +124,7 @@ public class GameController : MonoBehaviour {
     public void CombatStarted() {
         state = GameState.Combat;
 
+        //initialize combat stuff
         combatManager = gameObject.AddComponent<CombatManager>();
         combatManager.initCombat(playerChars,((CombatRoom)currentRoom).enemies,this);
 
@@ -142,6 +143,9 @@ public class GameController : MonoBehaviour {
             enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID;
         }
         serverListener.sendMessageToAllClients(enemiesString);
+
+        //inform clients of combat
+        serverListener.sendMessageToAllClients("combat");
     }
 
     public void CombatEnded()

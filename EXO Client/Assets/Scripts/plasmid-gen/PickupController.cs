@@ -11,7 +11,7 @@ public class PickupController : MonoBehaviour {
 
     private void Start()
     {
-        gc = GameObject.Find("GameController").GetComponent<PlasmidController>();
+        gc = GameObject.Find("PlasmidController").GetComponent<PlasmidController>();
         sprite = GetComponent<SpriteRenderer>();
 
         //choose type and set sprite color accordingly

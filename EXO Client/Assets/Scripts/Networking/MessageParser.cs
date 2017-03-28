@@ -25,7 +25,11 @@ public class MessageParser : MonoBehaviour
                 break;
             case "nav": //enter a new room
                 char b = messageBits[1][0];
+                game.SwitchToNav();
                 game.EnterRoom(b);
+                break;
+            case "combat":
+                game.BeginCombat();
                 break;
             case "players": //acquire list of players and their character IDs
                 Dictionary<int, int> playerCharacters = new Dictionary<int, int>();
@@ -48,9 +52,9 @@ public class MessageParser : MonoBehaviour
                 game.SetEnemies(enemyCharacters);
                 break;
             case "plasmid": //receive plasmids
-                int red = int.Parse(messageBits[2]);
-                int green = int.Parse(messageBits[3]);
-                int blue = int.Parse(messageBits[4]);
+                int red = int.Parse(messageBits[1]);
+                int green = int.Parse(messageBits[2]);
+                int blue = int.Parse(messageBits[3]);
                 game.ReceivePlasmid(red, green, blue);
                 break;
         }

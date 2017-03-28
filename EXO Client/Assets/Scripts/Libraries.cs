@@ -6,6 +6,16 @@ public class Libraries {
 
 	public struct Character
     {
+        public Character(string n, string d, string s, int a1, int a2, int a3)
+        {
+            name = n;
+            description = d;
+            sprite = Resources.Load<Sprite>("CharacterSprites/" + s);
+            ability1ID = a1;
+            ability2ID = a2;
+            ability3ID = a3;
+        }
+
         public string name;
         public string description;
         public Sprite sprite;
@@ -17,6 +27,12 @@ public class Libraries {
 
     public struct Ability
     {
+        public Ability(string n, string d, string s)
+        {
+            name = n;
+            description = d;
+            symbol = Resources.Load<Sprite>("AbilitySprites/" + s);
+        }
         public string name;
         public string description;
         public Sprite symbol;
@@ -38,28 +54,25 @@ public class Libraries {
     private void initCharacters()
     {
         //TODO: add all characters to character dictionary with appropriate IDs
-        //zachomorph
-        Character zachomorph = new Character();
-        zachomorph.name = "Zachomorph";
-        zachomorph.description = "He shoots fire his eyes and death from his fingertips. Wise men fear him.";
-        characters.Add(1, zachomorph);
+        characters.Add(1, new Character("Zachomorph",
+            "He shoots fire his eyes and death from his fingertips. Wise men fear him.",
+            "Shell_Shock",
+            1, 0, 0));
 
-        Character boggle = new Character();
-        boggle.name = "Boggle";
-        boggle.description = "Truly the golden boy of EXO, Boggle was birthed of the sun and fears no mortal.";
-        characters.Add(2, boggle);
+        characters.Add(2, new Character("Boggle",
+            "Truly the golden boy of EXO, Boggle was birthed of the sun and fears no mortal.",
+            "Turtle1",
+            2, 0, 0));
     }
     private void initAbilities()
     {
         //TODO: add all abilities to ability dictionary with appropriate IDs
-        Ability zachattack = new Ability();
-        zachattack.name = "Zach-Attack";
-        zachattack.description = "Delivers a powerful slash to opponents, causing them to bleed for several turns.";
-        abilities.Add(1, zachattack);
+        abilities.Add(1, new Ability("Zach Attack",
+            "Delivers a powerful slash to opponents, causing them to bleed for several turns.",
+            "test"));
 
-        Ability bogslog = new Ability();
-        bogslog.name = "Bog Slog";
-        bogslog.description = "A powerful penetrative jab.";
-        abilities.Add(2, bogslog);
+        abilities.Add(2, new Ability("bog Slog",
+            "A powerful penetrative jab.",
+            "test2"));
     }
 }

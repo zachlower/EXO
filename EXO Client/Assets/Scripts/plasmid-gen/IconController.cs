@@ -11,7 +11,8 @@ public class IconController : MonoBehaviour {
 
     private void Start()
     {
-        pc = GameObject.Find("GameController").GetComponent<PlasmidController>();
+        Debug.Log("icon start");
+        pc = GameObject.Find("PlasmidController").GetComponent<PlasmidController>();
     }
 
     private void OnMouseDown()

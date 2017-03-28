@@ -10,11 +10,12 @@ public class PlasmidController : MonoBehaviour {
     public Text greenText;
     public Text blueText;
     public GameObject playerIcon;
+    public GameObject iconParent;
 
     private int redCollect = 0;
     private int greenCollect = 0;
     private int blueCollect = 0;
-    List<GameObject> players = new List<GameObject>();
+    Dictionary<int, Libraries.Character> players = new Dictionary<int, Libraries.Character>();
     private GameController game;
     public enum GameState
     {
@@ -35,20 +36,28 @@ public class PlasmidController : MonoBehaviour {
     private void Start()
     {
         game = GameObject.Find("GameController").GetComponent<GameController>();
+    }
 
-        //spawn player icons
-        int playerCount = 3;
+    public void BeginCombat(Dictionary<int, Libraries.Character> p)
+    {
+        Debug.Log("PLASMID CONTROLLER: received " + p.Count + " players");
+        players = p;
 
+        //create an icon for each player on the side bar
         float topY = 2;
         float bottomY = -4;
 
-        //TODO: acquire actual player IDs from server
-        for(int i=0; i<playerCount; i++)
+        int playerCount = players.Count;
+        int placementIndex = 1;
+        foreach(int id in players.Keys)
         {
-            GameObject icon = Instantiate(playerIcon);
-            icon.GetComponent<IconController>().ID = i;
-            float yCoord = bottomY + i * (topY - bottomY) / (playerCount - 1);
-            icon.transform.position = new Vector3(6.5f, yCoord, 0);
+            //TODO: do not spawn your own icon
+            GameObject icon = Instantiate(playerIcon, iconParent.transform);
+            icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
+            icon.GetComponent<IconController>().ID = id;
+            float yCoord = bottomY + placementIndex * (topY - bottomY) / (playerCount + 1);
+            icon.transform.position = new Vector3(6.5f, yCoord, -5);
+            placementIndex++;
         }
     }
 

@@ -10,8 +10,8 @@ public class GameController : MonoBehaviour {
     public Libraries libraries;
     public int clientID = 0;
 
-    public Dictionary<int, int> players;
-    public Dictionary<int, int> enemies;
+    public Dictionary<int, Libraries.Character> players;
+    public Dictionary<int, Libraries.Character> enemies;
 
 
     void Start () {
@@ -61,6 +61,11 @@ public class GameController : MonoBehaviour {
 
 
     /* combat */
+    public void BeginCombat()
+    {
+        SwitchToPlasmid();
+        controllerMap.plasmidController.BeginCombat(players); //TODO: send players and enemies here
+    }
     public void SwitchToPlasmid()
     {
         DisableFolders();
@@ -74,13 +79,27 @@ public class GameController : MonoBehaviour {
 
     public void SetPlayers(Dictionary<int, int> playerCharacters)
     {
+        Debug.Log("GAME CONTROLLER: received " + playerCharacters.Count + " players");
         //receive mapping of player IDs to character IDs
-        players = playerCharacters;
+        players = new Dictionary<int, Libraries.Character>(); //reset player list
+        foreach(int id in playerCharacters.Keys)
+        {
+            //map client id to character with correct character id
+            Libraries.Character character = libraries.characters[playerCharacters[id]];
+            players.Add(id, character);
+        }
     }
     public void SetEnemies(Dictionary<int, int> enemyCharacters)
     {
         //receive mapping of enemy IDs to character IDs
-        enemies = enemyCharacters;
+        enemies = new Dictionary<int, Libraries.Character>(); //reset enemy list
+        foreach(int id in enemyCharacters.Keys)
+        {
+            //map client id to character with correct character id
+            Libraries.Character character = libraries.characters[enemyCharacters[id]];
+            enemies.Add(id, character);
+        }
+        
     }
     public void SendPlasmid(int allyID, int red, int green, int blue)
     {
