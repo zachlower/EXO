@@ -38,6 +38,13 @@ public abstract class Character {
 
 
 
+    public void Instantiate(Transform transform)
+    {
+        sceneObj = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Monster"), transform, false);
+        sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + spriteName);
+        healthSlider = sceneObj.GetComponentInChildren<Slider>();
+    }
+
     public void Cast(Ability a, Character target, float powerModifier)
     {
         foreach (Effect e in a.effects) //apply each effect to target
@@ -105,6 +112,7 @@ public abstract class Character {
     private void Damage(float amount)
     {
         currentHealth -= amount;
+        healthSlider.value = currentHealth / maxHealth;
         Debug.Log(this.GetType() + " health: " + currentHealth);
         if (currentHealth > maxHealth) //character healed to full health, cap
             currentHealth = maxHealth;

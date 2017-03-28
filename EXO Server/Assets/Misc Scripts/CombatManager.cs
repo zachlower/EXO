@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour {
 
@@ -46,19 +47,16 @@ public class CombatManager : MonoBehaviour {
             tentativeID++; 
         }
 
+        //create each character on screen
         int positionIndex = 0;
         foreach (var e in enemies) {
-            e.Value.sceneObj = Instantiate(Resources.Load<GameObject>("Prefabs/Monster"), game.enemyTransforms[positionIndex].transform, false);
-            e.Value.sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + e.Value.spriteName);
+            e.Value.Instantiate(game.enemyTransforms[positionIndex].transform);
             positionIndex++;
         }
         positionIndex = 0;
-        Debug.Log("COMBATMANAGER: there are " + players.Count + " players.");
         foreach (var p in players)
         {
-            //Instantiate(p.Value.sceneObj, game.playerCombatTransforms[positionIndex].transform);
-            p.Value.sceneObj = Instantiate(Resources.Load<GameObject>("Prefabs/Player"), game.playerCombatTransforms[positionIndex].transform, false);
-            p.Value.sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + p.Value.spriteName);
+            p.Value.Instantiate(game.playerCombatTransforms[positionIndex].transform);
             positionIndex++;
         }
     }
