@@ -40,8 +40,8 @@ public class ConnectionManager : MonoBehaviour {
             int charSlot = 0;
             foreach (var c in playerChars) {
                 string charText = "Player " + c.Key + ": ";
-                if (c.Value != null) charText += "Some Zany Alien Named Boggle";
-                else charText += "No Wacky Aliens";
+                if (c.Value != null) charText += c.Value.GetType().ToString();
+                else charText += "Pending";
                 playerIcons[charSlot].SetActive(true);
                 playerIcons[charSlot].GetComponentInChildren<Text>().text = charText;
                 charSlot++;

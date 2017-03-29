@@ -16,23 +16,22 @@ public class CombatManager : MonoBehaviour {
         tickPlayers();
         tickEnemies();
 
-        //TODO: get a better way to check for end of combat
-        //TODO: different routines for loss vs. victory
-        //check for eoc (end of combat) ;)
-        bool allDead = true;
 
-        foreach (var e in enemies) {
-            if (e.Value.alive)
-            {
-                allDead = false;
-                break;
-            }
+        //check if all players are dead
+        if(players.Where(x => x.Value.alive).ToList().Count <= 0)
+        {
+            //all players are dead - failure
+            game.EndGame(false);
+            gameObject.SetActive(false);
         }
-        if (allDead) {
-            combatResult = false;
+
+        //check if all enemies are dead
+        if(enemies.Where(x => x.Value.alive).ToList().Count <= 0)
+        {
+            //all enemies are dead - victory
             endCombat();
         }
-        //nice work! We have now checked for end of combat :-)
+        
     }
 
     public void initCombat(Dictionary<int, Player> pl, List<Enemy> en, GameController g) {

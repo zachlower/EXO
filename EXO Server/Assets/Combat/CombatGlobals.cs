@@ -10,6 +10,7 @@ public static class CombatGlobals {
      */
 
     /* types that will characterize attacks as well as character vulnerabilities */
+    //TODO: currently unused
     public enum AttackType
     {
         Burn,

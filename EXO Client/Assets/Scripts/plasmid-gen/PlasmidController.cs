@@ -11,6 +11,8 @@ public class PlasmidController : MonoBehaviour {
     public Text blueText;
     public GameObject playerIcon;
     public GameObject iconParent;
+    public bool sendToSelf = false;
+    public GameObject[] iconSpots;
 
     private int redCollect = 0;
     private int greenCollect = 0;
@@ -48,18 +50,21 @@ public class PlasmidController : MonoBehaviour {
         float topY = 2;
         float bottomY = -4;
 
-        int playerCount = players.Count;
-        int placementIndex = 1;
+        int playerCount = players.Count; 
+        if (!sendToSelf) playerCount--; //remove one for self
+        int placementIndex = 0;
         foreach(int id in players.Keys)
         {
-            //TODO: do not spawn your own icon (keep this way to debug)
-            GameObject icon = Instantiate(playerIcon, iconParent.transform);
-            icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
-            icon.GetComponent<IconController>().ID = id;
-            icon.GetComponent<Text>().text = players[id].name;
-            float yCoord = bottomY + placementIndex * (topY - bottomY) / (playerCount + 1);
-            icon.transform.position = new Vector3(6.5f, yCoord, -5);
-            placementIndex++;
+            Debug.Log("spawning icon for player " + id);
+            if (sendToSelf || id != game.myCharacter.Key) //do not spawn icon for self
+            {
+                GameObject icon = Instantiate(playerIcon, iconParent.transform, true);
+                icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
+                icon.GetComponent<IconController>().ID = id;
+                icon.transform.Find("Canvas/Name").GetComponent<Text>().text = players[id].name;
+                icon.transform.position = iconSpots[placementIndex].transform.position;
+                placementIndex++;   
+            }
         }
     }
 

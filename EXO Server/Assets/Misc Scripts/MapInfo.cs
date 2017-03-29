@@ -22,6 +22,7 @@ public class MapInfo {
         rows = 2; cols = 2;
         rooms[0, 0] = new NavRoom();
         rooms[0, 1] = new CombatRoom();
+        //rooms[0, 1] = new NavRoom();
         rooms[1, 1] = new NavRoom();
 
         startRoom = rooms[0, 0];

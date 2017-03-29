@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Player : Character {
 
+    
+    public Player()
+    {
+        abilitySoundString = "playerAbility";
+    }
 
 	public static Player CreatePlayerClass(int charID)
     {
         switch (charID)
         {
-            case 2:
-                return new Boggle();
+            case 1:
+                return new Noxius();
+            case 3:
+                return new Sclera();
             default:
                 return null;
         }

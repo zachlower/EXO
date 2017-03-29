@@ -23,14 +23,10 @@ public class CombatRoom : Room {
     {
         //TODO: create a function that procedurally generates a list of enemies based on factors and stuff
         List<Enemy> list = new List<Enemy>();
-        list.Add(new Zachomorph());
+        list.Add(new Hamate());
+        list.Add(new Testudine());
 
         return list;
     }
 
-    protected override void GenerateBackground()
-    {
-        int bg = Random.Range(0, ImageStatics.combatRoomBG.Count);
-        background = ImageStatics.combatRoomBG[bg];
-    }
 }

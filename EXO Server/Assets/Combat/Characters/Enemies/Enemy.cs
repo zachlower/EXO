@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Enemy : Character {
@@ -11,6 +12,14 @@ public abstract class Enemy : Character {
     public Ability abilityToUse;
     public Dictionary<int, Player> players = new Dictionary<int, Player>();
     public List<int> pIDs = new List<int>();
+
+
+    public Enemy()
+    {
+        abilitySoundString = "enemyAbility";
+    }
+
+
     public void constructpIDs(Dictionary<int, Player> p) {
         players = p;
         foreach (var pl in players) {
@@ -28,14 +37,18 @@ public abstract class Enemy : Character {
         warmUp -= Time.deltaTime;
         if (warmUp <= 0.0f)
         {
-            int playerTarget = Random.Range(0, pIDs.Count);
-            playerTarget = pIDs[playerTarget];
+            pIDs = pIDs.Where(x => players[x].alive).ToList();
+            if (pIDs.Count > 0)
+            {
+                int playerTarget = Random.Range(0, pIDs.Count);
+                playerTarget = pIDs[playerTarget];
 
-            float powerModifier = Random.Range(0, 1.0f);
-            Cast(abilityToUse, players[playerTarget], powerModifier);
-            //TODO: use combat manager / game controller to target appropriate player
+                float powerModifier = Random.Range(0, 1.0f);
+                Cast(abilityToUse, players[playerTarget], powerModifier);
+                //TODO: use combat manager / game controller to target appropriate player
 
-            selectAttack();
+                selectAttack();
+            }
         }
     }
 

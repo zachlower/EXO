@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
         Combat,
     };
     public GameState state;
-    // good  shit
+    
     public ServerListener serverListener;
     public Dictionary<int, Player> playerChars;
     private int nextCharacterID;
@@ -23,11 +23,13 @@ public class GameController : MonoBehaviour {
     public GameObject[] playerCombatTransforms;
 
     public CombatManager combatManager;
+    public AudioManager audioManager;
 
     // Map, rooms etc
     private MapInfo map;
     private Room currentRoom;
-    public Sprite background;
+    public Image background;
+    public Text endText;
 
     /******DUNGEON GENERATION STUFF**********/
     private GameObject text;
@@ -55,20 +57,29 @@ public class GameController : MonoBehaviour {
         serverListener.sendMessageToAllClients("startgame");
         map = new MapInfo(MapInfo.MapSize.MAP_SMALL);
         currentRoom = map.startRoom;
+        
         StartCoroutine(startGameCoroutine());
     }
 
     private IEnumerator startGameCoroutine()
     {
         Debug.Log("About to start game");
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(1.0f);
         Debug.Log("starting game");
         enterRoom();
     }
 
     public void enterRoom() {
-        // background = r.background;
-        if (currentRoom is NavRoom)
+        background.sprite = currentRoom.background; //set background
+        background.color = Color.white;
+
+        //check room type
+        if(currentRoom == map.endRoom)
+        {
+            //entered last room, end game
+            EndGame(true);
+        }
+        else if (currentRoom is NavRoom)
         {
             startNav();
         }
@@ -124,6 +135,8 @@ public class GameController : MonoBehaviour {
     public void CombatStarted() {
         state = GameState.Combat;
 
+        audioManager.EnterCombat();
+
         //initialize combat stuff
         combatManager = gameObject.AddComponent<CombatManager>();
         combatManager.initCombat(playerChars,((CombatRoom)currentRoom).enemies,this);
@@ -134,13 +147,13 @@ public class GameController : MonoBehaviour {
         string playerString = "players:";
         foreach (int key in playerChars.Keys)
         {
-            playerString = playerString + key + ":" + playerChars[key].ID + ":";
+            playerString = playerString + key + ":" + playerChars[key].ID + ":"; //TODO: currently sending client ID, will also need to send character ID
         }
         serverListener.sendMessageToAllClients(playerString);
         string enemiesString = "enemies:";
-        foreach(int key in combatManager.enemies.Keys)
+        foreach(int key in combatManager.enemies.Keys) //key is character ID of enemy
         {
-            enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID;
+            enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID + ":";
         }
         serverListener.sendMessageToAllClients(enemiesString);
 
@@ -150,6 +163,8 @@ public class GameController : MonoBehaviour {
 
     public void CombatEnded()
     {
+        audioManager.ExitCombat();
+
         Destroy(combatManager);
         ((CombatRoom)currentRoom).hasFought = true;
         serverListener.sendMessageToAllClients("no more combat");
@@ -160,11 +175,29 @@ public class GameController : MonoBehaviour {
     {
         //instigated by client message, send plasmids to ally
         string mes = "plasmid:" + red + ":" + green + ":" + blue;
+        audioManager.PlasmidSent();
         serverListener.sendMessageToClient(mes, allyID);
     }
     public void CastAbility(int casterID, int targetID, int abilityID, float powerModifier) //receive call from client to cast an ability
     {
         //instigated by player, cast ability (can target either player or enemy)
         combatManager.PlayerCast(casterID, targetID, abilityID, powerModifier);
+    }
+
+    public void EndGame(bool victory)
+    {
+        string endMes = "end:";
+        endMes += victory ? "True" : "False";
+        serverListener.sendMessageToAllClients(endMes);
+
+        StartCoroutine(EndText(victory));
+    }
+    private IEnumerator EndText(bool victory)
+    {
+        string endString = victory ? "VICTORY\nYou have completed the level." : "FAILURE\nAll players have died.";
+        endText.text = endString;
+
+        yield return new WaitForSeconds(5);
+        Application.Quit();
     }
 }

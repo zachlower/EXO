@@ -75,22 +75,22 @@ public class NavGameController : MonoBehaviour {
             case Direction.Up:
                 str += "up";
                 s += "forward";
-                arrows[2].GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[2].GetComponent<Image>().color = Color.red;
                 break;
             case Direction.Down:
                 str += "down";
                 s += "backward";
-                arrows[3].GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[3].GetComponent<Image>().color = Color.red;
                 break;
             case Direction.Left:
                 str += "left";
                 s += "left";
-                arrows[0].GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[0].GetComponent<Image>().color = Color.red;
                 break;
             case Direction.Right:
                 str += "right";
                 s += "right";
-                arrows[1].GetComponent<SpriteRenderer>().color = Color.red;
+                arrows[1].GetComponent<Image>().color = Color.red;
                 break;
         }
         reminder.text = s;
@@ -121,7 +121,7 @@ public class NavGameController : MonoBehaviour {
             if ((adjacent & b) == b)
             {
                 arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
-                arrows[i].GetComponent<SpriteRenderer>().color = Color.white;
+                arrows[i].GetComponent<Image>().color = Color.white;
             }
         }
     }
@@ -131,7 +131,7 @@ public class NavGameController : MonoBehaviour {
         for (int i = 0; i < arrows.Length; i++)
         {
             arrows[i].GetComponent<ArrowClicked>().isEnabled = false;
-            arrows[i].GetComponent<SpriteRenderer>().color = Color.black;
+            arrows[i].GetComponent<Image>().color = Color.black;
         }
     }
 }

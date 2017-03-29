@@ -18,5 +18,12 @@ public static class NavigationGlobals {
         End
     }
 
+
+    /* list of room backgrounds */
+    public static List<string> backgrounds = new List<string>()
+    {
+        "bg1",
+        "bg2"
+    };
     
 }

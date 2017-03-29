@@ -43,7 +43,7 @@ public class MessageParser : MonoBehaviour
                 break;
             case "enemies": //acquire list of enemies and their character IDs
                 Dictionary<int, int> enemyCharacters = new Dictionary<int, int>();
-                for(int i=1; i<messageBits.Length; i += 2)
+                for(int i=1; i<messageBits.Length-1; i += 2)
                 {
                     int enemyID = int.Parse(messageBits[i]);
                     int charID = int.Parse(messageBits[i + 1]);
@@ -56,6 +56,10 @@ public class MessageParser : MonoBehaviour
                 int green = int.Parse(messageBits[2]);
                 int blue = int.Parse(messageBits[3]);
                 game.ReceivePlasmid(red, green, blue);
+                break;
+            case "end": //game over
+                bool victory = bool.Parse(messageBits[1]);
+                game.EndGame(victory);
                 break;
         }
     }

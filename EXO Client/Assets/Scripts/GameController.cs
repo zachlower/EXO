@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour {
 
     public Dictionary<int, Libraries.Character> players;
     public Dictionary<int, Libraries.Character> enemies;
-    public Libraries.Character myCharacter;
+    public KeyValuePair<int, Libraries.Character> myCharacter;
 
 
     void Start () {
@@ -30,15 +30,18 @@ public class GameController : MonoBehaviour {
 
     private void DisableFolders()
     {
-        controllerMap.navFolder.SetActive(false);
-        controllerMap.plasmidFolder.SetActive(false);
-        controllerMap.abilityFolder.SetActive(false);
+        controllerMap.navGO.SetActive(false);
+        controllerMap.navCanvas.SetActive(false);
+        controllerMap.plasmidGO.SetActive(false);
+        controllerMap.plasmidCanvas.SetActive(false);
+        controllerMap.abilityGO.SetActive(false);
+        controllerMap.abilityCanvas.SetActive(false);
     }
 
     /* startup */
     public void SelectCharacter(int index)
     {
-        myCharacter = libraries.characters[index];
+        myCharacter = new KeyValuePair<int, Libraries.Character>(index, libraries.characters[index]);
         broadcast.cl.sendUpdateToServer("character:" + index);
     }
     public void StartGame()
@@ -51,7 +54,8 @@ public class GameController : MonoBehaviour {
     public void SwitchToNav()
     {
         DisableFolders();
-        controllerMap.navFolder.SetActive(true);
+        controllerMap.navGO.SetActive(true);
+        controllerMap.navCanvas.SetActive(true);
     }
     public void EnterRoom(char adjacent)
     {
@@ -74,12 +78,14 @@ public class GameController : MonoBehaviour {
     public void SwitchToPlasmid()
     {
         DisableFolders();
-        controllerMap.plasmidFolder.SetActive(true);
+        controllerMap.plasmidGO.SetActive(true);
+        controllerMap.plasmidCanvas.SetActive(true);
     }
     public void SwitchToAbility()
     {
         DisableFolders();
-        controllerMap.abilityFolder.SetActive(true);
+        controllerMap.abilityGO.SetActive(true);
+        controllerMap.abilityCanvas.SetActive(true);
     }
 
     public void SetPlayers(Dictionary<int, int> playerCharacters)
@@ -108,7 +114,6 @@ public class GameController : MonoBehaviour {
     }
     public void SendPlasmid(int allyID, int red, int green, int blue)
     {
-        //TODO: plasmids to ally of proper ID
         broadcast.cl.sendUpdateToServer("plasmid:" + allyID + ":" + red + ":" + green + ":" + blue);
     }
     public void ReceivePlasmid(int red, int green, int blue)
@@ -118,7 +123,13 @@ public class GameController : MonoBehaviour {
 
     public void CastAbility(int targetID, int abilityID, float powerModifier)
     {
-        //TODO: cast ability on target of appropriate ID with powerModifier
         broadcast.cl.sendUpdateToServer("ability:" + targetID + ":" + abilityID + ":" + powerModifier);
+    }
+
+
+    public void EndGame(bool victory)
+    {
+        //TODO: this is gonna have to be wildly different
+        Application.Quit();
     }
 }

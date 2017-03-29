@@ -15,22 +15,16 @@ public abstract class Character {
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
     public GameObject sceneObj;
-    public string spriteName;
 
-    public bool Alive = true; //default value
-    public bool alive {
-        get
-        {
-            return Alive;
-        }
-        protected set
-        {
-            Alive = value;
-        }
-    } 
+    protected string spriteName;
+    protected string abilitySoundString;
+
+    public bool alive = true;
 
     // durational effects (have impact each turn until they expire)
     public List<Effect> currentEffects = new List<Effect>();
+    public List<Effect> effectsToApply = new List<Effect>();
+    public List<Effect> effectsToRemove = new List<Effect>();
     // abilities that a character has
     public List<Ability> abilities = new List<Ability>();
 
@@ -42,6 +36,7 @@ public abstract class Character {
     {
         sceneObj = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Monster"), transform, false);
         sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + spriteName);
+        sceneObj.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/" + abilitySoundString);
         healthSlider = sceneObj.GetComponentInChildren<Slider>();
     }
 
@@ -52,6 +47,8 @@ public abstract class Character {
             //TODO: adjust powerModifier of effect? 
             target.ApplyEffect(e, powerModifier);
         }
+
+        sceneObj.GetComponent<AudioSource>().Play();
     }
 
     // TODO: when applying effects, take into account defenses against various attack types and effect types
@@ -70,11 +67,11 @@ public abstract class Character {
                 break;
             case CombatGlobals.EffectType.Bleed:
                 Effect bleed = new Effect(e); //durational effect, add to list
-                currentEffects.Add(bleed);
+                effectsToApply.Add(bleed);
                 break;
             case CombatGlobals.EffectType.Poison:
                 Effect poison = new Effect(e); //durational effect, add to list
-                currentEffects.Add(poison);
+                effectsToApply.Add(poison);
                 break;
         }
     }
@@ -98,12 +95,20 @@ public abstract class Character {
                         break;
                 }
                 e.ticks--;
-                e.duration = e.tickDuration;
                 if (e.ticks <= 0) {
-                    currentEffects.Remove(e);
+                    effectsToRemove.Add(e);
                 }
+                e.duration = e.tickDuration;
             }
         }
+        foreach (Effect e in effectsToRemove) {
+            currentEffects.Remove(e);
+        }
+        effectsToRemove.Clear();
+        foreach (Effect e in effectsToApply) {
+            currentEffects.Add(e);
+        }
+        effectsToApply.Clear();
     }
 
 
