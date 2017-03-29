@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour {
     private MapInfo map;
     private Room currentRoom;
     public Image background;
+    public Text endText;
 
     /******DUNGEON GENERATION STUFF**********/
     private GameObject text;
@@ -73,7 +74,12 @@ public class GameController : MonoBehaviour {
         background.color = Color.white;
 
         //check room type
-        if (currentRoom is NavRoom)
+        if(currentRoom == map.endRoom)
+        {
+            //entered last room, end game
+            EndGame(true);
+        }
+        else if (currentRoom is NavRoom)
         {
             startNav();
         }
@@ -176,5 +182,22 @@ public class GameController : MonoBehaviour {
     {
         //instigated by player, cast ability (can target either player or enemy)
         combatManager.PlayerCast(casterID, targetID, abilityID, powerModifier);
+    }
+
+    public void EndGame(bool victory)
+    {
+        string endMes = "end:";
+        endMes += victory ? "True" : "False";
+        serverListener.sendMessageToAllClients(endMes);
+
+        StartCoroutine(EndText(victory));
+    }
+    private IEnumerator EndText(bool victory)
+    {
+        string endString = victory ? "VICTORY\nYou have completed the level." : "FAILURE\nAll players have died.";
+        endText.text = endString;
+
+        yield return new WaitForSeconds(5);
+        Application.Quit();
     }
 }

@@ -114,7 +114,6 @@ public class GameController : MonoBehaviour {
     }
     public void SendPlasmid(int allyID, int red, int green, int blue)
     {
-        //TODO: plasmids to ally of proper ID
         broadcast.cl.sendUpdateToServer("plasmid:" + allyID + ":" + red + ":" + green + ":" + blue);
     }
     public void ReceivePlasmid(int red, int green, int blue)
@@ -124,7 +123,13 @@ public class GameController : MonoBehaviour {
 
     public void CastAbility(int targetID, int abilityID, float powerModifier)
     {
-        //TODO: cast ability on target of appropriate ID with powerModifier
         broadcast.cl.sendUpdateToServer("ability:" + targetID + ":" + abilityID + ":" + powerModifier);
+    }
+
+
+    public void EndGame(bool victory)
+    {
+        //TODO: this is gonna have to be wildly different
+        Application.Quit();
     }
 }

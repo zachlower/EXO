@@ -21,7 +21,8 @@ public class CombatManager : MonoBehaviour {
         if(players.Where(x => x.Value.alive).ToList().Count <= 0)
         {
             //all players are dead - failure
-            //TODO: failure routine
+            game.EndGame(false);
+            gameObject.SetActive(false);
         }
 
         //check if all enemies are dead
