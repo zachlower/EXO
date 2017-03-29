@@ -14,9 +14,8 @@ public class ArrowClicked : MonoBehaviour {
     }
 	
 
-    void OnMouseDown()
+    public void TaskOnClick()
     {
-        // this button was clicked
         if (isEnabled)
         {
             Debug.Log("Button pressed: " + direction.ToString());

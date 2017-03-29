@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class SelectButton : MonoBehaviour {
     SelectController sc;
     bool isEnabled;
-    string invisible = "Default";
-    string visible = "Obstacle";
     public Vector3 youPos;
     public int ID;
 
