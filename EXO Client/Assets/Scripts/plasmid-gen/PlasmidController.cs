@@ -12,6 +12,7 @@ public class PlasmidController : MonoBehaviour {
     public GameObject playerIcon;
     public GameObject iconParent;
     public bool sendToSelf = false;
+    public GameObject[] iconSpots;
 
     private int redCollect = 0;
     private int greenCollect = 0;
@@ -51,7 +52,7 @@ public class PlasmidController : MonoBehaviour {
 
         int playerCount = players.Count; 
         if (!sendToSelf) playerCount--; //remove one for self
-        int placementIndex = 1;
+        int placementIndex = 0;
         foreach(int id in players.Keys)
         {
             Debug.Log("spawning icon for player " + id);
@@ -61,9 +62,8 @@ public class PlasmidController : MonoBehaviour {
                 icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
                 icon.GetComponent<IconController>().ID = id;
                 icon.transform.Find("Canvas/Name").GetComponent<Text>().text = players[id].name;
-                float yCoord = bottomY + placementIndex * (topY - bottomY) / (playerCount + 1);
-                icon.transform.position = new Vector3(6.5f, yCoord, -5);
-                placementIndex++;
+                icon.transform.position = iconSpots[placementIndex].transform.position;
+                placementIndex++;   
             }
         }
     }
