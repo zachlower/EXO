@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Player : Character {
 
+    
+    public Player()
+    {
+        abilitySoundString = "playerAbility";
+    }
 
 	public static Player CreatePlayerClass(int charID)
     {

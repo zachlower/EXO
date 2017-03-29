@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Noxius : Player {
 
-	public Noxius()
+	public Noxius() : base()
     {
         ID = 1;
 

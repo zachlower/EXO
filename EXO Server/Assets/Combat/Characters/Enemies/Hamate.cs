@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Hamate : Enemy {
 
-	public Hamate()
+	public Hamate() : base()
     {
         ID = 2;
 

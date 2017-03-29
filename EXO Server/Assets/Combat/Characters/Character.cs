@@ -15,19 +15,11 @@ public abstract class Character {
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
     public GameObject sceneObj;
-    public string spriteName;
 
-    public bool Alive = true; //default value
-    public bool alive {
-        get
-        {
-            return Alive;
-        }
-        protected set
-        {
-            Alive = value;
-        }
-    } 
+    protected string spriteName;
+    protected string abilitySoundString;
+
+    public bool alive = true;
 
     // durational effects (have impact each turn until they expire)
     public List<Effect> currentEffects = new List<Effect>();
@@ -42,6 +34,7 @@ public abstract class Character {
     {
         sceneObj = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Monster"), transform, false);
         sceneObj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("CharacterSprites/" + spriteName);
+        sceneObj.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/" + abilitySoundString);
         healthSlider = sceneObj.GetComponentInChildren<Slider>();
     }
 
@@ -52,6 +45,8 @@ public abstract class Character {
             //TODO: adjust powerModifier of effect? 
             target.ApplyEffect(e, powerModifier);
         }
+
+        sceneObj.GetComponent<AudioSource>().Play();
     }
 
     // TODO: when applying effects, take into account defenses against various attack types and effect types

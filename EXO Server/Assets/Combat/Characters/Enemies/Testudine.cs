@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Testudine : Enemy {
 
-	public Testudine()
+	public Testudine() : base()
     {
         ID = 4;
 

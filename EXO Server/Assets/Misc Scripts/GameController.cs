@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     public GameObject[] playerCombatTransforms;
 
     public CombatManager combatManager;
+    public AudioManager audioManager;
 
     // Map, rooms etc
     private MapInfo map;
@@ -128,6 +129,8 @@ public class GameController : MonoBehaviour {
     public void CombatStarted() {
         state = GameState.Combat;
 
+        audioManager.EnterCombat();
+
         //initialize combat stuff
         combatManager = gameObject.AddComponent<CombatManager>();
         combatManager.initCombat(playerChars,((CombatRoom)currentRoom).enemies,this);
@@ -154,6 +157,8 @@ public class GameController : MonoBehaviour {
 
     public void CombatEnded()
     {
+        audioManager.ExitCombat();
+
         Destroy(combatManager);
         ((CombatRoom)currentRoom).hasFought = true;
         serverListener.sendMessageToAllClients("no more combat");
@@ -164,6 +169,7 @@ public class GameController : MonoBehaviour {
     {
         //instigated by client message, send plasmids to ally
         string mes = "plasmid:" + red + ":" + green + ":" + blue;
+        audioManager.PlasmidSent();
         serverListener.sendMessageToClient(mes, allyID);
     }
     public void CastAbility(int casterID, int targetID, int abilityID, float powerModifier) //receive call from client to cast an ability

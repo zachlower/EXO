@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sclera : Player {
 
-	public Sclera()
+	public Sclera() : base()
     {
         ID = 3;
 
