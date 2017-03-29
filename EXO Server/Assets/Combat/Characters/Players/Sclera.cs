@@ -1,0 +1,19 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Sclera : Player {
+
+	public Sclera()
+    {
+        ID = 3;
+
+        maxHealth = 140;
+        currentHealth = maxHealth;
+
+        abilities.Add(new PiercingGaze());
+        abilities.Add(new FistsOfFury());
+
+        spriteName = "Sclera";
+    }
+}

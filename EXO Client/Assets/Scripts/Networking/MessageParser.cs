@@ -43,7 +43,7 @@ public class MessageParser : MonoBehaviour
                 break;
             case "enemies": //acquire list of enemies and their character IDs
                 Dictionary<int, int> enemyCharacters = new Dictionary<int, int>();
-                for(int i=1; i<messageBits.Length; i += 2)
+                for(int i=1; i<messageBits.Length-1; i += 2)
                 {
                     int enemyID = int.Parse(messageBits[i]);
                     int charID = int.Parse(messageBits[i + 1]);

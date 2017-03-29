@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
         Combat,
     };
     public GameState state;
-    // good  shit
+    
     public ServerListener serverListener;
     public Dictionary<int, Player> playerChars;
     private int nextCharacterID;
@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour {
     // Map, rooms etc
     private MapInfo map;
     private Room currentRoom;
-    public Sprite background;
+    public Image background;
 
     /******DUNGEON GENERATION STUFF**********/
     private GameObject text;
@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour {
         serverListener.sendMessageToAllClients("startgame");
         map = new MapInfo(MapInfo.MapSize.MAP_SMALL);
         currentRoom = map.startRoom;
+        
         StartCoroutine(startGameCoroutine());
     }
 
@@ -67,7 +68,10 @@ public class GameController : MonoBehaviour {
     }
 
     public void enterRoom() {
-        // background = r.background;
+        background.sprite = currentRoom.background; //set background
+        background.color = Color.white;
+
+        //check room type
         if (currentRoom is NavRoom)
         {
             startNav();
@@ -134,13 +138,13 @@ public class GameController : MonoBehaviour {
         string playerString = "players:";
         foreach (int key in playerChars.Keys)
         {
-            playerString = playerString + key + ":" + playerChars[key].ID + ":";
+            playerString = playerString + key + ":" + playerChars[key].ID + ":"; //TODO: currently sending client ID, will also need to send character ID
         }
         serverListener.sendMessageToAllClients(playerString);
         string enemiesString = "enemies:";
-        foreach(int key in combatManager.enemies.Keys)
+        foreach(int key in combatManager.enemies.Keys) //key is character ID of enemy
         {
-            enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID;
+            enemiesString = enemiesString + key + ":" + combatManager.enemies[key].ID + ":";
         }
         serverListener.sendMessageToAllClients(enemiesString);
 

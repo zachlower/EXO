@@ -6,14 +6,18 @@ public class ControllerMap : MonoBehaviour {
 
     public GameController gameController;
 
-    public GameObject navFolder;
+
     public NavGameController navController;
+    public GameObject navGO;
+    public GameObject navCanvas;
 
-    public GameObject plasmidFolder;
     public PlasmidController plasmidController;
+    public GameObject plasmidGO;
+    public GameObject plasmidCanvas;
 
-    public GameObject abilityFolder;
     public AbilityController abilityController;
+    public GameObject abilityGO;
+    public GameObject abilityCanvas;
 
 
     private void Start()

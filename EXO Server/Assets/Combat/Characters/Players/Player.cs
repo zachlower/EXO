@@ -9,8 +9,10 @@ public class Player : Character {
     {
         switch (charID)
         {
-            case 2:
-                return new Boggle();
+            case 1:
+                return new Noxius();
+            case 3:
+                return new Sclera();
             default:
                 return null;
         }

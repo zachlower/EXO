@@ -12,7 +12,5 @@ public abstract class Ability {
     public List<Effect> effects = new List<Effect>();
     public float prepTime = 10.0f;
 
-    public int redCost, greenCost, blueCost;
-
-    
+   
 }

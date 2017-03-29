@@ -9,12 +9,18 @@ public abstract class Room {
 
     public Room()
     {
-      //  GenerateBackground();
+        GenerateBackground();
     }
 
 
     protected virtual void GenerateBackground()
     {
-        //TODO: create a function that selects a background
+        // select random background from list
+        int bgIndex = Random.Range(0, NavigationGlobals.backgrounds.Count);
+        string bgString = NavigationGlobals.backgrounds[bgIndex];
+        Debug.Log("selecting index " + bgIndex + " from " + NavigationGlobals.backgrounds.Count + " backgrounds");
+
+        // load background from resources
+        background = Resources.Load<Sprite>("roomBackgrounds/" + bgString);
     }
 }

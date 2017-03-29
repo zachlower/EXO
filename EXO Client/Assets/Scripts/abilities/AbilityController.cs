@@ -40,11 +40,11 @@ public class AbilityController : MonoBehaviour {
         enemies = e;
 
         //populate list of abilities
-        int abilityID = game.myCharacter.ability1ID;
+        int abilityID = game.myCharacter.Value.ability1ID;
         if (abilityID != 0) abilities.Add(abilityID, game.libraries.abilities[abilityID]);
-        abilityID = game.myCharacter.ability2ID;
+        abilityID = game.myCharacter.Value.ability2ID;
         if (abilityID != 0) abilities.Add(abilityID, game.libraries.abilities[abilityID]);
-        abilityID = game.myCharacter.ability3ID;
+        abilityID = game.myCharacter.Value.ability3ID;
         if (abilityID != 0) abilities.Add(abilityID, game.libraries.abilities[abilityID]);
 
         //spawn character icons (just enemies for now)

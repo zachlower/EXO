@@ -64,29 +64,48 @@ public class Libraries {
     private void initCharacters()
     {
         //TODO: add all characters to character dictionary with appropriate IDs
-        characters.Add(1, new Character("Zachomorph",
-            "He shoots fire his eyes and death from his fingertips. Wise men fear him.",
-            false,
-            "Shell_Shock",
-            1, 0, 0));
-
-        characters.Add(2, new Character("Boggle",
-            "Truly the golden boy of EXO, Boggle was birthed of the sun and fears no mortal.",
+        characters.Add(1, new Character("Noxius",
+            "",
             true,
-            "Turtle1",
-            2, 0, 0));
+            "Noxius",
+            1, 2, 0));
+
+        characters.Add(2, new Character("Hamate",
+            "",
+            false,
+            "Hamate",
+            5, 0, 0));
+
+        characters.Add(3, new Character("Sclera",
+            "",
+            true,
+            "Sclera",
+            3, 4, 0));
+
+        characters.Add(4, new Character("Testudine",
+            "",
+            false,
+            "Testudine",
+            6, 0, 0));
     }
     private void initAbilities()
     {
         //TODO: add all abilities to ability dictionary with appropriate IDs
-        abilities.Add(1, new Ability("Zach Attack",
-            "Delivers a powerful slash to opponents, causing them to bleed for several turns.",
-            "test",
-            4,1,2));
-
-        abilities.Add(2, new Ability("bog Slog",
-            "A powerful penetrative jab.",
-            "test2",
-            0,3,3));
+        abilities.Add(1, new Ability("Poison Cloud",
+            "A thick cloud of poisonous gas which infects an enemy and does great damage over time",
+            "PoisonCloud",
+            1, 4, 0));
+        abilities.Add(2, new Ability("Vicious Bite",
+            "Brutal gnashing teeth cut through enemy skin and cause bleeding",
+            "ViciousBite",
+            1, 0, 1));
+        abilities.Add(3, new Ability("Piercing Gaze",
+            "Demonic eyes pierce through the tough exterior of your enemy, burning their very soul",
+            "PiercingGaze",
+            3, 0, 0));
+        abilities.Add(4, new Ability("Fists of Fury",
+            "Brutal pummeling deals immense damage to any mortal foe",
+            "FistsOfFury",
+            0, 1, 2));
     }
 }
