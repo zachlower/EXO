@@ -23,6 +23,7 @@ public abstract class Character {
 
     // durational effects (have impact each turn until they expire)
     public List<Effect> currentEffects = new List<Effect>();
+    public List<Effect> effectsToApply = new List<Effect>();
     // abilities that a character has
     public List<Ability> abilities = new List<Ability>();
 
@@ -65,11 +66,11 @@ public abstract class Character {
                 break;
             case CombatGlobals.EffectType.Bleed:
                 Effect bleed = new Effect(e); //durational effect, add to list
-                currentEffects.Add(bleed);
+                effectsToApply.Add(bleed);
                 break;
             case CombatGlobals.EffectType.Poison:
                 Effect poison = new Effect(e); //durational effect, add to list
-                currentEffects.Add(poison);
+                effectsToApply.Add(poison);
                 break;
         }
     }
@@ -98,6 +99,10 @@ public abstract class Character {
                     currentEffects.Remove(e);
                 }
             }
+        }
+        foreach (Effect e in effectsToApply) {
+            currentEffects.Add(e);
+            effectsToApply.Remove(e);
         }
     }
 
