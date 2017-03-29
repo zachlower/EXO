@@ -24,6 +24,7 @@ public abstract class Character {
     // durational effects (have impact each turn until they expire)
     public List<Effect> currentEffects = new List<Effect>();
     public List<Effect> effectsToApply = new List<Effect>();
+    public List<Effect> effectsToRemove = new List<Effect>();
     // abilities that a character has
     public List<Ability> abilities = new List<Ability>();
 
@@ -94,16 +95,20 @@ public abstract class Character {
                         break;
                 }
                 e.ticks--;
-                e.duration = e.tickDuration;
                 if (e.ticks <= 0) {
-                    currentEffects.Remove(e);
+                    effectsToRemove.Add(e);
                 }
+                e.duration = e.tickDuration;
             }
         }
+        foreach (Effect e in effectsToRemove) {
+            currentEffects.Remove(e);
+        }
+        effectsToRemove.Clear();
         foreach (Effect e in effectsToApply) {
             currentEffects.Add(e);
-            effectsToApply.Remove(e);
         }
+        effectsToApply.Clear();
     }
 
 
