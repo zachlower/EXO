@@ -9,7 +9,6 @@ public class CombatManager : MonoBehaviour
 
     public GameController game;
     public Dictionary<int, Player> players;
-    public List<int> pIDs;
     public Dictionary<int, Enemy> enemies;
     //true for player victory, false for monster
     bool combatResult;
@@ -67,7 +66,6 @@ public class CombatManager : MonoBehaviour
             p.Value.Instantiate(game.playerCombatTransforms[positionIndex].transform);
             p.Value.combatManager = this;
             positionIndex++;
-            pIDs.Add(p.Key);
         }
     }
 

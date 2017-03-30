@@ -29,7 +29,12 @@ public abstract class Enemy : Character {
         warmUp -= Time.deltaTime;
         if (warmUp <= 0.0f)
         {
-            var pIDs = combatManager.pIDs.Where(x => players[x].alive).ToList();
+            List<int> pIDs = new List<int>();
+            foreach (var p in combatManager.players) {
+                if (p.Value.alive) {
+                    pIDs.Add(p.Key);
+                }
+            }
             if (pIDs.Count > 0)
             {
                 int playerTarget = Random.Range(0, pIDs.Count);
