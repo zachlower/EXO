@@ -15,7 +15,7 @@ public class IconController : MonoBehaviour {
         pc = GameObject.Find("PlasmidController").GetComponent<PlasmidController>();
     }
 
-    private void OnMouseDown()
+    public void SendPlasmids()
     {
         if (pc.gameState == PlasmidController.GameState.Sending)
         {

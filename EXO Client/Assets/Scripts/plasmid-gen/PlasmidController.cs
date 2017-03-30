@@ -57,9 +57,9 @@ public class PlasmidController : MonoBehaviour {
             if (sendToSelf || id != game.clientID) //do not spawn icon for self
             {
                 GameObject icon = Instantiate(playerIcon, iconParent.transform, true);
-                icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;
                 icon.GetComponent<IconController>().ID = id;
-                icon.transform.Find("Canvas/Name").GetComponent<Text>().text = players[id].name;
+                icon.transform.Find("Button").GetComponent<Image>().sprite = players[id].sprite;
+                icon.transform.Find("Name").GetComponent<Text>().text = players[id].name;
                 icon.transform.position = iconSpots[placementIndex].transform.position;
                 playerIcons.Add(id, icon);
                 placementIndex++;   
