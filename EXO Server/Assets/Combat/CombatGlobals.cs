@@ -28,5 +28,11 @@ public static class CombatGlobals {
         Bleed,
         Poison
     };
+
+    public enum TargetType
+    {
+        Ally,
+        Enemy
+    };
         
 }

@@ -9,5 +9,8 @@ public class PiercingGaze : Ability {
         ID = 3;
 
         effects.Add(new Burn(25, 3));
+
+        target = CombatGlobals.TargetType.Enemy;
+
     }
 }

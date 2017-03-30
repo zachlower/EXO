@@ -12,5 +12,8 @@ public class SavageClaws : Ability {
         effects.Add(new Bleed(10, 30));
 
         prepTime = 12;
+
+        target = CombatGlobals.TargetType.Enemy;
+
     }
 }

@@ -10,5 +10,8 @@ public class ViciousBite : Ability {
 
         effects.Add(new Stab(30));
         effects.Add(new Bleed(10, 2));
+
+        target = CombatGlobals.TargetType.Enemy;
+
     }
 }

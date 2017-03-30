@@ -9,5 +9,7 @@ public class FistsOfFury : Ability {
         ID = 4;
 
         effects.Add(new Bludgeon(50));
+
+        target = CombatGlobals.TargetType.Enemy;
     }
 }

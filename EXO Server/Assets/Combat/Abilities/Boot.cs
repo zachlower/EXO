@@ -11,5 +11,8 @@ public class Boot : Ability {
         effects.Add(new Bludgeon(40));
 
         prepTime = 10;
+
+        target = CombatGlobals.TargetType.Enemy;
+
     }
 }

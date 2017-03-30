@@ -9,5 +9,8 @@ public class PoisonCloud : Ability {
         ID = 1;
 
         effects.Add(new Poison(25, 4));
+
+        target = CombatGlobals.TargetType.Enemy;
+
     }
 }

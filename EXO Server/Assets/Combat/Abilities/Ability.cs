@@ -11,6 +11,6 @@ public abstract class Ability {
     public int ID;
     public List<Effect> effects = new List<Effect>();
     public float prepTime = 10.0f;
-
+    public CombatGlobals.TargetType target;
    
 }
