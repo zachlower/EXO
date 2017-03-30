@@ -121,5 +121,9 @@ public class PlasmidController : MonoBehaviour {
             pickup.gameObject.SetActive(true);
             pickup.Regenerate();
         }
+        foreach (int i in playerIcons.Keys)
+        {
+            playerIcons[i].SetActive(false);
+        }
     }
 }
