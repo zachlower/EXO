@@ -97,6 +97,7 @@ public class GameController : MonoBehaviour {
         {
             //map client id to character with correct character id
             Libraries.Character character = libraries.characters[playerCharacters[id]];
+            Debug.Log("client " + id + " is a " + character.name);
             players.Add(id, character);
         }
     }

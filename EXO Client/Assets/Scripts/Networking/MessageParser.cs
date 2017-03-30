@@ -37,6 +37,7 @@ public class MessageParser : MonoBehaviour
                 {
                     int playerID = int.Parse(messageBits[i]);
                     int charID = int.Parse(messageBits[i + 1]);
+                    Debug.Log("setting client " + playerID + " as " + charID);
                     playerCharacters.Add(playerID, charID);
                 }
                 game.SetPlayers(playerCharacters);
