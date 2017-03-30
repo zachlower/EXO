@@ -10,7 +10,6 @@ public abstract class Enemy : Character {
      */
     public float warmUp;
     public Ability abilityToUse;
-    public Dictionary<int, Player> players = new Dictionary<int, Player>();
 
     public Enemy()
     {
@@ -41,7 +40,7 @@ public abstract class Enemy : Character {
                 playerTarget = pIDs[playerTarget];
 
                 float powerModifier = Random.Range(0, 1.0f);
-                Cast(abilityToUse, players[playerTarget], powerModifier);
+                Cast(abilityToUse, combatManager.players[playerTarget], powerModifier);
                 //TODO: use combat manager / game controller to target appropriate player
 
                 selectAttack();
