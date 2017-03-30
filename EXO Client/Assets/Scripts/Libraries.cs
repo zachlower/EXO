@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Libraries {
 
+    public string[] namePieces = { "Alex","Colon", "Xeep", "Volfura", "Smurple", "Crensh", "Snipper", "Favv", "Paedesh", "Xharon", "Strimothy", "Umai", "Axai", "Alxolota", "Fale", "Haxx", "Tixxis" };
+
 	public struct Character
     {
         public Character(string n, string d, bool p, string s, int a1, int a2, int a3)

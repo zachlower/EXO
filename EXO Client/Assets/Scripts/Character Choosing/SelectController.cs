@@ -11,12 +11,12 @@ public class SelectController : MonoBehaviour {
 
     private GameController game;
     private Dictionary<int, GameObject> icons = new Dictionary<int, GameObject>();
-
+    public Text nameText;   
 
     private void Start()
     {
         game = GameObject.Find("GameController").GetComponent<GameController>();
-
+        nameText.text = ("Your name is " + game.characterName);
         //create select icons
         Dictionary<int, Libraries.Character> playerChars = game.libraries.characters.Where(x => x.Value.isPlayer == true).ToDictionary(x => x.Key, x => x.Value);
         int numChars = playerChars.Count;

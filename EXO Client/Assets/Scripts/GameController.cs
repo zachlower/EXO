@@ -13,10 +13,14 @@ public class GameController : MonoBehaviour {
 
     public Dictionary<int, Libraries.Character> players;
     public Dictionary<int, Libraries.Character> enemies;
-
+    public string characterName;
 
     void Start () {
         libraries = new Libraries();
+        characterName = "";
+        characterName += libraries.namePieces[Random.Range(0, libraries.namePieces.Length)];
+        characterName += " ";
+        characterName += libraries.namePieces[Random.Range(0, libraries.namePieces.Length)];
         DontDestroyOnLoad(gameObject);
     }
 	
@@ -42,7 +46,7 @@ public class GameController : MonoBehaviour {
     public void SelectCharacter(int index)
     {
         ch = libraries.characters[index];
-        broadcast.cl.sendUpdateToServer("character:" + index);
+        broadcast.cl.sendUpdateToServer("character:" + index+":"+characterName);
     }
     public void StartGame()
     {

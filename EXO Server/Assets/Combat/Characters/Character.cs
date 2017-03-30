@@ -17,6 +17,7 @@ public abstract class Character {
     public GameObject sceneObj;
     public CombatManager combatManager;
 
+    public string name;
     protected string spriteName;
     protected string abilitySoundString;
 

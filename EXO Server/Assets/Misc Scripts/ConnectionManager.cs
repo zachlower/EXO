@@ -50,6 +50,7 @@ public class ConnectionManager : MonoBehaviour {
                 string charText = "Player " + c.Key + ": ";
                 if (c.Value != null)
                 {
+                    charText = c.Value.name;
                     string type = c.Value.GetType().ToString();
                     if (type.Equals("Sclera"))
                     {
