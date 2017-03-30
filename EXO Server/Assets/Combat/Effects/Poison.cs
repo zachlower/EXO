@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Poison : Effect {
 
-	public Poison(float bp, int dur)
+	public Poison(float bp, int t, float td)
     {
-        duration = dur;
         basePower = bp;
+        ticks = t;
+        tickDuration = td;
         effectType = CombatGlobals.EffectType.Poison;
     }
 }

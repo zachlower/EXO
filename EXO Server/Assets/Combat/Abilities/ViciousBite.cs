@@ -9,7 +9,7 @@ public class ViciousBite : Ability {
         ID = 2;
 
         effects.Add(new Stab(30));
-        effects.Add(new Bleed(10, 2));
+        effects.Add(new Bleed(10, 3, 3));
 
         target = CombatGlobals.TargetType.Enemy;
 

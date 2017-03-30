@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Bleed : Effect {
 
-	public Bleed(float bp, int dur)
+	public Bleed(float bp, int t, float td)
     {
-        duration = dur;
         basePower = bp;
+        ticks = t;
+        tickDuration = td;
         effectType = CombatGlobals.EffectType.Bleed;
     }
 }

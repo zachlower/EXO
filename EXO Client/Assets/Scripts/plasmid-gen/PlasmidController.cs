@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlasmidController : MonoBehaviour {
 
-    public int collectLimit = 5;
+    //public int collectLimit = 5;
     public Text redText;
     public Text greenText;
     public Text blueText;
@@ -75,7 +75,7 @@ public class PlasmidController : MonoBehaviour {
 
     public void Collect(GameObject plasmid)
     {
-        if(redCollect + greenCollect + blueCollect < collectLimit) //limit not yet reached
+        //if(redCollect + greenCollect + blueCollect < collectLimit) //limit not yet reached
         {
             PlasmidType type = plasmid.GetComponent<PickupController>().type;
             switch (type)

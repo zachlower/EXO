@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Burn : Effect {
 
-	public Burn(float bp, int dur)
+	public Burn(float bp, int t, float td)
     {
-        duration = dur;
         basePower = bp;
+        ticks = t;
+        tickDuration = td;
         effectType = CombatGlobals.EffectType.Bleed;
     }
 }

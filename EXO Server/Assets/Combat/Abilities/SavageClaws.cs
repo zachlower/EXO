@@ -9,7 +9,7 @@ public class SavageClaws : Ability {
         ID = 5;
 
         effects.Add(new Slash(20));
-        effects.Add(new Bleed(10, 30));
+        effects.Add(new Bleed(10, 5, 3));
 
         prepTime = 12;
 
