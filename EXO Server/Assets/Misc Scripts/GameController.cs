@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
         WaitingConnection,
         Navigation,
         Combat,
+        Trap
     };
     public GameState state;
     
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour {
     private Room currentRoom;
     public Image background;
     public Text endText;
+
+    public Trap trap;
 
     /******DUNGEON GENERATION STUFF**********/
     private GameObject text;
@@ -72,6 +75,15 @@ public class GameController : MonoBehaviour {
         Debug.Log("About to start game");
         yield return new WaitForSeconds(1.0f);
         Debug.Log("starting game");
+
+        // Instantiate the players here
+        int positionIndex = 0;
+        foreach (var p in playerChars)
+        {
+            p.Value.Instantiate(playerCombatTransforms[positionIndex].transform);
+            positionIndex++;
+        }
+
         enterRoom();
     }
 
@@ -93,6 +105,19 @@ public class GameController : MonoBehaviour {
         {
             if (!((CombatRoom)currentRoom).hasFought) CombatStarted();
             else startNav();
+        }
+        else if (currentRoom is TrapRoom)
+        {
+            if (!((TrapRoom)currentRoom).hasTriggered)
+            {
+                trap = ((TrapRoom)currentRoom).trap;
+                TrapActivated();
+            }
+            else
+            {
+                trap.Deactivate();
+                startNav();
+            }
         }
     }
 
@@ -136,6 +161,13 @@ public class GameController : MonoBehaviour {
                 serverListener.sendMessageToAllClients("we have not moved");
             }
         }
+    }
+
+    public void TrapActivated()
+    {
+        state = GameState.Trap;
+        ((TrapRoom)currentRoom).trap.Activate();
+        serverListener.sendMessageToAllClients("trap");
     }
 
     public void CombatStarted() {

@@ -11,7 +11,7 @@ public abstract class Character {
 
 
     // character health
-    public float currentHealth { get; protected set; }
+    public float currentHealth { get; set; }
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
     public GameObject sceneObj;
@@ -116,7 +116,7 @@ public abstract class Character {
 
 
     // damage or heal character
-    private void Damage(float amount)
+    public void Damage(float amount)
     {
         currentHealth -= amount;
         healthSlider.value = currentHealth / maxHealth;

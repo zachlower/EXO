@@ -60,12 +60,10 @@ public class CombatManager : MonoBehaviour
             e.Value.combatManager = this;
             positionIndex++;
         }
-        positionIndex = 0;
+
         foreach (var p in players)
         {
-            p.Value.Instantiate(game.playerCombatTransforms[positionIndex].transform);
             p.Value.combatManager = this;
-            positionIndex++;
         }
     }
 

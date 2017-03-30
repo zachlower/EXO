@@ -31,6 +31,9 @@ public class MessageParser : MonoBehaviour
             case "combat":
                 game.BeginCombat();
                 break;
+            case "trap":
+                game.SwitchToTrap();
+                break;
             case "players": //acquire list of players and their character IDs
                 Dictionary<int, int> playerCharacters = new Dictionary<int, int>();
                 for(int i=1; i<messageBits.Length-1; i += 2)

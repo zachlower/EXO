@@ -6,6 +6,7 @@ public class ControllerMap : MonoBehaviour {
 
     public GameController gameController;
 
+    public GameObject trapCanvas;
 
     public NavGameController navController;
     public GameObject navGO;

@@ -53,6 +53,9 @@ public class MessageParser : MonoBehaviour {
                 float powerModifier = float.Parse(messageBits[3]);
                 game.CastAbility(cID, targetID, abilityID, powerModifier);
                 break;
+            case "trap solved":
+                game.trap.currentDefuse++;
+                break;
         }
     }
 

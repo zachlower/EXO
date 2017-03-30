@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour {
         controllerMap.plasmidCanvas.SetActive(false);
         controllerMap.abilityGO.SetActive(false);
         controllerMap.abilityCanvas.SetActive(false);
+        controllerMap.trapCanvas.SetActive(false);
     }
 
     /* startup */
@@ -69,6 +70,13 @@ public class GameController : MonoBehaviour {
         if (controllerMap == null)
             Debug.Log("controller map is still null");
         controllerMap.navController.SwitchRoom(adjacent); 
+    }
+
+    /* trap*/
+    public void SwitchToTrap()
+    {
+        DisableFolders();
+        controllerMap.trapCanvas.SetActive(true);
     }
 
 
