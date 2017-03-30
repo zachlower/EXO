@@ -13,6 +13,7 @@ public class TrapButton : Button {
 	new void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
         onClick.AddListener(TaskOnClick);
+        hintText = GameObject.Find("HintText").GetComponent<Text>();
         hintText.text = "You encountered a trap" + '\n' + "Keep pressing the button to deactivate it";
         print("trap setup done");
     }

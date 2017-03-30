@@ -68,6 +68,13 @@ public class GameController : MonoBehaviour {
         currentRoom = map.startRoom;
         
         StartCoroutine(startGameCoroutine());
+        // Instantiate the players here
+        int positionIndex = 0;
+        foreach (var p in playerChars)
+        {
+            p.Value.Instantiate(playerCombatTransforms[positionIndex].transform);
+            positionIndex++;
+        }
     }
 
     private IEnumerator startGameCoroutine()
@@ -76,13 +83,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
         Debug.Log("starting game");
 
-        // Instantiate the players here
-        int positionIndex = 0;
-        foreach (var p in playerChars)
-        {
-            p.Value.Instantiate(playerCombatTransforms[positionIndex].transform);
-            positionIndex++;
-        }
+        
 
         enterRoom();
     }
