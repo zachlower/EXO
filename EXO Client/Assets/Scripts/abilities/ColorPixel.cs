@@ -54,9 +54,12 @@ public class ColorPixel : MonoBehaviour {
             || Input.GetMouseButton(0))
         {
             Ray mRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            
 
             if(Physics.Raycast(mRay)) //writing on the texture
             {
+                Debug.Log((Vector2)mRay.GetPoint(10) * 100 + size / 2);
+
                 int xScreen = (int)((Input.mousePosition.x - pixelPos.x) / Screen.width * size.x * 2.2 + size.x / 2);
                 int yScreen = (int)((Input.mousePosition.y - pixelPos.y) / Screen.height * size.y * 1.6 + size.y / 2);
 
