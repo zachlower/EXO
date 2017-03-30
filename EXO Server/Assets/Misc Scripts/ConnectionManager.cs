@@ -9,7 +9,7 @@ public class ConnectionManager : MonoBehaviour {
     int playersJoined = 0;
     int playersSelectedChars = 0;
     public Dictionary<int,Player> playerChars = new Dictionary<int, Player>();
-    bool listDirty = true;
+    bool listDirty = false;
 
     public Text butText;
     public Slider lengthSlider;
@@ -17,9 +17,16 @@ public class ConnectionManager : MonoBehaviour {
     bool textCounting = false;
     int conTextCounter = 0;
     public GameObject[] playerIcons = new GameObject[6];
+    public GameObject[] playerImages = new GameObject[6];
+
+    public Sprite Sclera;
+    public Sprite Noxius;
 
     void Start() {
+        Sclera = Resources.Load<Sprite>("CharacterSprites/Sclera");
+        Noxius = Resources.Load<Sprite>("CharacterSprites/Noxius");
         foreach (GameObject i in playerIcons) { i.SetActive(false); }
+        foreach (GameObject i in playerImages) { i.SetActive(false); }
     }
 
     // Update is called once per frame
@@ -28,6 +35,7 @@ public class ConnectionManager : MonoBehaviour {
             textCounting = true;
             Invoke("updateConText", .5f);
         }
+        // update game texts
         if (listDirty) {
             if (playersJoined >= 1 && playersSelectedChars == playersJoined)
             {
@@ -40,8 +48,23 @@ public class ConnectionManager : MonoBehaviour {
             int charSlot = 0;
             foreach (var c in playerChars) {
                 string charText = "Player " + c.Key + ": ";
-                if (c.Value != null) charText += c.Value.GetType().ToString();
-                else charText += "Pending";
+                if (c.Value != null)
+                {
+                    string type = c.Value.GetType().ToString();
+                    if (type.Equals("Sclera"))
+                    {
+                        playerImages[charSlot].SetActive(true);
+                        playerImages[charSlot].GetComponentInChildren<Image>().sprite = Sclera;
+                    }
+                    else if (type.Equals("Noxius"))
+                    {
+                        playerImages[charSlot].SetActive(true);
+                        playerImages[charSlot].GetComponentInChildren<Image>().sprite = Noxius;
+                    }
+                }
+                else
+                    charText += "Pending";
+
                 playerIcons[charSlot].SetActive(true);
                 playerIcons[charSlot].GetComponentInChildren<Text>().text = charText;
                 charSlot++;
@@ -49,7 +72,7 @@ public class ConnectionManager : MonoBehaviour {
             for (int i = charSlot; i < 6; i++) {
                 playerIcons[i].SetActive(false);
             }
-            
+            listDirty = false;
         }
     }
 
@@ -70,6 +93,7 @@ public class ConnectionManager : MonoBehaviour {
         {
             playerChars.Add(cID, null);
             playersJoined = playerChars.Count;
+            listDirty = true;
         }
         else Debug.Log("Error adding player ID: Already in Dictionary");
     }
@@ -79,6 +103,7 @@ public class ConnectionManager : MonoBehaviour {
         {
             if (playerChars[cID] == null) playersSelectedChars++;
             playerChars[cID] = ch;
+            listDirty = true;
         }
         else Debug.Log("Error assigning Character: No such player");
     }

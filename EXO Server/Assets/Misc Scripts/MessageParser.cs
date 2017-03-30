@@ -16,7 +16,7 @@ public class MessageParser : MonoBehaviour {
 
         switch (messageBits[0]){
             case "character":
-                print("Giving player " + cID + " Alein #" + int.Parse(messageBits[1]));
+                print("Giving player " + cID + " Alien #" + int.Parse(messageBits[1]));
                 //TODO: use library of characters to choose one with correct ID
                 int charID = int.Parse(messageBits[1]);
                 con.updateCharacter(cID, Player.CreatePlayerClass(charID));
