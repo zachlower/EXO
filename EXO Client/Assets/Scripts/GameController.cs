@@ -126,6 +126,31 @@ public class GameController : MonoBehaviour {
         broadcast.cl.sendUpdateToServer("ability:" + targetID + ":" + abilityID + ":" + powerModifier);
     }
 
+    public void CharacterDead(int clientID)
+    {
+        if (players.ContainsKey(clientID))
+        {
+            //player died
+            controllerMap.plasmidController.players.Remove(clientID);
+            Destroy(controllerMap.plasmidController.playerIcons[clientID]);
+            controllerMap.plasmidController.playerIcons.Remove(clientID);
+            players.Remove(clientID);
+            if(clientID == myCharacter.Key)
+            {
+                //the dead player is me!
+                Application.Quit();
+            }
+        }
+        else
+        {
+            //enemy died
+            controllerMap.abilityController.enemies.Remove(clientID);
+            Destroy(controllerMap.abilityController.enemyIcons[clientID]);
+            controllerMap.abilityController.enemyIcons.Remove(clientID);
+            enemies.Remove(clientID);
+        }
+    }
+
 
     public void EndGame(bool victory)
     {
