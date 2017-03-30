@@ -23,6 +23,8 @@ public class SendController : MonoBehaviour {
         {
             Debug.Log("Send triggered");
             pc.TriggerSend();
+            // TODO 
+            // show the icons
         }
     }
 }

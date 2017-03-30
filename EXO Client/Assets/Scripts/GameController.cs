@@ -141,16 +141,17 @@ public class GameController : MonoBehaviour {
     {
         if (players.ContainsKey(cID))
         {
+            if (cID == clientID)
+            {
+                //the dead player is me!
+                print("I'm dead");
+                Application.Quit();
+            }
             //player died
             controllerMap.plasmidController.players.Remove(cID);
             Destroy(controllerMap.plasmidController.playerIcons[cID]);
             controllerMap.plasmidController.playerIcons.Remove(cID);
             //players.Remove(cID);
-            if(cID == clientID)
-            {
-                //the dead player is me!
-                Application.Quit();
-            }
         }
         else
         {

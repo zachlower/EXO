@@ -31,6 +31,11 @@ public class AbilityController : MonoBehaviour {
     private void Awake()
     {
         colorPixel = GameObject.Find("Drawable").GetComponent<ColorPixel>();
+        
+    }
+
+    public void Start()
+    {
         game = GameObject.Find("GameController").GetComponent<GameController>();
     }
 

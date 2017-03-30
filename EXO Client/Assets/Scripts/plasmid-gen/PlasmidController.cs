@@ -61,6 +61,7 @@ public class PlasmidController : MonoBehaviour {
                 icon.transform.Find("Button").GetComponent<Image>().sprite = players[id].sprite;
                 icon.transform.Find("Name").GetComponent<Text>().text = game.playerNames[id];
                 icon.transform.position = iconSpots[placementIndex].transform.position;
+                icon.SetActive(false);
                 playerIcons.Add(id, icon);
                 placementIndex++;
             }
@@ -101,6 +102,10 @@ public class PlasmidController : MonoBehaviour {
     public void TriggerSend()
     {
         gameState = GameState.Sending;
+        foreach(int i in playerIcons.Keys)
+        {
+            playerIcons[i].SetActive(true);
+        }
     }
     public void SendPlasmids(int playerID)
     {
