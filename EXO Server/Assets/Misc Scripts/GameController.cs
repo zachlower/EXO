@@ -54,6 +54,12 @@ public class GameController : MonoBehaviour {
 
     public void startGame() {
         serverListener.sb.StopBroadcast();
+        string temp = "playernames:";
+        foreach (var p in playerChars)
+        {
+            temp += (p.Key + ":" + p.Value.name+":");
+        }
+        serverListener.sendMessageToAllClients(temp);
         serverListener.sendMessageToAllClients("startgame");
         map = new MapInfo(MapInfo.MapSize.MAP_SMALL);
         currentRoom = map.startRoom;

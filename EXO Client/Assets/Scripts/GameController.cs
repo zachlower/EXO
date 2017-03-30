@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour {
     public int clientID = 0;
     public Libraries.Character ch;
 
+
     public Dictionary<int, Libraries.Character> players;
     public Dictionary<int, Libraries.Character> enemies;
     public string characterName;
