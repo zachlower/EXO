@@ -17,7 +17,6 @@ public abstract class Character {
     public GameObject sceneObj;
     public CombatManager combatManager;
 
-    public int clientID;
     protected string spriteName;
     protected string abilitySoundString;
 
@@ -135,7 +134,7 @@ public abstract class Character {
         Debug.Log(this.GetType() + " has perished.");
 
         //inform combat manager of death
-        combatManager.CharacterDead(clientID);
+        combatManager.CharacterDead(this);
     }
     
 }

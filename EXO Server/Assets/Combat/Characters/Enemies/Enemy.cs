@@ -11,8 +11,6 @@ public abstract class Enemy : Character {
     public float warmUp;
     public Ability abilityToUse;
     public Dictionary<int, Player> players = new Dictionary<int, Player>();
-    public List<int> pIDs = new List<int>();
-
 
     public Enemy()
     {
@@ -20,12 +18,6 @@ public abstract class Enemy : Character {
     }
 
 
-    public void constructpIDs(Dictionary<int, Player> p) {
-        players = p;
-        foreach (var pl in players) {
-            pIDs.Add(pl.Key);
-        }
-    }
 
     public void TickAttack()
     {
@@ -37,7 +29,7 @@ public abstract class Enemy : Character {
         warmUp -= Time.deltaTime;
         if (warmUp <= 0.0f)
         {
-            pIDs = pIDs.Where(x => players[x].alive).ToList();
+            var pIDs = combatManager.pIDs.Where(x => players[x].alive).ToList();
             if (pIDs.Count > 0)
             {
                 int playerTarget = Random.Range(0, pIDs.Count);

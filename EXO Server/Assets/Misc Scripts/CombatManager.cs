@@ -4,21 +4,24 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CombatManager : MonoBehaviour {
+public class CombatManager : MonoBehaviour
+{
 
     public GameController game;
     public Dictionary<int, Player> players;
+    public List<int> pIDs;
     public Dictionary<int, Enemy> enemies;
     //true for player victory, false for monster
     bool combatResult;
 
-    public void Update() {
+    public void Update()
+    {
         tickPlayers();
         tickEnemies();
 
 
         //check if all players are dead
-        if(players.Where(x => x.Value.alive).ToList().Count <= 0)
+        if (players.Where(x => x.Value.alive).ToList().Count <= 0)
         {
             //all players are dead - failure
             game.EndGame(false);
@@ -26,15 +29,16 @@ public class CombatManager : MonoBehaviour {
         }
 
         //check if all enemies are dead
-        if(enemies.Where(x => x.Value.alive).ToList().Count <= 0)
+        if (enemies.Where(x => x.Value.alive).ToList().Count <= 0)
         {
             //all enemies are dead - victory
             endCombat();
         }
-        
+
     }
 
-    public void initCombat(Dictionary<int, Player> pl, List<Enemy> en, GameController g) {
+    public void initCombat(Dictionary<int, Player> pl, List<Enemy> en, GameController g)
+    {
 
         //create the combat picture (background, character locations, etc)
         //send versions of these dictionaries with pertinent information to the clients 
@@ -42,17 +46,17 @@ public class CombatManager : MonoBehaviour {
         game = g;
         enemies = new Dictionary<int, Enemy>();
         int tentativeID = players.Count;
-        foreach (Enemy e in en) {
+        foreach (Enemy e in en)
+        {
             while (pl.ContainsKey(tentativeID)) tentativeID++;
-            e.constructpIDs(pl);
             enemies.Add(tentativeID, e);
-            tentativeID++; 
+            tentativeID++;
         }
 
         //create each character on screen
         int positionIndex = 0;
-        foreach (var e in enemies) {
-            e.Value.clientID = e.Key;
+        foreach (var e in enemies)
+        {
             e.Value.Instantiate(game.enemyTransforms[positionIndex].transform);
             e.Value.combatManager = this;
             positionIndex++;
@@ -60,33 +64,39 @@ public class CombatManager : MonoBehaviour {
         positionIndex = 0;
         foreach (var p in players)
         {
-            p.Value.clientID = p.Key;
             p.Value.Instantiate(game.playerCombatTransforms[positionIndex].transform);
             p.Value.combatManager = this;
-            p.Value.clientID = p.Key;
             positionIndex++;
+            pIDs.Add(p.Key);
         }
     }
 
-    public void endCombat() {
-        foreach (var e in enemies) {
+    public void endCombat()
+    {
+        foreach (var e in enemies)
+        {
             if (e.Value.sceneObj != null) Destroy(e.Value.sceneObj);
         }
-        foreach (var p in players) {
+        foreach (var p in players)
+        {
             if (p.Value.sceneObj != null) Destroy(p.Value.sceneObj);
         }
         game.CombatEnded();
     }
 
 
-    public void tickEnemies() {
-        foreach (var e in enemies) {
+    public void tickEnemies()
+    {
+        foreach (var e in enemies)
+        {
             e.Value.TickAttack();
             e.Value.TickDurationalEffects();
         }
     }
-    public void tickPlayers() {
-        foreach (var p in players) {
+    public void tickPlayers()
+    {
+        foreach (var p in players)
+        {
             p.Value.TickDurationalEffects();
         }
     }
@@ -114,9 +124,20 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public void CharacterDead(int clientID)
+    public void CharacterDead(Character c)
     {
-        game.CharacterDead(clientID);
+        int cID;
+        if (c is Enemy)
+        {
+            cID = enemies.FirstOrDefault(x => x.Value == (Enemy)c).Key;
+            enemies[cID].alive = false;
+        }
+        else
+        {
+            cID = players.FirstOrDefault(x => x.Value == (Player)c).Key;
+            players[cID].alive = false;
+        }
+        game.CharacterDead(cID);
     }
 
 }

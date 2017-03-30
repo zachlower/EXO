@@ -9,10 +9,10 @@ public class GameController : MonoBehaviour {
     public ControllerMap controllerMap;
     public Libraries libraries;
     public int clientID = 0;
+    public Libraries.Character ch;
 
     public Dictionary<int, Libraries.Character> players;
     public Dictionary<int, Libraries.Character> enemies;
-    public KeyValuePair<int, Libraries.Character> myCharacter;
 
 
     void Start () {
@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour {
     /* startup */
     public void SelectCharacter(int index)
     {
-        myCharacter = new KeyValuePair<int, Libraries.Character>(index, libraries.characters[index]);
+        ch = libraries.characters[index];
         broadcast.cl.sendUpdateToServer("character:" + index);
     }
     public void StartGame()
@@ -126,16 +126,16 @@ public class GameController : MonoBehaviour {
         broadcast.cl.sendUpdateToServer("ability:" + targetID + ":" + abilityID + ":" + powerModifier);
     }
 
-    public void CharacterDead(int clientID)
+    public void CharacterDead(int cID)
     {
-        if (players.ContainsKey(clientID))
+        if (players.ContainsKey(cID))
         {
             //player died
-            controllerMap.plasmidController.players.Remove(clientID);
-            Destroy(controllerMap.plasmidController.playerIcons[clientID]);
-            controllerMap.plasmidController.playerIcons.Remove(clientID);
-            players.Remove(clientID);
-            if(clientID == myCharacter.Key)
+            controllerMap.plasmidController.players.Remove(cID);
+            Destroy(controllerMap.plasmidController.playerIcons[cID]);
+            controllerMap.plasmidController.playerIcons.Remove(cID);
+            //players.Remove(cID);
+            if(cID == clientID)
             {
                 //the dead player is me!
                 Application.Quit();
@@ -144,10 +144,10 @@ public class GameController : MonoBehaviour {
         else
         {
             //enemy died
-            controllerMap.abilityController.enemies.Remove(clientID);
-            Destroy(controllerMap.abilityController.enemyIcons[clientID]);
-            controllerMap.abilityController.enemyIcons.Remove(clientID);
-            enemies.Remove(clientID);
+            controllerMap.abilityController.enemies.Remove(cID);
+            Destroy(controllerMap.abilityController.enemyIcons[cID]);
+            controllerMap.abilityController.enemyIcons.Remove(cID);
+           // enemies.Remove(cID);
         }
     }
 

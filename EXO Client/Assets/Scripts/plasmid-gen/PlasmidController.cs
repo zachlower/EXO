@@ -54,7 +54,7 @@ public class PlasmidController : MonoBehaviour {
         foreach(int id in players.Keys)
         {
             Debug.Log("spawning icon for player " + id);
-            if (sendToSelf || id != game.myCharacter.Key) //do not spawn icon for self
+            if (sendToSelf || id != game.clientID) //do not spawn icon for self
             {
                 GameObject icon = Instantiate(playerIcon, iconParent.transform, true);
                 icon.GetComponent<SpriteRenderer>().sprite = players[id].sprite;

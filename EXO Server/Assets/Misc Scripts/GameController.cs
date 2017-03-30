@@ -189,7 +189,8 @@ public class GameController : MonoBehaviour {
         if (playerChars.ContainsKey(clientID))
         {
             //player died
-            playerChars.Remove(clientID);
+            //  playerChars.Remove(clientID);
+            playerChars[clientID].alive = false;
         }
         
 
