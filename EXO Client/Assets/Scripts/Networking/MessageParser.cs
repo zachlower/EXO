@@ -57,6 +57,10 @@ public class MessageParser : MonoBehaviour
                 int blue = int.Parse(messageBits[3]);
                 game.ReceivePlasmid(red, green, blue);
                 break;
+            case "dead": //character has died
+                int clientID = int.Parse(messageBits[1]);
+                game.CharacterDead(clientID);
+                break;
             case "end": //game over
                 bool victory = bool.Parse(messageBits[1]);
                 game.EndGame(victory);

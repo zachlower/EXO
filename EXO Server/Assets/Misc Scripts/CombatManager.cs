@@ -52,13 +52,18 @@ public class CombatManager : MonoBehaviour {
         //create each character on screen
         int positionIndex = 0;
         foreach (var e in enemies) {
+            e.Value.clientID = e.Key;
             e.Value.Instantiate(game.enemyTransforms[positionIndex].transform);
+            e.Value.combatManager = this;
             positionIndex++;
         }
         positionIndex = 0;
         foreach (var p in players)
         {
+            p.Value.clientID = p.Key;
             p.Value.Instantiate(game.playerCombatTransforms[positionIndex].transform);
+            p.Value.combatManager = this;
+            p.Value.clientID = p.Key;
             positionIndex++;
         }
     }
@@ -107,6 +112,11 @@ public class CombatManager : MonoBehaviour {
 
         caster.Cast(ability, target, powerModifier); //cast is sent through caster Character?
 
+    }
+
+    public void CharacterDead(int clientID)
+    {
+        game.CharacterDead(clientID);
     }
 
 }

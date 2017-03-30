@@ -15,7 +15,9 @@ public abstract class Character {
     public float maxHealth { get; protected set; }
     private Slider healthSlider;
     public GameObject sceneObj;
+    public CombatManager combatManager;
 
+    public int clientID;
     protected string spriteName;
     protected string abilitySoundString;
 
@@ -131,6 +133,9 @@ public abstract class Character {
         if (sceneObj != null) Object.Destroy(sceneObj);
         alive = false;
         Debug.Log(this.GetType() + " has perished.");
+
+        //inform combat manager of death
+        combatManager.CharacterDead(clientID);
     }
     
 }

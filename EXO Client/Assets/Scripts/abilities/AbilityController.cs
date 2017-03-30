@@ -20,7 +20,8 @@ public class AbilityController : MonoBehaviour {
 
     private ColorPixel colorPixel;
     private GameController game;
-    private Dictionary<int, Libraries.Character> enemies = new Dictionary<int, Libraries.Character>();
+    public Dictionary<int, Libraries.Character> enemies = new Dictionary<int, Libraries.Character>();
+    public Dictionary<int, GameObject> enemyIcons = new Dictionary<int, GameObject>();
     private Dictionary<int, Libraries.Ability> abilities = new Dictionary<int, Libraries.Ability>();
 
     //plasmids in inventory - red, green, blue
@@ -60,6 +61,7 @@ public class AbilityController : MonoBehaviour {
             icon.GetComponent<EnemyIcon>().ID = id;
             float yCoord = bottomY + placementIndex * (topY - bottomY) / (enemyCount + 1);
             icon.transform.position = new Vector3(6.5f, yCoord, -5);
+            enemyIcons.Add(id, icon);
             placementIndex++;
         }
 

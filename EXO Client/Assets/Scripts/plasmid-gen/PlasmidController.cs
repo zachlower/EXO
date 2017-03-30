@@ -18,7 +18,8 @@ public class PlasmidController : MonoBehaviour {
     private int greenCollect = 0;
     private int blueCollect = 0;
     PickupController[] pickups;
-    Dictionary<int, Libraries.Character> players = new Dictionary<int, Libraries.Character>();
+    public Dictionary<int, Libraries.Character> players = new Dictionary<int, Libraries.Character>();
+    public Dictionary<int, GameObject> playerIcons = new Dictionary<int, GameObject>();
     private GameController game;
     public enum GameState
     {
@@ -47,9 +48,6 @@ public class PlasmidController : MonoBehaviour {
         players = p;
 
         //create an icon for each player on the side bar
-        float topY = 2;
-        float bottomY = -4;
-
         int playerCount = players.Count; 
         if (!sendToSelf) playerCount--; //remove one for self
         int placementIndex = 0;
@@ -63,6 +61,7 @@ public class PlasmidController : MonoBehaviour {
                 icon.GetComponent<IconController>().ID = id;
                 icon.transform.Find("Canvas/Name").GetComponent<Text>().text = players[id].name;
                 icon.transform.position = iconSpots[placementIndex].transform.position;
+                playerIcons.Add(id, icon);
                 placementIndex++;   
             }
         }

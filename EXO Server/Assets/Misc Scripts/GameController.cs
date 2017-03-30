@@ -184,6 +184,21 @@ public class GameController : MonoBehaviour {
         combatManager.PlayerCast(casterID, targetID, abilityID, powerModifier);
     }
 
+    public void CharacterDead(int clientID)
+    {
+        if (playerChars.ContainsKey(clientID))
+        {
+            //player died
+            playerChars.Remove(clientID);
+        }
+        
+
+        //TODO: inform clients of dead character
+        serverListener.sendMessageToAllClients("dead:" + clientID);
+    }
+
+
+
     public void EndGame(bool victory)
     {
         string endMes = "end:";
