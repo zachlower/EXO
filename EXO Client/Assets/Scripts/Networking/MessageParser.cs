@@ -33,7 +33,7 @@ public class MessageParser : MonoBehaviour
                 break;
             case "players": //acquire list of players and their character IDs
                 Dictionary<int, int> playerCharacters = new Dictionary<int, int>();
-                for(int i=1; i<messageBits.Length; i += 2)
+                for(int i=1; i<messageBits.Length-1; i += 2)
                 {
                     int playerID = int.Parse(messageBits[i]);
                     int charID = int.Parse(messageBits[i + 1]);
@@ -41,6 +41,16 @@ public class MessageParser : MonoBehaviour
                     playerCharacters.Add(playerID, charID);
                 }
                 game.SetPlayers(playerCharacters);
+                break;
+            case "playernames":
+                Dictionary<int, string> playerNames = new Dictionary<int, string>();
+                for(int i=1; i<messageBits.Length-1; i += 2)
+                {
+                    int playerID = int.Parse(messageBits[i]);
+                    string name = messageBits[i + 1];
+                    playerNames.Add(playerID, name);
+                }
+                game.SetNames(playerNames);
                 break;
             case "enemies": //acquire list of enemies and their character IDs
                 Dictionary<int, int> enemyCharacters = new Dictionary<int, int>();
