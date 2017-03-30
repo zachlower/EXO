@@ -59,10 +59,10 @@ public class PlasmidController : MonoBehaviour {
                 GameObject icon = Instantiate(playerIcon, iconParent.transform, true);
                 icon.GetComponent<IconController>().ID = id;
                 icon.transform.Find("Button").GetComponent<Image>().sprite = players[id].sprite;
-                icon.transform.Find("Name").GetComponent<Text>().text = players[id].name;
+                icon.transform.Find("Name").GetComponent<Text>().text = game.playerNames[id];
                 icon.transform.position = iconSpots[placementIndex].transform.position;
                 playerIcons.Add(id, icon);
-                placementIndex++;   
+                placementIndex++;
             }
         }
     }

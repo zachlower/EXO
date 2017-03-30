@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour {
 
 
     public Dictionary<int, Libraries.Character> players;
+    public Dictionary<int, string> playerNames;
     public Dictionary<int, Libraries.Character> enemies;
     public string characterName;
 
@@ -105,6 +106,10 @@ public class GameController : MonoBehaviour {
             Debug.Log("client " + id + " is a " + character.name);
             players.Add(id, character);
         }
+    }
+    public void SetNames(Dictionary<int, string> names)
+    {
+        playerNames = names;
     }
     public void SetEnemies(Dictionary<int, int> enemyCharacters)
     {
