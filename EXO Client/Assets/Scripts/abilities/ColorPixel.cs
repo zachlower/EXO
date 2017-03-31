@@ -13,8 +13,9 @@ public class ColorPixel : MonoBehaviour {
     private Vector3 pixelPos;
     private int oldX, oldY;
 
+    public bool isActive = true;
 
-
+    public AbilityController abilityController;
 
     public void InitAbility(Texture2D r)
     {
@@ -43,8 +44,9 @@ public class ColorPixel : MonoBehaviour {
 
             if (Physics.Raycast(mRay)) //writing on the texture
             {
-                oldX = (int)((Input.mousePosition.x - pixelPos.x) / Screen.width * size.x * 2.2 + size.x / 2);
-                oldY = (int)((Input.mousePosition.y - pixelPos.y) / Screen.height * size.y * 1.6 + size.y / 2);
+                Vector2 coord = (Vector2)mRay.GetPoint(10) * 100 + size / 2;
+                oldX = (int)coord.x; 
+                oldY = (int)coord.y;
 
                 Paint(oldX, oldY, radius);
             }
@@ -58,10 +60,10 @@ public class ColorPixel : MonoBehaviour {
 
             if(Physics.Raycast(mRay)) //writing on the texture
             {
-                Debug.Log((Vector2)mRay.GetPoint(10) * 100 + size / 2);
+                Vector2 coord = (Vector2)mRay.GetPoint(10) * 100 + size / 2;
 
-                int xScreen = (int)((Input.mousePosition.x - pixelPos.x) / Screen.width * size.x * 2.2 + size.x / 2);
-                int yScreen = (int)((Input.mousePosition.y - pixelPos.y) / Screen.height * size.y * 1.6 + size.y / 2);
+                int xScreen = (int)(coord.x);
+                int yScreen = (int)(coord.y);
 
                 Line(oldX, oldY, xScreen, yScreen);
                 copy.Apply();
@@ -75,13 +77,16 @@ public class ColorPixel : MonoBehaviour {
     // paint a patch around (cx, cy) based on brush size
     private void Paint(int cx, int cy, int radius)
     {
-        int x = 0;
-        int y = 0;
-        while (x <= radius)
+        if (abilityController.CheckPlasmids())
         {
-            y = (int)Mathf.Sqrt(radius * radius - x * x);
-            Points(cx, cy, x, y);
-            x++;
+            int x = 0;
+            int y = 0;
+            while (x <= radius)
+            {
+                y = (int)Mathf.Sqrt(radius * radius - x * x);
+                Points(cx, cy, x, y);
+                x++;
+            }
         }
     }
     private void Points(int cx, int cy, int x, int y)

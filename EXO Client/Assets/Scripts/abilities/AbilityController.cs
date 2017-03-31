@@ -31,7 +31,7 @@ public class AbilityController : MonoBehaviour {
     private void Awake()
     {
         colorPixel = GameObject.Find("Drawable").GetComponent<ColorPixel>();
-        
+        colorPixel.abilityController = this;
     }
 
     public void Start()
@@ -100,13 +100,14 @@ public class AbilityController : MonoBehaviour {
         string infoString = ability.name + ": " + ability.description + '\n';
         infoString += ability.redCost + " red, " + ability.greenCost + " green, " + ability.blueCost + " blue";
         abilityInfoText.text = infoString;
+        
     }
     public void CastAbility(int targetID, float powerModifier)
     {
         if(currentAbility != 0) //make sure an ability is selected
         {
             Libraries.Ability ability = abilities[currentAbility];
-            if (plasmids[0] >= ability.redCost && plasmids[1] >= ability.greenCost && plasmids[2] >= ability.blueCost) //check costs
+            if (CheckPlasmids()) //check costs
             {
                 //subtract costs
                 plasmids[0] -= ability.redCost;
@@ -135,5 +136,11 @@ public class AbilityController : MonoBehaviour {
         redText.text = plasmids[0].ToString();
         greenText.text = plasmids[1].ToString();
         blueText.text = plasmids[2].ToString();
+    }
+
+    public bool CheckPlasmids()
+    {
+        Libraries.Ability ability = abilities[currentAbility];
+        return plasmids[0] >= ability.redCost && plasmids[1] >= ability.greenCost && plasmids[2] >= ability.blueCost;
     }
 }
