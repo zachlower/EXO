@@ -24,7 +24,7 @@ public class MessageParser : MonoBehaviour
                 game.StartGame();
                 break;
             case "nav": //enter a new room
-                char b = messageBits[1][0];
+                int b = int.Parse(messageBits[1]);
                 game.SwitchToNav();
                 game.EnterRoom(b);
                 break;
