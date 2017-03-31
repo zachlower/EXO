@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour {
         votesCast++;
         Debug.Log(votesCast + " / " + playerChars.Count + " players have voted.");
         //if all votes are in..
-        if (votesCast == playerChars.Count) {
+        if (votesCast == playerChars.Where(x =>x.Value.alive).ToList().Count) {
             print("all votes are in");
             Direction d = Direction.None;
             int count = 0;
@@ -228,7 +228,7 @@ public class GameController : MonoBehaviour {
         if (playerChars.ContainsKey(clientID))
         {
             //player died
-            //  playerChars.Remove(clientID);
+            //playerChars.Remove(clientID);
             playerChars[clientID].alive = false;
         }
         

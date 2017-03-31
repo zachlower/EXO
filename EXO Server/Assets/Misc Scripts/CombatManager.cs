@@ -73,10 +73,6 @@ public class CombatManager : MonoBehaviour
         {
             if (e.Value.sceneObj != null) Destroy(e.Value.sceneObj);
         }
-        foreach (var p in players)
-        {
-            if (p.Value.sceneObj != null) Destroy(p.Value.sceneObj);
-        }
         game.CombatEnded();
     }
 
