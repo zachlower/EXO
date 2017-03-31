@@ -34,6 +34,7 @@ public class Trap : MonoBehaviour {
 
     public void Deactivate()
     {
+        game.serverListener.sendMessageToAllClients("trap:solved");
         gameObject.SetActive(false);
     }
 	
@@ -74,6 +75,7 @@ public class Trap : MonoBehaviour {
     {
         isActive = false;
         text.text = "BOOM!";
+        game.serverListener.sendMessageToAllClients("trap:failed");
         foreach (Player p in game.playerChars.Values)
         {
             p.Damage(damage);
