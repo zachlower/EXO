@@ -6,6 +6,7 @@ public class BallController : MonoBehaviour {
 
     public float topSpeed = 5.0f;
     public bool mobileControls = true;
+    public PlasmidController pc;
 
     private Rigidbody2D rb;
 
@@ -17,6 +18,8 @@ public class BallController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        if (pc.gameState == PlasmidController.GameState.Sending)
+            return;
         Vector2 input = new Vector2();
 
         if (mobileControls)

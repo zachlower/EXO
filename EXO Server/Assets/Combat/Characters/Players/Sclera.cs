@@ -8,7 +8,7 @@ public class Sclera : Player {
     {
         ID = 3;
 
-        maxHealth = 140;
+        maxHealth = 320;
         currentHealth = maxHealth;
 
         abilities.Add(new PiercingGaze());

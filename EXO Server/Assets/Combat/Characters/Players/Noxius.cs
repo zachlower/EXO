@@ -8,7 +8,7 @@ public class Noxius : Player {
     {
         ID = 1;
 
-        maxHealth = 120;
+        maxHealth = 240;
         currentHealth = maxHealth;
 
         abilities.Add(new PoisonCloud());

@@ -18,16 +18,23 @@ public class MapInfo {
     int rows, cols;
     public MapInfo(MapSize size)
     {
-        rooms = new Room[2,2];
-        rows = 2; cols = 2;
+        rows = 3; cols = 3;
+        rooms = new Room[rows,cols];
+        
         rooms[0, 0] = new NavRoom();
-        rooms[0, 1] = new CombatRoom();
-        rooms[1, 0] = new TrapRoom();
-        rooms[1, 1] = new NavRoom();
+        rooms[0, 1] = new NavRoom();
+        rooms[0, 2] = new TrapRoom();
 
-        startRoom = rooms[0, 0];
+        rooms[1, 1] = new CombatRoom();
+
+        rooms[2, 1] = new NavRoom();
+        rooms[2, 0] = new TrapRoom();
+        rooms[2, 2] = new NavRoom();
+
         currRow = 0; currCol = 0;
-        endRoom = rooms[1, 1];
+        startRoom = rooms[currRow, currCol];
+        
+        endRoom = rooms[2, 2];
     }
 
     public byte getAdjacentRooms() {

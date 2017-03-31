@@ -37,3 +37,39 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+EXO Server/EXOServer.exe
+EXO Server/EXOServer_Data/Managed/Assembly-CSharp.dll
+EXO Server/EXOServer_Data/Managed/Mono.Security.dll
+EXO Server/EXOServer_Data/Managed/System.Core.dll
+EXO Server/EXOServer_Data/Managed/System.dll
+EXO Server/EXOServer_Data/Managed/UnityEngine.Networking.dll
+EXO Server/EXOServer_Data/Managed/UnityEngine.PlaymodeTestsRunner.dll
+EXO Server/EXOServer_Data/Managed/UnityEngine.UI.dll
+EXO Server/EXOServer_Data/Managed/UnityEngine.dll
+EXO Server/EXOServer_Data/Managed/UnityEngine.dll.mdb
+EXO Server/EXOServer_Data/Managed/mscorlib.dll
+EXO Server/EXOServer_Data/Mono/MonoPosixHelper.dll
+EXO Server/EXOServer_Data/Mono/etc/mono/1.0/DefaultWsdlHelpGenerator.aspx
+EXO Server/EXOServer_Data/Mono/etc/mono/1.0/machine.config
+EXO Server/EXOServer_Data/Mono/etc/mono/2.0/Browsers/Compat.browser
+EXO Server/EXOServer_Data/Mono/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx
+EXO Server/EXOServer_Data/Mono/etc/mono/2.0/machine.config
+EXO Server/EXOServer_Data/Mono/etc/mono/2.0/settings.map
+EXO Server/EXOServer_Data/Mono/etc/mono/2.0/web.config
+EXO Server/EXOServer_Data/Mono/etc/mono/browscap.ini
+EXO Server/EXOServer_Data/Mono/etc/mono/config
+EXO Server/EXOServer_Data/Mono/etc/mono/mconfig/config.xml
+EXO Server/EXOServer_Data/Mono/mono.dll
+EXO Server/EXOServer_Data/Resources/unity default resources
+EXO Server/EXOServer_Data/Resources/unity_builtin_extra
+EXO Server/EXOServer_Data/app.info
+EXO Server/EXOServer_Data/globalgamemanagers
+EXO Server/EXOServer_Data/globalgamemanagers.assets
+EXO Server/EXOServer_Data/level0
+EXO Server/EXOServer_Data/output_log.txt
+EXO Server/EXOServer_Data/resources.assets
+EXO Server/EXOServer_Data/resources.assets.resS
+EXO Server/EXOServer_Data/resources.resource
+EXO Server/EXOServer_Data/sharedassets0.assets
+EXO Server/EXOServer_Data/sharedassets0.assets.resS
+EXO Server/EXOServer_Data/sharedassets0.resource
