@@ -32,7 +32,16 @@ public class MessageParser : MonoBehaviour
                 game.BeginCombat();
                 break;
             case "trap":
-                game.SwitchToTrap();
+                if(messageBits[1].Equals("encountered"))
+                    game.SwitchToTrap();
+                else if(messageBits[1].Equals("failed"))
+                {
+                    game.trapButton.hintText.text = "You FAILED!";
+                }
+                else if (messageBits[1].Equals("solved"))
+                {
+                    game.trapButton.hintText.text = "You deactivate the trap";
+                }
                 break;
             case "players": //acquire list of players and their character IDs
                 Dictionary<int, int> playerCharacters = new Dictionary<int, int>();

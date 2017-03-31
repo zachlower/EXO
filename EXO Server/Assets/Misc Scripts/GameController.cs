@@ -168,7 +168,7 @@ public class GameController : MonoBehaviour {
     {
         state = GameState.Trap;
         trap.Activate();
-        serverListener.sendMessageToAllClients("trap");
+        serverListener.sendMessageToAllClients("trap:encountered");
     }
 
     public void CombatStarted() {

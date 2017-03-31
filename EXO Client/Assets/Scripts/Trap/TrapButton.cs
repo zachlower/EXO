@@ -12,6 +12,7 @@ public class TrapButton : Button {
 	// Use this for initialization
 	new void Start () {
         game = GameObject.Find("GameController").GetComponent<GameController>();
+        game.trapButton = this;
         onClick.AddListener(TaskOnClick);
         hintText = GameObject.Find("HintText").GetComponent<Text>();
         hintText.text = "You encountered a trap" + '\n' + "Keep pressing the button to deactivate it";
