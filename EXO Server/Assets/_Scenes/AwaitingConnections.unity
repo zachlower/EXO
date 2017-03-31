@@ -812,6 +812,7 @@ MonoBehaviour:
   audioManager: {fileID: 2120947604}
   background: {fileID: 864367995}
   endText: {fileID: 830625512}
+  trap: {fileID: 1821407550}
   directionVotes: 
 --- !u!114 &539751734
 MonoBehaviour:
@@ -3047,6 +3048,7 @@ GameObject:
   - component: {fileID: 1821407547}
   - component: {fileID: 1821407549}
   - component: {fileID: 1821407548}
+  - component: {fileID: 1821407550}
   m_Layer: 5
   m_Name: TrapText
   m_TagString: Untagged
@@ -3111,6 +3113,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1821407546}
+--- !u!114 &1821407550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1821407546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eece2fc98c77374e83737016157a302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5
+  damage: 15
+  isActive: 0
+  isEnded: 0
+  endTime: 2
+  currentDefuse: 0
+  targetDefuse: 0
+  text: {fileID: 1821407548}
+  game: {fileID: 539751733}
 --- !u!1 &1845667192
 GameObject:
   m_ObjectHideFlags: 0

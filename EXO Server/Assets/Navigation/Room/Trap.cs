@@ -11,27 +11,30 @@ public class Trap : MonoBehaviour {
     public float endTime = 2.0f;
     public int currentDefuse = 0;
     public int targetDefuse;
-    public GameObject TrapText;
     public Text text;
     public GameController game;
 	// Use this for initialization
 	void Start () {
-        game = GameObject.Find("GameController").GetComponent<GameController>();
-        TrapText = GameObject.Find("TrapText");
-        text = TrapText.GetComponent<Text>();
+        text = gameObject.GetComponent<Text>();
         text.text = "QUICK!" + '\n' + "DEACTIVATE THE TRAP!";
         targetDefuse = game.playerChars.Count;
 	}
 
     public void Activate()
     {
-        TrapText.SetActive(true);
+        time = 5.0f;
+        endTime = 2.0f;
         isActive = true;
+        isEnded = false;
+        currentDefuse = 0;
+        gameObject.SetActive(true);
+        ((TrapRoom)game.currentRoom).hasTriggered = true;
+        
     }
 
     public void Deactivate()
     {
-        TrapText.SetActive(false);
+        gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -51,6 +54,7 @@ public class Trap : MonoBehaviour {
             if (endTime <= 0.0f)
             {
                 isEnded = false;
+                Deactivate();
                 game.enterRoom();
             }
         }
@@ -60,8 +64,8 @@ public class Trap : MonoBehaviour {
             if (currentDefuse >= targetDefuse)
             {
                 isEnded = true;
+                isActive = false;
                 text.text = "Congrats! You deactivated the trap!";
-                Deactivate();
             }
         }
 	}

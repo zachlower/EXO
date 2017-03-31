@@ -51,6 +51,7 @@ public class MapInfo {
         }
         return b;
     }
+
     public Room moveInDir(GameController.Direction dir) {
         switch (dir) {
             case GameController.Direction.Left:

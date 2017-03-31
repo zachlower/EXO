@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
 
     // Map, rooms etc
     private MapInfo map;
-    private Room currentRoom;
+    public Room currentRoom;
     public Image background;
     public Text endText;
 
@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour {
         
         StartCoroutine(startGameCoroutine());
         // Instantiate the players here
+        background.sprite = currentRoom.background;
         int positionIndex = 0;
         foreach (var p in playerChars)
         {
@@ -111,7 +112,6 @@ public class GameController : MonoBehaviour {
         {
             if (!((TrapRoom)currentRoom).hasTriggered)
             {
-                trap = ((TrapRoom)currentRoom).trap;
                 TrapActivated();
             }
             else
@@ -167,7 +167,7 @@ public class GameController : MonoBehaviour {
     public void TrapActivated()
     {
         state = GameState.Trap;
-        ((TrapRoom)currentRoom).trap.Activate();
+        trap.Activate();
         serverListener.sendMessageToAllClients("trap");
     }
 
