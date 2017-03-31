@@ -38,6 +38,9 @@ public class MessageParser : MonoBehaviour {
                     case "right":
                         game.VoteDirection(GameController.Direction.Right);
                         break;
+                    case "none":
+                        game.VoteDirection(GameController.Direction.None);
+                        break;
                 }
                 break;
             case "plasmid": //plasmids are being sent from one player to another
