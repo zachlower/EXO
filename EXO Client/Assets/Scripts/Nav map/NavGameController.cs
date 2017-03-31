@@ -22,7 +22,7 @@ public class NavGameController : MonoBehaviour {
 
 
     private float time;
-    private static float VoteTime = 15.99f;
+    private static float VoteTime = 9;
     private bool voted;
     private bool currentlyVoting = false;
 
