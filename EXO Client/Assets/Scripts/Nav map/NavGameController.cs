@@ -99,7 +99,7 @@ public class NavGameController : MonoBehaviour {
     }
 
     // called when room is switched, room info should be received prior to this call
-    public void SwitchRoom(char adjacent)
+    public void SwitchRoom(int adjacent)
     {
         currentlyVoting = true;
 
@@ -109,7 +109,7 @@ public class NavGameController : MonoBehaviour {
         voted = false;
     }
 
-    public void EnableArrows(char adjacent)
+    public void EnableArrows(int adjacent)
     {
         reminder.text = "Vote for direction!";
         time = 15.0f;
@@ -118,8 +118,10 @@ public class NavGameController : MonoBehaviour {
         {
             //enable the proper arrows, according to adjacency byte
             int b = (int)Mathf.Pow(2, i);
+            Debug.Log("adjacent: " + adjacent + ", b: " + b);
             if ((adjacent & b) == b)
             {
+                Debug.Log("b is true");
                 arrows[i].GetComponent<ArrowClicked>().isEnabled = true;
                 arrows[i].GetComponent<Image>().color = Color.white;
             }

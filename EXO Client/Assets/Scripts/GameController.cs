@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour {
         controllerMap.navGO.SetActive(true);
         controllerMap.navCanvas.SetActive(true);
     }
-    public void EnterRoom(char adjacent)
+    public void EnterRoom(int adjacent)
     {
         //pass down byte containing adjacent room information
         if (controllerMap == null)
