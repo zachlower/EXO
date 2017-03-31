@@ -49,8 +49,8 @@ public abstract class Character {
             //TODO: adjust powerModifier of effect? 
             target.ApplyEffect(e, powerModifier);
         }
-
-        sceneObj.GetComponent<AudioSource>().Play();
+        if(alive)
+            sceneObj.GetComponent<AudioSource>().Play();
     }
 
     // TODO: when applying effects, take into account defenses against various attack types and effect types
@@ -137,5 +137,6 @@ public abstract class Character {
         //inform combat manager of death
         combatManager.CharacterDead(this);
     }
-    
+
+   
 }

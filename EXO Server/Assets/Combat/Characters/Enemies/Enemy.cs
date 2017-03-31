@@ -10,7 +10,7 @@ public abstract class Enemy : Character {
      */
     public float warmUp;
     public Ability abilityToUse;
-
+    public bool isRed = false;
     public Enemy()
     {
         abilitySoundString = "enemyAbility";
@@ -25,7 +25,15 @@ public abstract class Enemy : Character {
             selectAttack();
         }
 
+
         warmUp -= Time.deltaTime;
+        // change color to red
+        if(warmUp <= 1.0f && !isRed)
+        {
+            sceneObj.GetComponent<SpriteRenderer>().color = Color.red;
+            isRed = true;
+        }
+
         if (warmUp <= 0.0f)
         {
             List<int> pIDs = new List<int>();
@@ -42,13 +50,14 @@ public abstract class Enemy : Character {
                 float powerModifier = Random.Range(0, 1.0f);
                 Cast(abilityToUse, combatManager.players[playerTarget], powerModifier);
                 //TODO: use combat manager / game controller to target appropriate player
-
+                sceneObj.GetComponent<SpriteRenderer>().color = Color.white;
+                isRed = false;
                 selectAttack();
             }
         }
     }
 
-
+    
 
     public void selectAttack() {
         int abilityIndex = Random.Range(0, abilities.Count);

@@ -117,7 +117,7 @@ public class CombatManager : MonoBehaviour
         }
 
         caster.Cast(ability, target, powerModifier); //cast is sent through caster Character?
-
+        
     }
 
     public void CharacterDead(Character c)
@@ -136,4 +136,5 @@ public class CombatManager : MonoBehaviour
         game.CharacterDead(cID);
     }
 
+    
 }
