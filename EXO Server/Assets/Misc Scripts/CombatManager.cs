@@ -85,15 +85,20 @@ public class CombatManager : MonoBehaviour
     {
         foreach (var e in enemies)
         {
-            e.Value.TickAttack();
-            e.Value.TickDurationalEffects();
+            if (e.Value.alive) {
+                e.Value.TickAttack();
+                e.Value.TickDurationalEffects();
+            }
         }
     }
     public void tickPlayers()
     {
         foreach (var p in players)
         {
-            p.Value.TickDurationalEffects();
+            if (p.Value.alive)
+            {
+                p.Value.TickDurationalEffects();
+            }
         }
     }
 

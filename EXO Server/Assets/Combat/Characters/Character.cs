@@ -44,12 +44,15 @@ public abstract class Character {
 
     public void Cast(Ability a, Character target, float powerModifier)
     {
-        GameObject fireball = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Fireball"));
-        Vector3 dir = (target.sceneObj.transform.position - sceneObj.transform.position);
-        fireball.transform.rotation = Quaternion.Euler(0,0,Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg);
-        fireball.transform.position = sceneObj.transform.position;
-        fireball.GetComponent<FireBaller>().target = target.sceneObj;
-        foreach (Effect e in a.effects) //apply each effect to target
+        if (target.sceneObj != null)
+        {
+            GameObject fireball = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Fireball"));
+            Vector3 dir = (target.sceneObj.transform.position - sceneObj.transform.position);
+            fireball.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+            fireball.transform.position = sceneObj.transform.position;
+            fireball.GetComponent<FireBaller>().target = target.sceneObj;
+        }
+            foreach (Effect e in a.effects) //apply each effect to target
         {
             //TODO: adjust powerModifier of effect? 
             target.ApplyEffect(e, powerModifier);

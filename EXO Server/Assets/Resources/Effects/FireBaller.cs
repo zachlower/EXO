@@ -15,11 +15,12 @@ public class FireBaller : MonoBehaviour {
 	void Update () {
         if (target != null)
         {
-            transform.position += Vector3.Normalize(target.transform.position - transform.position) * Time.deltaTime * 8.0f;
+            if (Vector3.Distance(transform.position, target.transform.position) < .5f)
+            {
+                Destroy(gameObject);
+            }
+           else transform.position += Vector3.Normalize(target.transform.position - transform.position) * Time.deltaTime * 8.0f;
         }
         else Destroy(gameObject);
-        if (Vector3.Distance(transform.position, target.transform.position) < .5f) {
-            Destroy(gameObject);
-        }
 	}
 }
