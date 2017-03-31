@@ -22,8 +22,8 @@ public class BallController : MonoBehaviour {
         if (mobileControls)
         {
             //phone accelerometer movement
-            input.x = Input.acceleration.x;
-            input.y = Input.acceleration.y;
+            input.x = Input.acceleration.x * 2;
+            input.y = Input.acceleration.y * 2;
         }
         else
         {
