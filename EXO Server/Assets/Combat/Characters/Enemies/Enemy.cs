@@ -30,7 +30,7 @@ public abstract class Enemy : Character {
         // change color to red
         if(warmUp <= 1.0f && !isRed)
         {
-            sceneObj.GetComponent<SpriteRenderer>().color = Color.red;
+            if (alive) sceneObj.GetComponent<SpriteRenderer>().color = Color.red;
             isRed = true;
         }
 
